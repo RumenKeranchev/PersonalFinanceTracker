@@ -1,0 +1,6 @@
+@PersonalFinanceTracker.Server_HostAddress =  https://localhost:7153
+
+GET {{PersonalFinanceTracker.Server_HostAddress}}/finance
+Accept: application/json
+
+###
