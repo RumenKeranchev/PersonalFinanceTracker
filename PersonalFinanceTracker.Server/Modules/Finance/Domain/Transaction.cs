@@ -1,12 +1,14 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
-    public class Transaction
+    using Infrastructure;
+
+    public class Transaction : Entity
     {
         private Transaction() { }
         
         public Transaction(decimal amount, TransactionType type, DateTime? date = null, string? description = null, Guid? categoryId = null, Guid? budgetId = null)
+            : base()
         {
-            Id = Guid.NewGuid();
             Amount = amount;
             Type = type;
             Date = date ?? DateTime.UtcNow;
@@ -15,7 +17,6 @@
             BudgetId = budgetId;
         }
 
-        public Guid Id { get; init; }
         public decimal Amount { get; init; }
         public TransactionType Type { get; init; }
         public DateTime Date { get; init; }
@@ -26,5 +27,7 @@
 
         public Guid? BudgetId { get; set; }
         public Budget? Budget { get; set; }
+
+        public Guid CreatorId { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
-    public class Budget
+    using Infrastructure;
+
+    public class Budget : Entity
     {
         private Budget()
         {
@@ -8,9 +10,8 @@
             Transactions = [];
         }
 
-        public Budget(Guid userId, decimal amount, DateTime startDate, DateTime endDate)
+        public Budget(Guid userId, decimal amount, DateTime startDate, DateTime endDate) : base()
         {
-            Id = Guid.NewGuid();
             UserId = userId;
             Amount = amount;
             StartDate = startDate;
@@ -19,7 +20,6 @@
             Transactions = [];
         }
 
-        public Guid Id { get; init; }
         public Guid UserId { get; init; }
         public decimal Amount { get; set; }
         public DateTime StartDate { get; set; }

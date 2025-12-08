@@ -1,6 +1,8 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
-    public class Category
+    using Infrastructure;
+
+    public class Category : Entity
     {
         private Category()
         {
@@ -9,15 +11,13 @@
             Budgets = [];
         }
 
-        public Category(string name)
+        public Category(string name) : base()
         {
-            Id = Guid.NewGuid();
             Name = name;
             Transactions = [];
             Budgets = [];
         }
 
-        public Guid Id { get; init; }
         public string Name { get; set; }
 
         public ICollection<Transaction> Transactions { get; init; }

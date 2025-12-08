@@ -10,6 +10,8 @@ builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Conf
 
 builder.Services.AddOpenApi();
 
+builder.Services.RegisterFinanceServices();
+
 var app = builder.Build();
 
 app
