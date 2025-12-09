@@ -19,6 +19,7 @@
 
         public decimal Amount { get; init; }
         public TransactionType Type { get; init; }
+        // TODO: Add Status (Pending, Completed, Cancelled)
         public DateTime Date { get; init; }
         public string? Description { get; set; }
 
