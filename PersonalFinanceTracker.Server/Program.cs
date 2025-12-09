@@ -1,10 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using PersonalFinanceTracker.Server.Infrastructure;
+using PersonalFinanceTracker.Server.Middleware;
 using PersonalFinanceTracker.Server.Modules.Finance.Endpoints;
 using PersonalFinanceTracker.Server.Modules.Reporting.Endpoints;
 using PersonalFinanceTracker.Server.Modules.Users.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Global exception handling
+
+builder.Services.AddExceptionHandler<UnexpectedExeptionHandler>();
+builder.Services.AddProblemDetails();
+
+#endregion
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -13,6 +21,12 @@ builder.Services.AddOpenApi();
 builder.Services.RegisterFinanceServices();
 
 var app = builder.Build();
+
+#region Global exception handling
+
+app.UseExceptionHandler();
+
+#endregion
 
 app
     .MapFinanceModule()
