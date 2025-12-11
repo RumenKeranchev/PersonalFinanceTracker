@@ -9,6 +9,13 @@
 
     public class UnexpectedExeptionHandler : IExceptionHandler
     {
+        private readonly ILogger _logger;
+
+        public UnexpectedExeptionHandler(ILogger<UnexpectedExeptionHandler> logger)
+        {
+            _logger = logger;
+        }
+
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
             var pd = new ProblemDetails
@@ -22,6 +29,8 @@
             httpContext.Response.ContentType = "application/problem+json";
 
             await httpContext.Response.WriteAsJsonAsync(pd, cancellationToken);
+
+            _logger.LogError(exception, "Unexpected exception happened while calling [{url}]", httpContext.Request.Path);
 
             return true;
         }

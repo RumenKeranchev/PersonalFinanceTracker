@@ -9,10 +9,12 @@
     public class TransactionService
     {
         private readonly AppDbContext _dbContext;
+        private readonly ILogger _logger;
 
-        public TransactionService(AppDbContext dbContext)
+        public TransactionService(AppDbContext dbContext, ILogger<TransactionService> logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         public async Task<List<ValidationFailure>> CreateAsync(TransactionSaveDto model)
@@ -29,6 +31,8 @@
             _dbContext.Add(transaction);
 
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation("Successuly saved transaction [{transaction}]", transaction);
 
             return [];
         }
