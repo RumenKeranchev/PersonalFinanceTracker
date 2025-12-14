@@ -1,16 +1,30 @@
-@PersonalFinanceTracker.Server_HostAddress = https://localhost:7153
+@HostAddress = https://localhost:7153
+@TransactionId = 3F53C3B8-9631-4124-9FB7-293054B69F1A
 
-GET {{PersonalFinanceTracker.Server_HostAddress}}/finance
+GET {{HostAddress}}/api/finance?index=0&size=10
 Accept: application/json
 
 ###
 
-POST {{PersonalFinanceTracker.Server_HostAddress}}/api/finance
+GET {{HostAddress}}/api/finance/{{TransactionId}}
+Accept: application/json
+
+###
+
+POST {{HostAddress}}/api/finance
 Content-Type: application/json 
 
 {
     "amount": 100,
     "type": 1,
     "date": "2025-12-01"
+}
+###
+
+PUT {{HostAddress}}/api/finance/{{TransactionId}}
+Content-Type: application/json 
+
+{
+    "description": "Huzzah!!!"
 }
 ###

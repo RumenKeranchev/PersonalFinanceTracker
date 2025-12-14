@@ -1,6 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
     using Infrastructure;
+    using PersonalFinanceTracker.Server.Infrastructure.Shared;
 
     public class Budget : Entity
     {

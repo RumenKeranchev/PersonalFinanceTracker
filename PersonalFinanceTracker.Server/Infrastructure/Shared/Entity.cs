@@ -1,4 +1,4 @@
-﻿namespace PersonalFinanceTracker.Server.Infrastructure
+﻿namespace PersonalFinanceTracker.Server.Infrastructure.Shared
 {
     using Newtonsoft.Json;
 

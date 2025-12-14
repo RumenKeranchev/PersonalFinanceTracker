@@ -2,6 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Modules.Finance.Domain;
+    using PersonalFinanceTracker.Server.Infrastructure.Shared;
 
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {

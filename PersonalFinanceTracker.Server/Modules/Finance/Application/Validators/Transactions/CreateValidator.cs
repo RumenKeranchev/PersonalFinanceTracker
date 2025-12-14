@@ -1,11 +1,12 @@
-﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Validators
+﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Validators.Transactions
 {
     using FluentValidation;
     using DTOs;
+    using PersonalFinanceTracker.Server.Modules.Finance.Application.DTOs.Transactions;
 
-    public class TransactionSaveDtoValidator : AbstractValidator<TransactionSaveDto>
+    public class CreateValidator : AbstractValidator<CreateDto>
     {
-        public TransactionSaveDtoValidator()
+        public CreateValidator()
         {
             RuleFor(x => x.Amount).NotEqual(0).WithMessage("Amount must be different than zero.");
             RuleFor(x => x.Date).LessThanOrEqualTo(DateTime.UtcNow).WithMessage("Date cannot be in the future.");
