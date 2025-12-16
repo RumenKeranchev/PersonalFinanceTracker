@@ -11,9 +11,17 @@
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
+    <Compile Remove="Modules\Reporting\Peristence\**" />
+    <Compile Remove="Modules\Users\Peristence\**" />
     <Content Remove="Logs\**" />
+    <Content Remove="Modules\Reporting\Peristence\**" />
+    <Content Remove="Modules\Users\Peristence\**" />
     <EmbeddedResource Remove="Logs\**" />
+    <EmbeddedResource Remove="Modules\Reporting\Peristence\**" />
+    <EmbeddedResource Remove="Modules\Users\Peristence\**" />
     <None Remove="Logs\**" />
+    <None Remove="Modules\Reporting\Peristence\**" />
+    <None Remove="Modules\Users\Peristence\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,10 +50,10 @@
   <ItemGroup>
     <Folder Include="Modules\Reporting\Application\" />
     <Folder Include="Modules\Reporting\Domain\" />
-    <Folder Include="Modules\Reporting\Peristence\" />
+    <Folder Include="Modules\Reporting\Persistence\" />
     <Folder Include="Modules\Users\Application\" />
     <Folder Include="Modules\Users\Domain\" />
-    <Folder Include="Modules\Users\Peristence\" />
+    <Folder Include="Modules\Users\Persistence\" />
   </ItemGroup>
 
 </Project>

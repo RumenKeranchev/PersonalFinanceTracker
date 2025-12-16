@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
+﻿#nullable disable
 
 namespace PersonalFinanceTracker.Server.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+
     /// <inheritdoc />
     public partial class Initial : Migration
     {
@@ -24,10 +24,7 @@ namespace PersonalFinanceTracker.Server.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Budgets", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Budgets", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "Categories",
@@ -39,10 +36,7 @@ namespace PersonalFinanceTracker.Server.Migrations
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                });
+                constraints: table => table.PrimaryKey("PK_Categories", x => x.Id));
 
             migrationBuilder.CreateTable(
                 name: "BudgetCategory",

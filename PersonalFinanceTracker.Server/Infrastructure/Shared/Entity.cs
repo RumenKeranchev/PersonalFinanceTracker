@@ -14,7 +14,7 @@
         public DateTime UpdatedAt { get; private set; }
         public bool IsDeleted { get; private set; }
 
-        public sealed override string ToString() 
+        public sealed override string ToString()
             => JsonConvert.SerializeObject(this);
     }
 }

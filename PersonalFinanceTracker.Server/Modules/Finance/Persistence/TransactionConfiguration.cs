@@ -1,8 +1,8 @@
-﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Peristence
+﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Persistence
 {
+    using Finance.Domain;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Finance.Domain;
 
     public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
     {
@@ -22,7 +22,7 @@
                 .IsRequired(false)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             builder
                 .HasOne(t => t.Budget)
                 .WithMany(c => c.Transactions)

@@ -1,7 +1,7 @@
-﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Peristence
+﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Persistence
 {
-    using Microsoft.EntityFrameworkCore;
     using Finance.Domain;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
@@ -18,7 +18,7 @@
                 .HasMany(c => c.Transactions)
                 .WithOne(t => t.Category)
                 .HasForeignKey(t => t.CategoryId)
-                .OnDelete(DeleteBehavior.SetNull);              
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

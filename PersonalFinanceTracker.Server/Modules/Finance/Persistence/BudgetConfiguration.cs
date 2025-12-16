@@ -1,7 +1,7 @@
-﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Peristence
+﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Persistence
 {
-    using Microsoft.EntityFrameworkCore;
     using Finance.Domain;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     public class BudgetConfiguration : IEntityTypeConfiguration<Budget>

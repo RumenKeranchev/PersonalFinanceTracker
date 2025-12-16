@@ -1,12 +1,11 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
-    using Infrastructure;
     using PersonalFinanceTracker.Server.Infrastructure.Shared;
 
     public class Transaction : Entity
     {
         private Transaction() { }
-        
+
         public Transaction(decimal amount, TransactionType type, DateTime? date = null, string? description = null, Guid? categoryId = null, Guid? budgetId = null)
             : base()
         {
