@@ -6,7 +6,7 @@
     {
         private Transaction() { }
 
-        public Transaction(decimal amount, TransactionType type, DateTime? date = null, string? description = null, Guid? categoryId = null, Guid? budgetId = null)
+        public Transaction(Guid userId, decimal amount, TransactionType type, DateTime? date = null, string? description = null, Guid? categoryId = null, Guid? budgetId = null)
             : base()
         {
             Amount = amount;
@@ -15,6 +15,7 @@
             Description = description;
             CategoryId = categoryId;
             BudgetId = budgetId;
+            UserId = userId;
         }
 
         public decimal Amount { get; init; }
@@ -29,6 +30,6 @@
         public Guid? BudgetId { get; set; }
         public Budget? Budget { get; set; }
 
-        public Guid CreatorId { get; set; }
+        public Guid UserId { get; init; }
     }
 }

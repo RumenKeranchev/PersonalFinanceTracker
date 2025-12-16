@@ -30,7 +30,8 @@
                 return validationResult.Errors;
             }
 
-            var transaction = new Transaction(model.Amount, model.Type, model.Date, model.Description);
+            // TODO: Replace Guid.Empty with actual UserId when authentication is implemented
+            var transaction = new Transaction(Guid.Empty, model.Amount, model.Type, model.Date, model.Description);
             _dbContext.Add(transaction);
 
             await _dbContext.SaveChangesAsync();
