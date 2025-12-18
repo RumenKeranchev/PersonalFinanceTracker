@@ -268,3 +268,4 @@ dotnet_style_qualification_for_field = false:silent
 dotnet_style_qualification_for_property = false:warning
 dotnet_style_qualification_for_method = false:warning
 dotnet_style_qualification_for_event = false:warning
+dotnet_diagnostic.CA1873.severity = none

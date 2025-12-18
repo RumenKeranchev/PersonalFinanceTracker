@@ -1,7 +1,4 @@
 Migration:
-1.	Add User with Identity, roles, claims, etc.
-2.	In Transaction and Budget add UserId field. (Id only as they should not know of the User object!)
-3.	Add Name to Budget.
 
 General:
 1.	Add API versioning to all endpoints and frontend.
