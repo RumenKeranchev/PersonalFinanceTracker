@@ -56,4 +56,10 @@
     <Folder Include="Modules\Users\Persistence\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="PersonalFinanceTracker.Server.Infrastructure" />
+    <Using Include="PersonalFinanceTracker.Server.Infrastructure.Extensions" />
+    <Using Include="PersonalFinanceTracker.Server.Infrastructure.Shared" />
+  </ItemGroup>
+
 </Project>

@@ -1,12 +1,9 @@
-﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application
+﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Services
 {
     using Domain;
     using DTOs.Transactions;
-    using FluentValidation.Results;
-    using Infrastructure;
+    using Infrastructure.Requests;
     using Microsoft.EntityFrameworkCore;
-    using PersonalFinanceTracker.Server.Infrastructure.Extensions;
-    using PersonalFinanceTracker.Server.Infrastructure.Requests;
     using Validators.Transactions;
 
     public class TransactionService
@@ -20,14 +17,14 @@
             _logger = logger;
         }
 
-        public async Task<List<ValidationFailure>> CreateAsync(CreateDto model)
+        public async Task<Result> CreateAsync(CreateDto model)
         {
             var validator = new CreateValidator();
             var validationResult = validator.Validate(model);
 
             if (!validationResult.IsValid)
             {
-                return validationResult.Errors;
+                return Result.Failure(validationResult.ToValidationError());
             }
 
             // TODO: Replace Guid.Empty with actual UserId when authentication is implemented
@@ -36,12 +33,12 @@
 
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation("Successuly saved transaction [{transaction}]", transaction);
+            _logger.LogInformation("Successfully saved transaction [{transaction}]", transaction);
 
-            return [];
+            return Result.Success();
         }
 
-        public async Task<List<ValidationFailure>> UpdateAsync(Guid id, UpdateDto model)
+        public async Task<Result> UpdateAsync(Guid id, UpdateDto model)
         {
             var validator = new UpdateValidator();
 
@@ -49,13 +46,13 @@
 
             if (!validationResult.IsValid)
             {
-                return validationResult.Errors;
+                return Result.Failure(validationResult.ToValidationError());
             }
 
             var transaction = await _dbContext.Transactions.FindAsync(id);
             if (transaction is null)
             {
-                return [new ValidationFailure("Id", "Transaction not found")];
+                return FinanceErrors.TransactionNotFound;
             }
 
             transaction.Description = model.Description;
@@ -64,28 +61,33 @@
 
             await _dbContext.SaveChangesAsync();
             _logger.LogInformation("Successfully updated transaction [{transaction}]", transaction);
-            return [];
+
+            return Result.Success();
         }
 
-        public Task<List<ListItemDto>> GetAllAsync(PagedQuery pagedQuery)
+        public async Task<Result<List<ListItemDto>>> GetAllAsync(PagedQuery pagedQuery)
         {
-            var validator = new PagedQueryValidator();
-            var validationResult = validator.Validate(pagedQuery);
+            var validationResult = new PagedQueryValidator().Validate(pagedQuery);
 
-            return !validationResult.IsValid
-                ? throw new ArgumentException("Invalid paging parameters", nameof(pagedQuery))
-                : _dbContext.Transactions
-                    .OrderBy(t => t.Id)
-                    .Select(t => new ListItemDto(t.Amount, t.Type.ToString(), t.Date))
-                    .ApplyPaging(pagedQuery)
-                    .ToListAsync();
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationError();
+            }
+
+            var items = await _dbContext.Transactions
+                .OrderBy(t => t.Id)
+                .Select(t => new ListItemDto(t.Amount, t.Type.ToString(), t.Date))
+                .ApplyPaging(pagedQuery)
+                .ToListAsync();
+
+            return items;
         }
 
-        public async Task<DetailsDto?> GetDetailsAsync(Guid id)
+        public async Task<Result<DetailsDto>> GetDetailsAsync(Guid id)
         {
             if (id == Guid.Empty)
             {
-                throw new ArgumentException("Id cannot be empty", nameof(id));
+                return FinanceErrors.TransactionNotFound;
             }
 
             var model = await _dbContext.Transactions
@@ -94,7 +96,7 @@
                 .FirstOrDefaultAsync();
 
             return model is null
-                ? throw new KeyNotFoundException("Transaction not found")
+                ? FinanceErrors.TransactionNotFound
                 : model;
         }
     }

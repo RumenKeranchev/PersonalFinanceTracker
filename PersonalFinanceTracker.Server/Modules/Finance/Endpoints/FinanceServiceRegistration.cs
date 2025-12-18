@@ -1,6 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Endpoints
 {
     using Application;
+    using PersonalFinanceTracker.Server.Modules.Finance.Application.Services;
 
     public static class FinanceServiceRegistration
     {
