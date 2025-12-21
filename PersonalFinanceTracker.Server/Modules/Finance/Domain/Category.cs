@@ -1,7 +1,6 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Domain
 {
     using PersonalFinanceTracker.Server.Infrastructure.Shared;
-    using System.Drawing;
 
     public class Category : Entity
     {

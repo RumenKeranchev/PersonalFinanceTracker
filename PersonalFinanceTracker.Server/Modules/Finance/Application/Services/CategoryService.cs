@@ -3,6 +3,7 @@
     using Domain;
     using DTOs.Categories;
     using Infrastructure.Requests;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using Validators.Categories;
 
@@ -63,6 +64,32 @@
 
             _logger.LogInformation("Category [{CategoryName}] created with Id [{CategoryId}]", category.Name, category.Id);
 
+            return Result.Success();
+        }
+
+        // TODO: cache the result
+        public async Task<Result<List<ListItemDto>>> GetAllAsync()
+        {
+            var categories = await _dbContext.Categories
+                .Select(c => new ListItemDto(c.Id, c.Name, c.Color))
+                .ToListAsync();
+            
+            return categories;
+        }
+
+        public async Task<Result> DeleteAsync(Guid id)
+        {
+            var category = await _dbContext.Categories.FindAsync(id);
+            if (category is null)
+            {
+                _logger.LogWarning("Category with Id [{CategoryId}] not found", id);
+                return Error.InvalidId;
+            }
+            
+            _dbContext.Categories.Remove(category);
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation("Category [{CategoryName}] with Id [{CategoryId}] deleted", category.Name, category.Id);
             return Result.Success();
         }
     }

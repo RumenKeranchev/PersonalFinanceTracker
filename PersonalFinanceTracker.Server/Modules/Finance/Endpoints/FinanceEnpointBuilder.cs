@@ -40,6 +40,14 @@
                 return result.ToIResult();
             });
 
+            builder.MapGet("/api/finance/categories", (CategoryService service) => service.GetAllAsync());
+
+            builder.MapDelete("/api/finance/categories/{id}", async (Guid id, CategoryService service) =>
+            {
+                var result = await service.DeleteAsync(id);
+                return result.ToIResult();
+            });
+
             return builder;
         }
     }
