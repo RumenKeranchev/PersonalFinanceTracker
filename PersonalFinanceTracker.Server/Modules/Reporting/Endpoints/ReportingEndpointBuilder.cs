@@ -1,6 +1,6 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Reporting.Endpoints
 {
-    public static class ReportingEnpointBuilder
+    public static class ReportingEndpointBuilder
     {
         public static IEndpointRouteBuilder MapReportingModule(this IEndpointRouteBuilder builder)
         {

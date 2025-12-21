@@ -1,0 +1,27 @@
+@HostAddress = https://localhost:7153/api/finance/categories
+@Id = 7b2d9948-b1b0-4132-afcc-eb900a2607b9
+
+
+GET {{HostAddress}}
+
+###
+
+POST {{HostAddress}}
+Content-Type: application/json 
+{
+    "name": "New Category Name",
+    "color": "#FAFAFA"
+}
+
+###
+
+PUT {{HostAddress}}/{{Id}}
+Content-Type: application/json 
+{
+    "name": "Updated Category Name",    
+    "color": "#CCC"
+}
+
+###
+
+DELETE {{HostAddress}}/{{Id}}

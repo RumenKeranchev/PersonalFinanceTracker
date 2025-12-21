@@ -2,7 +2,7 @@
 {
     public static class UsersEndpointBuilder
     {
-        public static IEndpointRouteBuilder MapUsersModel(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder)
         {
             builder.MapGet("/api/users/summary", () => "Users Summary Endpoint");
             builder.MapGet("/api/users", () => "Users Summary Endpoint");

@@ -24,6 +24,8 @@
                    .WithOne(t => t.Budget)
                    .HasForeignKey(t => t.BudgetId)
                    .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Property(b => b.Name).HasMaxLength(200);
         }
     }
 }

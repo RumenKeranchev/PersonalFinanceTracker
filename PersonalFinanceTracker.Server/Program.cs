@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
-using PersonalFinanceTracker.Server.Infrastructure;
 using PersonalFinanceTracker.Server.Middleware;
 using PersonalFinanceTracker.Server.Modules.Finance.Endpoints;
 using PersonalFinanceTracker.Server.Modules.Reporting.Endpoints;
@@ -43,7 +42,7 @@ try
     app
         .MapFinanceModule()
         .MapReportingModule()
-        .MapUsersModel();
+        .MapUsersModule();
 
     if (app.Environment.IsDevelopment())
     {

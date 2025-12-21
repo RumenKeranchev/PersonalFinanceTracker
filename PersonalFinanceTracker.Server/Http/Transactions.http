@@ -1,0 +1,28 @@
+@HostAddress = https://localhost:7153/api/finance/transactions
+@Id = 4F882390-A64C-4A22-ACF6-E984C60A4280
+
+GET {{HostAddress}}?index=0&size=10
+
+###
+
+GET {{HostAddress}}/{{Id}}
+
+###
+
+POST {{HostAddress}}
+Content-Type: application/json 
+
+{
+    "amount": 100,
+    "type": 1,
+    "date": "2025-12-01"
+}
+###
+
+PUT {{HostAddress}}/{{Id}}
+Content-Type: application/json 
+
+{
+    "description": "Huzzah!!!"
+}
+###

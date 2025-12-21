@@ -67,7 +67,31 @@
         {
             if (result.IsSuccess)
             {
-                return Results.Ok();
+                return Results.NoContent();
+            }
+
+            if (result.Error!.Code.StartsWith("validation"))
+            {
+                return result.Error is ValidationError error
+                    ? Results.ValidationProblem(error.Errors)
+                    : Results.ValidationProblem(new Dictionary<string, string[]> { { result.Error.Code, new[] { result.Error.Message } } });
+            }
+
+            return result.Error.Code switch
+            {
+                "not_found" => Results.NotFound(result.Error.Message),
+                "unauthorized" => Results.Unauthorized(),
+                "conflict" => Results.Conflict(result.Error.Message),
+                _ => Results.BadRequest(result.Error.Message)
+            };
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "<Pending>")]
+        public static IResult ToIResult<T>(this Result<T> result)
+        {
+            if (result.IsSuccess)
+            {
+                return Results.Ok(result.Value);
             }
 
             if (result.Error!.Code.StartsWith("validation"))
