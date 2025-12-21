@@ -27,7 +27,7 @@
                 return Result.Failure(result.ToValidationError());
             }
 
-            var category = new Category(model.Name);
+            var category = new Category(model.Name, model.Color);
 
             _dbContext.Categories.Add(category);
 
@@ -57,6 +57,7 @@
             }
 
             category.Name = model.Name;
+            category.Color = model.Color;
 
             await _dbContext.SaveChangesAsync();
 

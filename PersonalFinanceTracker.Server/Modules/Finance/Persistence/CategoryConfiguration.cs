@@ -19,6 +19,8 @@
                 .WithOne(t => t.Category)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Property(c => c.Color).HasMaxLength(8);
         }
     }
 }
