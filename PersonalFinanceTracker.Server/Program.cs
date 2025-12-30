@@ -29,7 +29,12 @@ try
 
     builder.Services.AddOpenApi();
 
+    #region Register services
+
     builder.Services.RegisterFinanceServices();
+    builder.Services.RegisterUsersServices();
+
+    #endregion
 
     var app = builder.Build();
 
@@ -39,10 +44,13 @@ try
 
     #endregion
 
-    app
-        .MapFinanceModule()
-        .MapReportingModule()
-        .MapUsersModule();
+    #region Map endpoints
+
+    app.MapFinanceModule();
+    app.MapUsersModule();
+    app.MapReportingModule();
+
+    #endregion
 
     if (app.Environment.IsDevelopment())
     {

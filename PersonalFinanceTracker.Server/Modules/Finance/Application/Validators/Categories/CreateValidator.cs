@@ -1,7 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Validators.Categories
 {
-    using FluentValidation;
     using DTOs.Categories;
+    using FluentValidation;
 
     public class CreateValidator : AbstractValidator<CreateDto>
     {

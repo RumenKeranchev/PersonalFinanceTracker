@@ -60,8 +60,8 @@
                 .Select(b => new DetailsDto(b.Name, b.Amount, b.StartDate, b.EndDate))
                 .FirstOrDefaultAsync();
 
-            return budget is null 
-                ? Error.InvalidId 
+            return budget is null
+                ? Error.InvalidId
                 : budget;
         }
     }

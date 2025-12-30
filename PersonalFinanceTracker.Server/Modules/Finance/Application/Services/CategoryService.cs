@@ -73,7 +73,7 @@
             var categories = await _dbContext.Categories
                 .Select(c => new ListItemDto(c.Id, c.Name, c.Color))
                 .ToListAsync();
-            
+
             return categories;
         }
 
@@ -85,7 +85,7 @@
                 _logger.LogWarning("Category with Id [{CategoryId}] not found", id);
                 return Error.InvalidId;
             }
-            
+
             _dbContext.Categories.Remove(category);
             await _dbContext.SaveChangesAsync();
 

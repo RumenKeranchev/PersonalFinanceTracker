@@ -3,7 +3,6 @@ Migration:
 General:
 1.	Add API versioning to all endpoints and frontend.
 2.	Validate everywhere that when editing in any form the user is either Admin or the owner of the object.
-3.	Change return types of the API to have a common response object that includes success/failure, messages, and data.
 4.	When updating data, log only the changed fields with old and new values.
 5.	Add Resources for all strings for localization.
 6.	Change pagination from index/page to cursor based pagination.
