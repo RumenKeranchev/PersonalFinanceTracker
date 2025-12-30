@@ -8,6 +8,7 @@
         {
             services.AddScoped<AuthService>();
             services.AddScoped<UsersService>();
+            services.AddScoped<TokenGenerator>();
         }
     }
 }

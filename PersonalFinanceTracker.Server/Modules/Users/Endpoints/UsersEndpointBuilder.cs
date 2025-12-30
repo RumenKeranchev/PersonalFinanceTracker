@@ -1,11 +1,27 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Endpoints
 {
+    using Application.DTOs.Auth;
+    using Application.Services;
+    using Infrastructure.Requests;
+
     public static class UsersEndpointBuilder
     {
         public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder)
         {
-            builder.MapGet("/api/users/summary", () => "Users Summary Endpoint");
-            builder.MapGet("/api/users", () => "Users Summary Endpoint");
+            var group = builder.MapGroup("/api/users");
+
+            group.MapPost("/register", async (AuthService service, RegisterDto model) =>
+            {
+                var result = await service.RegisterAsync(model);
+
+                return result.ToIResult();
+            });
+
+            group.MapPost("/login", async (AuthService service, LoginDto model) =>
+            {
+                var result = await service.LoginAsync(model);
+                return result.ToIResult();
+            });
 
             return builder;
         }

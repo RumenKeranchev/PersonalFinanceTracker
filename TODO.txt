@@ -11,4 +11,3 @@ General:
 9.	Implement rate limiting on the API.
 10.	Implement caching for frequently accessed data.
 11.	Implement soft deletes for all entities.
-12. Fix FluentValidations to match Reuslt/Error pattern.

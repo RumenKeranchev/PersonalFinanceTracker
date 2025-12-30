@@ -52,9 +52,7 @@
     <Folder Include="Modules\Reporting\Application\" />
     <Folder Include="Modules\Reporting\Domain\" />
     <Folder Include="Modules\Reporting\Persistence\" />
-    <Folder Include="Modules\Users\Application\DTOs\Auth\" />
     <Folder Include="Modules\Users\Application\DTOs\Users\" />
-    <Folder Include="Modules\Users\Application\DTOs\Validators\Auth\" />
     <Folder Include="Modules\Users\Application\DTOs\Validators\Users\" />
     <Folder Include="Modules\Users\Persistence\" />
   </ItemGroup>

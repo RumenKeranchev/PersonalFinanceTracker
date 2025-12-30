@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using PersonalFinanceTracker.Server.Middleware;
 using PersonalFinanceTracker.Server.Modules.Finance.Endpoints;
 using PersonalFinanceTracker.Server.Modules.Reporting.Endpoints;
+using PersonalFinanceTracker.Server.Modules.Users.Domain;
 using PersonalFinanceTracker.Server.Modules.Users.Endpoints;
 
 var logger = LogManager.Setup()
@@ -27,6 +29,16 @@ try
 
     builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    builder.Services.AddIdentity<AppUser, IdentityRole>()
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddSignInManager()
+        .AddUserManager<AppUser>()
+        .AddRoles<IdentityRole>()
+        .AddDefaultTokenProviders();
+
+    builder.Services.AddAuthentication();
+    builder.Services.AddAuthorization();
+
     builder.Services.AddOpenApi();
 
     #region Register services
@@ -43,6 +55,9 @@ try
     app.UseExceptionHandler();
 
     #endregion
+
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     #region Map endpoints
 
