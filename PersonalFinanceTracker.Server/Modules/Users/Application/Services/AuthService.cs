@@ -1,23 +1,25 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Application.Services
 {
-    using Application.DTOs.Auth;
     using Domain;
+    using DTOs.Auth;
+    using DTOs.Validators;
+    using DTOs.Validators.Auth;
     using Infrastructure.Requests;
     using Microsoft.AspNetCore.Identity;
-    using DTOs.Validators.Auth;
-    using PersonalFinanceTracker.Server.Modules.Users.Application.DTOs.Validators;
 
     public class AuthService
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger _logger;
+        private readonly TokenGenerator _tokenGenerator;
 
-        public AuthService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<AuthService> logger)
+        public AuthService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<AuthService> logger, TokenGenerator tokenGenerator)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<Result<string>> RegisterAsync(RegisterDto model)
@@ -41,14 +43,14 @@
 
             if (!identityRes.Succeeded)
             {
-                return new Error("users.auth.creation_failed", string.Join(", ", identityRes.Errors?.Select(e => e.Description) ?? []));
+                return identityRes.ToValidationError("users.auth.creation_failed");
             }
 
             identityRes = await _userManager.AddToRoleAsync(user, Roles.User);
 
             if (!identityRes.Succeeded)
             {
-                return new Error("users.auth.role_assignment_failed", string.Join(", ", identityRes.Errors?.Select(e => e.Description) ?? []));
+                return identityRes.ToValidationError("users.auth.role_assignment_failed");
             }
 
             var signInRes = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
@@ -57,8 +59,7 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            //TODO: generate token
-            string token = "";
+            string token = _tokenGenerator.GenerateToken(user);
 
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
@@ -85,8 +86,7 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            // TODO: generate token
-            string token = "";
+            string token = _tokenGenerator.GenerateToken(user);
 
             return token;
         }

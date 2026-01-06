@@ -1,0 +1,18 @@
+﻿@HostAddress = https://localhost:7153/api/users
+
+POST {{HostAddress}}/register
+Content-Type: application/json 
+{
+    "email": "test@test.com",
+    "username": "test",
+    "password": "Test123_"
+}
+
+###
+
+POST {{HostAddress}}/login
+Content-Type: application/json 
+{
+    "email": "test@test.com",
+    "password": "Test123_"
+}

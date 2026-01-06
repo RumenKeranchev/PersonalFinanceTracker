@@ -7,11 +7,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class UnexpectedExeptionHandler : IExceptionHandler
+    public class UnexpectedExceptionHandler : IExceptionHandler
     {
         private readonly ILogger _logger;
 
-        public UnexpectedExeptionHandler(ILogger<UnexpectedExeptionHandler> logger)
+        public UnexpectedExceptionHandler(ILogger<UnexpectedExceptionHandler> logger)
         {
             _logger = logger;
         }

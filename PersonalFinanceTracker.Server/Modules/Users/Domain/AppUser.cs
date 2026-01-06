@@ -4,6 +4,8 @@
 
     public class AppUser : IdentityUser
     {
+        public AppUser() : base() { }
+
         public AppUser(string email, string username) : base()
         {
             Email = email;

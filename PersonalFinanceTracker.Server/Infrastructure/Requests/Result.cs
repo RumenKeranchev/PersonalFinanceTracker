@@ -94,14 +94,16 @@
                 return Results.Ok(result.Value);
             }
 
-            if (result.Error!.Code.StartsWith("validation"))
+            string[] validationErrorChecks = ["validation", "user"];
+
+            if (validationErrorChecks.Any(c => result.Error!.Code.StartsWith(c)))
             {
                 return result.Error is ValidationError error
                     ? Results.ValidationProblem(error.Errors)
-                    : Results.ValidationProblem(new Dictionary<string, string[]> { { result.Error.Code, new[] { result.Error.Message } } });
+                    : Results.ValidationProblem(new Dictionary<string, string[]> { { result.Error!.Code, new[] { result.Error.Message } } });
             }
 
-            return result.Error.Code switch
+            return result.Error!.Code switch
             {
                 "not_found" => Results.NotFound(result.Error.Message),
                 "unauthorized" => Results.Unauthorized(),

@@ -12,7 +12,7 @@
     {
         public static IEndpointRouteBuilder MapFinanceModule(this IEndpointRouteBuilder builder)
         {
-            var group = builder.MapGroup("/api/finance");
+            var group = builder.MapGroup("/api/finance").RequireAuthorization(p => p.RequireAuthenticatedUser());
 
             group.MapPost("/transactions", async (TransactionService service, CreateTransactionDto model) =>
             {
