@@ -1,6 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Application.Services
 {
     using Domain;
+    using DTOs.Auth;
     using Microsoft.IdentityModel.Tokens;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
@@ -19,7 +20,7 @@
             _audience = config["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
         }
 
-        public string GenerateToken(AppUser user, IEnumerable<string>? roles = null)
+        public AuthResultDto GenerateToken(AppUser user, IEnumerable<string>? roles = null)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
@@ -38,7 +39,7 @@
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new(new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
         }
     }
 }

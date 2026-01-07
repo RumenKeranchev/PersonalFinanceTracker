@@ -22,7 +22,7 @@
             _tokenGenerator = tokenGenerator;
         }
 
-        public async Task<Result<string>> RegisterAsync(RegisterDto model)
+        public async Task<Result<AuthResultDto>> RegisterAsync(RegisterDto model)
         {
             var validationResult = new RegisterDtoValidator().Validate(model);
 
@@ -59,14 +59,14 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            string token = _tokenGenerator.GenerateToken(user);
+            var token = _tokenGenerator.GenerateToken(user);
 
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
             return token;
         }
 
-        public async Task<Result<string>> LoginAsync(LoginDto model)
+        public async Task<Result<AuthResultDto>> LoginAsync(LoginDto model)
         {
             var result = new LoginDtoValidator().Validate(model);
             if (!result.IsValid)
@@ -86,9 +86,19 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            string token = _tokenGenerator.GenerateToken(user);
+            var token = _tokenGenerator.GenerateToken(user);
 
             return token;
+        }
+
+        public Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> LogoutAsync(Guid userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
