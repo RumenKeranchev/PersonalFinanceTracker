@@ -6,6 +6,7 @@
     using DTOs.Validators.Auth;
     using Infrastructure.Requests;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
 
     public class AuthService
     {
@@ -13,13 +14,20 @@
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger _logger;
         private readonly TokenGenerator _tokenGenerator;
+        private readonly AppDbContext _db;
+        private readonly int _refreshTokenExpirationDays;
 
-        public AuthService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<AuthService> logger, TokenGenerator tokenGenerator)
+        public AuthService(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<AuthService> logger, TokenGenerator tokenGenerator, AppDbContext db,
+            IConfiguration config)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _tokenGenerator = tokenGenerator;
+            _db = db;
+
+            string refreshTokenExpiration = config["Jwt:RefreshTokenExpirationInDays"] ?? throw new InvalidOperationException("JWT Refresh Token Expiration is not configured.");
+            _refreshTokenExpirationDays = int.Parse(refreshTokenExpiration);
         }
 
         public async Task<Result<AuthResultDto>> RegisterAsync(RegisterDto model)
@@ -59,11 +67,12 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            var token = _tokenGenerator.GenerateToken(user);
+            string token = _tokenGenerator.GenerateAccessToken(user);
+            string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
-            return token;
+            return new AuthResultDto(token, refreshToken);
         }
 
         public async Task<Result<AuthResultDto>> LoginAsync(LoginDto model)
@@ -86,14 +95,61 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            var token = _tokenGenerator.GenerateToken(user);
+            string token = _tokenGenerator.GenerateAccessToken(user);
+            string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
-            return token;
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = refreshToken,
+                UserId = user.Id,
+                ExpiresAt = DateTime.UtcNow.AddDays(_refreshTokenExpirationDays)
+            };
+
+            _db.RefreshTokens.Add(refreshTokenEntity);
+
+            await _db.SaveChangesAsync();
+
+            _logger.LogInformation("User [{Email}] logged in successfully.", model.Email);
+
+            return new AuthResultDto(token, refreshToken);
         }
 
-        public Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
+        public async Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
         {
-            throw new NotImplementedException();
+            var token = await _db.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
+
+            if (token is null || token.ExpiresAt < DateTime.UtcNow)
+            {
+                throw new ApplicationException("Invalid or expired refresh token.");
+            }
+
+            var newerToken = await _db.RefreshTokens
+                .Where(t => t.UserId == token.UserId && t.ExpiresAt > token.ExpiresAt)
+                .Select(t => t.Id)
+                .FirstOrDefaultAsync();
+
+            if (newerToken != Guid.Empty)
+            {
+                throw new ApplicationException("Expired refresh token.");
+            }
+
+            await _db.Entry(token).Reference(t => t.User).LoadAsync();
+
+            string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User);
+            string newRefreshToken = _tokenGenerator.GenerateRefreshToken();
+
+            var refreshTokenEntity = new RefreshToken
+            {
+                Token = newRefreshToken,
+                UserId = token.UserId,
+                ExpiresAt = DateTime.UtcNow.AddDays(_refreshTokenExpirationDays)
+            };
+
+            _db.RefreshTokens.Add(refreshTokenEntity);
+
+            await _db.SaveChangesAsync();
+
+            return new AuthResultDto(newAccessToken, newRefreshToken);
         }
 
         public Task<Result> LogoutAsync(Guid userId)
