@@ -47,13 +47,14 @@
     <ProjectReference Include="..\personalfinancetracker.client\personalfinancetracker.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\PersonalFinanceTracker.Resourses\PersonalFinanceTracker.Resourses.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Modules\Reporting\Application\" />
     <Folder Include="Modules\Reporting\Domain\" />
     <Folder Include="Modules\Reporting\Persistence\" />
-    <Folder Include="Modules\Users\Application\DTOs\Validators\Users\" />
+    <Folder Include="Modules\Users\Application\Validators\Users\" />
   </ItemGroup>
 
   <ItemGroup>

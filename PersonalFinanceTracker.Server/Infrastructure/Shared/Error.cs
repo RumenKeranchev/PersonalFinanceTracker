@@ -2,10 +2,11 @@
 {
     using FluentValidation.Results;
     using Microsoft.AspNetCore.Identity;
+    using Resourses;
 
     public record Error(string Code, string Message)
     {
-        public static Error InvalidId => new("common.invalid_id", "Provided id is invalid.");
+        public static Error InvalidId => new("common.invalid_id", Exceptions.InvalidId);
     }
 
     public sealed record ValidationError(string Code, string Message, IReadOnlyDictionary<string, string[]> Errors) : Error(Code, Message);

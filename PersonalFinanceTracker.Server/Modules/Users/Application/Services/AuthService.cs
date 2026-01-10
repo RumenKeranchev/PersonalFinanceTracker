@@ -2,11 +2,11 @@
 {
     using Domain;
     using DTOs.Auth;
-    using DTOs.Validators;
-    using DTOs.Validators.Auth;
     using Infrastructure.Requests;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Resourses;
+    using Validators.Auth;
 
     public class AuthService
     {
@@ -120,7 +120,7 @@
 
             if (token is null || token.ExpiresAt < DateTime.UtcNow)
             {
-                throw new ApplicationException("Invalid or expired refresh token.");
+                throw new ApplicationException(Exceptions.InvalidRefreshToken);
             }
 
             var newerToken = await _db.RefreshTokens
@@ -130,7 +130,7 @@
 
             if (newerToken != Guid.Empty)
             {
-                throw new ApplicationException("Expired refresh token.");
+                throw new ApplicationException(Exceptions.InvalidRefreshToken);
             }
 
             await _db.Entry(token).Reference(t => t.User).LoadAsync();

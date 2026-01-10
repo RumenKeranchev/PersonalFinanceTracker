@@ -2,26 +2,27 @@
 {
     using DTOs.Budgets;
     using FluentValidation;
+    using static Resourses.Exceptions;
 
     public class CreateValidator : AbstractValidator<CreateDto>
     {
         public CreateValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Budget name is required.")
-                .MaximumLength(100).WithMessage("Budget name must not exceed 100 characters.");
+                .NotEmpty().WithMessage(NameRequired)
+                .MaximumLength(100).WithMessage(NameLength);
 
             RuleFor(x => x.Amount)
                 .GreaterThan(0)
-                .WithMessage("Budget amount must be greater than zero.");
+                .WithMessage(BudgetAmount);
 
             RuleFor(x => x.StartDate)
-                .NotEmpty().WithMessage("Start date is required.")
-                .LessThan(x => x.EndDate).WithMessage("Start date must be earlier than end date.");
+                .NotEmpty().WithMessage(BudgetStartDate)
+                .LessThan(x => x.EndDate).WithMessage(BudgetStartDateAfterEndDate);
 
             RuleFor(x => x.EndDate)
-                .NotEmpty().WithMessage("End date is required.")
-                .GreaterThan(x => x.StartDate).WithMessage("End date must be later than start date.");
+                .NotEmpty().WithMessage(BudgetEndDate)
+                .GreaterThan(x => x.StartDate).WithMessage(BudgetEndDateBeforeStartDate);
         }
     }
 }

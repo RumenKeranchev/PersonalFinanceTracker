@@ -17,10 +17,10 @@
 
         public TokenGenerator(IConfiguration config)
         {
-            _secretKey = config["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
-            _issuer = config["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer is not configured.");
-            _audience = config["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
-            string expiration = config["Jwt:ExpirationInMinutes"] ?? throw new InvalidOperationException("JWT Audience is not configured.");
+            _secretKey = config["Jwt:Key"]!;
+            _issuer = config["Jwt:Issuer"]!;
+            _audience = config["Jwt:Audience"]!;
+            string expiration = config["Jwt:ExpirationInMinutes"]!;
             _expirationInMinutes = int.Parse(expiration);
         }
 
