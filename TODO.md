@@ -1,12 +1,12 @@
-Migration:
+# Migration:
 
-General:
+# General:
 1.	Add API versioning to all endpoints and frontend.
 2.	Validate everywhere that when editing in any form the user is either Admin or the owner of the object.
 4.	When updating data, log only the changed fields with old and new values.
 6.	Change pagination from index/page to cursor based pagination.
 7.	Event Ids for exceptions?
-8.	Dont use actual GUIDs in the API, use shortend ids instead.
+8.	Don't use actual GUIDs in the API, use shortened ids instead.
 9.	Implement rate limiting on the API.
 10.	Implement caching for frequently accessed data.
 11.	Implement soft deletes for all entities.
