@@ -374,7 +374,7 @@ namespace PersonalFinanceTracker.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("BudgetCategory", b =>

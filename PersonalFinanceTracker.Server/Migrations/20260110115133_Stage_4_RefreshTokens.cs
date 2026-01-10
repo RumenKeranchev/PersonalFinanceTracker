@@ -6,13 +6,13 @@ namespace PersonalFinanceTracker.Server.Migrations
     using System;
 
     /// <inheritdoc />
-    public partial class Stage_4_RefreshToken : Migration
+    public partial class Stage_4_RefreshTokens : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "RefreshToken",
+                name: "RefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -22,9 +22,9 @@ namespace PersonalFinanceTracker.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshToken_AspNetUsers_UserId",
+                        name: "FK_RefreshTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -32,19 +32,19 @@ namespace PersonalFinanceTracker.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_Token",
-                table: "RefreshToken",
+                name: "IX_RefreshTokens_Token",
+                table: "RefreshTokens",
                 column: "Token",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_UserId",
-                table: "RefreshToken",
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
                 column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder) => migrationBuilder.DropTable(
-                name: "RefreshToken");
+                name: "RefreshTokens");
     }
 }

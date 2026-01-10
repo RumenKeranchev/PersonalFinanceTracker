@@ -12,8 +12,8 @@ using PersonalFinanceTracker.Server.Infrastructure;
 namespace PersonalFinanceTracker.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260108182218_Stage_4_RefreshToken")]
-    partial class Stage_4_RefreshToken
+    [Migration("20260110115133_Stage_4_RefreshTokens")]
+    partial class Stage_4_RefreshTokens
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -377,7 +377,7 @@ namespace PersonalFinanceTracker.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("BudgetCategory", b =>
