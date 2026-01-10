@@ -1,17 +1,20 @@
-@HostAddress = https://localhost:7153/api/finance/budgets
+@HostAddress = https://localhost:7153/api/v1/finance/budgets
 @Id = 79577af8-5245-41d1-9938-a626c52ba446
+@Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjVlOGIxNTIzLWUxZTQtNDhiYi05YjA1LTJjYzY4OWQ5ZDIwNCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsInN1YiI6InRlc3QiLCJleHAiOjE3NjgwNTgxOTAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxNTMvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTY3MzMvIn0.YQ_iaUTibUjFUL21D6yERTY_aBn2xWE4yUuKlFOIsDo
 
 GET {{HostAddress}}?index=0&size=10
+Authorization: Bearer {{Token}}
 
 ###
 
 GET {{HostAddress}}/{{Id}}
+Authorization: Bearer {{Token}}
 
 ###
 
 POST {{HostAddress}}
+Authorization: Bearer {{Token}}
 Content-Type: application/json 
-
 {
     "name": "December Budget",
     "amount": 100,
@@ -19,4 +22,5 @@ Content-Type: application/json
     "startDate": "2025-12-01",
     "endDate": "2025-12-31"
 }
+
 ###

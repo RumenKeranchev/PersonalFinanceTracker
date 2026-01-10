@@ -1,12 +1,14 @@
 @HostAddress = https://localhost:7153/api/finance/categories
 @Id = 7b2d9948-b1b0-4132-afcc-eb900a2607b9
-
+@Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjVlOGIxNTIzLWUxZTQtNDhiYi05YjA1LTJjYzY4OWQ5ZDIwNCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsInN1YiI6InRlc3QiLCJleHAiOjE3NjgwNTgxOTAsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcxNTMvIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTY3MzMvIn0.YQ_iaUTibUjFUL21D6yERTY_aBn2xWE4yUuKlFOIsDo
 
 GET {{HostAddress}}
+Authorization: Bearer {{Token}}
 
 ###
 
 POST {{HostAddress}}
+Authorization: Bearer {{Token}}
 Content-Type: application/json 
 {
     "name": "New Category Name",
@@ -16,6 +18,7 @@ Content-Type: application/json
 ###
 
 PUT {{HostAddress}}/{{Id}}
+Authorization: Bearer {{Token}}
 Content-Type: application/json 
 {
     "name": "Updated Category Name",    
@@ -25,3 +28,4 @@ Content-Type: application/json
 ###
 
 DELETE {{HostAddress}}/{{Id}}
+Authorization: Bearer {{Token}}

@@ -1,6 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Endpoints
 {
     using Application.Services;
+    using Asp.Versioning.Builder;
     using Infrastructure.Requests;
     using CreateBudgetDto = Application.DTOs.Budgets.CreateDto;
     using CreateCategoryDto = Application.DTOs.Categories.CreateDto;
@@ -10,9 +11,12 @@
 
     public static class FinanceEndpointBuilder
     {
-        public static IEndpointRouteBuilder MapFinanceModule(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder MapFinanceModule(this IEndpointRouteBuilder builder, ApiVersionSet versionSet)
         {
-            var group = builder.MapGroup("/api/finance").RequireAuthorization(p => p.RequireAuthenticatedUser());
+            var group = builder
+                .MapGroup("/api/v{v:apiVersion}/finance")
+                .WithApiVersionSet(versionSet)
+                .RequireAuthorization(p => p.RequireAuthenticatedUser());
 
             group.MapPost("/transactions", async (TransactionService service, CreateTransactionDto model) =>
             {

@@ -1,3 +1,5 @@
+using Asp.Versioning;
+using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,8 @@ try
 
     builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    #region Auth
+
     builder.Services.AddIdentity<AppUser, IdentityRole>()
         .AddEntityFrameworkStores<AppDbContext>()
         .AddSignInManager()
@@ -63,7 +67,35 @@ try
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             };
         });
+
     builder.Services.AddAuthorization();
+
+    #endregion
+
+    #region Versioning
+
+    builder.Services
+        .AddApiVersioning(opt =>
+        {
+            opt.DefaultApiVersion = new(1);
+            opt.ReportApiVersions = true;
+
+            // this will not make /api/user/... acceptable! if the group has ../v1/.. in the path it must be included!
+            // HOWEVER, this will default to v1 if there are more versions and the X-Api-Version header is missing
+            // and the route doesn't include ../v1/.. in it
+            opt.AssumeDefaultVersionWhenUnspecified = true; 
+            
+            opt.ApiVersionReader = ApiVersionReader.Combine(
+                new UrlSegmentApiVersionReader(),
+                new HeaderApiVersionReader("X-Api-Version"));
+        })
+        .AddApiExplorer(opt =>
+        {
+            opt.GroupNameFormat = "'v'VVV";
+            opt.SubstituteApiVersionInUrl = true;
+        });
+
+    #endregion
 
     builder.Services.AddOpenApi();
 
@@ -87,9 +119,14 @@ try
 
     #region Map endpoints
 
-    app.MapFinanceModule();
-    app.MapUsersModule();
-    app.MapReportingModule();
+    var versionSet = app.NewApiVersionSet()
+        .HasApiVersion(new(1))
+        .ReportApiVersions()
+        .Build();
+
+    app.MapFinanceModule(versionSet);
+    app.MapUsersModule(versionSet);
+    app.MapReportingModule(versionSet);
 
     #endregion
 

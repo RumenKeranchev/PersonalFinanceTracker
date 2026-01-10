@@ -2,13 +2,14 @@
 {
     using Application.DTOs.Auth;
     using Application.Services;
+    using Asp.Versioning.Builder;
     using Infrastructure.Requests;
 
     public static class UsersEndpointBuilder
     {
-        public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder)
+        public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder, ApiVersionSet versionSet)
         {
-            var group = builder.MapGroup("/api/users");
+            var group = builder.MapGroup("/api/users").WithApiVersionSet(versionSet);
 
             group.MapPost("/register", async (AuthService service, RegisterDto model) =>
             {
