@@ -133,6 +133,15 @@ namespace PersonalFinanceTracker.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email already registered..
+        /// </summary>
+        public static string EmailAldreadyExists {
+            get {
+                return ResourceManager.GetString("EmailAldreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is invalid.
         /// </summary>
         public static string EmailInvalid {
@@ -147,6 +156,15 @@ namespace PersonalFinanceTracker.Resourses {
         public static string EmailRequired {
             get {
                 return ResourceManager.GetString("EmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid email or password..
+        /// </summary>
+        public static string InvalidEmailOrPassword {
+            get {
+                return ResourceManager.GetString("InvalidEmailOrPassword", resourceCulture);
             }
         }
         

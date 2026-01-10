@@ -189,4 +189,10 @@
   <data name="PasswordUpperCase" xml:space="preserve">
     <value>Password must contain at least on uppercase letter.</value>
   </data>
+  <data name="InvalidEmailOrPassword" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="EmailAldreadyExists" xml:space="preserve">
+    <value>Email already registered.</value>
+  </data>
 </root>
