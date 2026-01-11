@@ -70,6 +70,12 @@
             string token = _tokenGenerator.GenerateAccessToken(user);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
+            var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
+
+            _db.RefreshTokens.Add(refreshTokenEntity);
+
+            await _db.SaveChangesAsync();
+
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
             return new AuthResultDto(token, refreshToken);
@@ -98,12 +104,7 @@
             string token = _tokenGenerator.GenerateAccessToken(user);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
-            var refreshTokenEntity = new RefreshToken
-            {
-                Token = refreshToken,
-                UserId = user.Id,
-                ExpiresAt = DateTime.UtcNow.AddDays(_refreshTokenExpirationDays)
-            };
+            var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
 
             _db.RefreshTokens.Add(refreshTokenEntity);
 
@@ -122,17 +123,15 @@
 
             if (token is null || token.ExpiresAt < DateTime.UtcNow)
             {
-                throw new ApplicationException(Exceptions.InvalidRefreshToken);
+               return new Error("user.refresh_token", Exceptions.InvalidRefreshToken);
             }
 
             string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User);
             string newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
-            var refreshTokenEntity = new RefreshToken
+            var refreshTokenEntity = new RefreshToken(newRefreshToken, _refreshTokenExpirationDays, token.UserId)
             {
-                Token = newRefreshToken,
-                UserId = token.UserId,
-                ExpiresAt = DateTime.UtcNow.AddDays(_refreshTokenExpirationDays)
+                DeviceId = token.DeviceId
             };
 
             _db.RefreshTokens.Remove(token);

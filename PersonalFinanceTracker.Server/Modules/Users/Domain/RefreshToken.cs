@@ -2,13 +2,28 @@
 {
     public class RefreshToken
     {
-        public Guid Id { get; set; }
+        public RefreshToken()
+        {
 
-        public string Token { get; set; } = null!;
+        }
 
-        public DateTime ExpiresAt { get; set; }
+        public RefreshToken(string token, int expireDays, string userId)
+        {
+            Token = token;
+            ExpiresAt = DateTime.UtcNow.AddDays(expireDays);
+            UserId = userId;
+            DeviceId = Guid.NewGuid();
+        }
 
-        public string UserId { get; set; } = null!;
-        public AppUser User { get; set; } = null!;
+        public Guid Id { get; private set; }
+
+        public string Token { get; init; } = null!;
+
+        public DateTime ExpiresAt { get; init; }
+
+        public string UserId { get; init; } = null!;
+        public AppUser User { get; private set; } = null!;
+
+        public Guid DeviceId { get; init; }
     }
 }

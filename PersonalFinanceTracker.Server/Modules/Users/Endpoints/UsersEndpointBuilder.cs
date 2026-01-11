@@ -27,7 +27,7 @@
 
             group.MapPost("/refresh", async (AuthService service, HttpRequest request, RefreshTokenDto dto) =>
             {
-                string? token = request.Cookies.FirstOrDefault(c => c.Key == "refreshToken")?.Value;
+                string? token = request.Cookies.FirstOrDefault(c => c.Key == "refreshToken").Value;
 
                 if (string.IsNullOrWhiteSpace(token))
                 {
