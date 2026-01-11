@@ -116,24 +116,14 @@
 
         public async Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
         {
-            var token = await _db.RefreshTokens.FirstOrDefaultAsync(t => t.Token == refreshToken);
+            var token = await _db.RefreshTokens
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(t => t.Token == refreshToken);
 
             if (token is null || token.ExpiresAt < DateTime.UtcNow)
             {
                 throw new ApplicationException(Exceptions.InvalidRefreshToken);
             }
-
-            var newerToken = await _db.RefreshTokens
-                .Where(t => t.UserId == token.UserId && t.ExpiresAt > token.ExpiresAt)
-                .Select(t => t.Id)
-                .FirstOrDefaultAsync();
-
-            if (newerToken != Guid.Empty)
-            {
-                throw new ApplicationException(Exceptions.InvalidRefreshToken);
-            }
-
-            await _db.Entry(token).Reference(t => t.User).LoadAsync();
 
             string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User);
             string newRefreshToken = _tokenGenerator.GenerateRefreshToken();
@@ -145,6 +135,7 @@
                 ExpiresAt = DateTime.UtcNow.AddDays(_refreshTokenExpirationDays)
             };
 
+            _db.RefreshTokens.Remove(token);
             _db.RefreshTokens.Add(refreshTokenEntity);
 
             await _db.SaveChangesAsync();
