@@ -106,6 +106,8 @@ try
 
     var app = builder.Build();
 
+    await Seeder.SeedAsync(app.Services);
+
     #region Global exception handling
 
     app.UseExceptionHandler();
