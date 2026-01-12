@@ -1,5 +1,4 @@
 using Asp.Versioning;
-using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -81,8 +80,8 @@ try
             // this will not make /api/user/... acceptable! if the group has ../v1/.. in the path it must be included!
             // HOWEVER, this will default to v1 if there are more versions and the X-Api-Version header is missing
             // and the route doesn't include ../v1/.. in it
-            opt.AssumeDefaultVersionWhenUnspecified = true; 
-            
+            opt.AssumeDefaultVersionWhenUnspecified = true;
+
             opt.ApiVersionReader = ApiVersionReader.Combine(
                 new UrlSegmentApiVersionReader(),
                 new HeaderApiVersionReader("X-Api-Version"));

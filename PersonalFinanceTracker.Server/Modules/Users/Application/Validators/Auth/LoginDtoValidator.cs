@@ -1,7 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Application.Validators.Auth
 {
-    using FluentValidation;
     using DTOs.Auth;
+    using FluentValidation;
     using static Resourses.Exceptions;
 
     public class LoginDtoValidator : AbstractValidator<LoginDto>

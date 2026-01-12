@@ -1,7 +1,7 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Validators.Transactions
 {
-    using FluentValidation;
     using DTOs.Transactions;
+    using FluentValidation;
     using static Resourses.Exceptions;
 
     public class UpdateValidator : AbstractValidator<UpdateDto>

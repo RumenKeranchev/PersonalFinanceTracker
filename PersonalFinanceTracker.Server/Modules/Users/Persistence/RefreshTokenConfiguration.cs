@@ -1,8 +1,8 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Persistence
 {
+    using Domain;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Domain;
 
     public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
