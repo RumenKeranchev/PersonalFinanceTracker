@@ -148,7 +148,7 @@
 
         public async Task<Result> LogoutAsync(Guid userId, string token)
         {
-            var refreshToken = _db.RefreshTokens.FirstOrDefault(t => t.Token == token && t.UserId == userId.ToString());
+            var refreshToken = _db.RefreshTokens.FirstOrDefault(t => t.Token == token && t.UserId == userId);
 
             if (refreshToken is null)
             {
@@ -164,7 +164,7 @@
         public async Task<Result> InvalidateUserAccess(Guid userId)
         {
             await _db.RefreshTokens
-                .Where(t => t.UserId == userId.ToString())
+                .Where(t => t.UserId == userId)
                 .ExecuteDeleteAsync();
 
             return Result.Success();

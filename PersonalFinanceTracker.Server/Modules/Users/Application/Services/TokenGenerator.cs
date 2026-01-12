@@ -30,7 +30,7 @@
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Id),
+                new Claim(ClaimTypes.Name, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, string.Join(", ", roles)),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
             };

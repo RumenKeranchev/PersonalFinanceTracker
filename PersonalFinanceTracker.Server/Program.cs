@@ -36,11 +36,9 @@ try
 
     #region Auth
 
-    builder.Services.AddIdentity<AppUser, IdentityRole>()
+    builder.Services
+        .AddIdentity<AppUser, IdentityRole<Guid>>()
         .AddEntityFrameworkStores<AppDbContext>()
-        .AddSignInManager()
-        .AddUserManager<UserManager<AppUser>>()
-        .AddRoles<IdentityRole>()
         .AddDefaultTokenProviders();
 
     builder.Services

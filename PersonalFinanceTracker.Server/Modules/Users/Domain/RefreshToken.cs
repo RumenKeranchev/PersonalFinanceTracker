@@ -7,7 +7,7 @@
 
         }
 
-        public RefreshToken(string token, int expireDays, string userId)
+        public RefreshToken(string token, int expireDays, Guid userId)
         {
             Token = token;
             ExpiresAt = DateTime.UtcNow.AddDays(expireDays);
@@ -21,7 +21,7 @@
 
         public DateTime ExpiresAt { get; init; }
 
-        public string UserId { get; init; } = null!;
+        public Guid UserId { get; init; }
         public AppUser User { get; private set; } = null!;
 
         public Guid DeviceId { get; init; }

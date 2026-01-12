@@ -1,12 +1,13 @@
 ﻿namespace PersonalFinanceTracker.Server.Infrastructure
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Modules.Finance.Domain;
     using PersonalFinanceTracker.Server.Infrastructure.Shared;
     using PersonalFinanceTracker.Server.Modules.Users.Domain;
 
-    public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
+    public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>(options)
     {
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Category> Categories { get; set; }

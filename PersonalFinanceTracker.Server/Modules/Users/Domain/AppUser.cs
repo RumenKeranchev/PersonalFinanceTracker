@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Identity;
 
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser<Guid>
     {
         public AppUser() : base() { }
 
