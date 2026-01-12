@@ -24,14 +24,14 @@
             _expirationInMinutes = int.Parse(expiration);
         }
 
-        public string GenerateAccessToken(AppUser user, IEnumerable<string>? roles = null)
+        public string GenerateAccessToken(AppUser user, IEnumerable<string> roles)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Id),
-                new Claim(ClaimTypes.Role, roles is not null ? string.Join(", ", roles) : string.Empty),
+                new Claim(ClaimTypes.Role, string.Join(", ", roles)),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName!),
             };
 

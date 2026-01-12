@@ -1,10 +1,10 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Endpoints
 {
+    using Application;
     using Application.DTOs.Auth;
     using Application.Services;
     using Asp.Versioning.Builder;
     using Infrastructure.Requests;
-    using Microsoft.AspNetCore.Mvc;
 
     public static class UsersEndpointBuilder
     {
@@ -44,7 +44,7 @@
             });
 
             group
-                .MapGet("/logout", async (AuthService service, HttpContext ctx) =>
+                .MapPost("/logout", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>
                 {
                     string? identityName = ctx.User?.Identity?.Name;
                     if (string.IsNullOrWhiteSpace(identityName) || !Guid.TryParse(identityName, out var id))
@@ -52,10 +52,34 @@
                         return Results.Unauthorized();
                     }
 
-                    var result = await service.LogoutAsync(id);
+                    string? token = ctx.Request.Cookies.FirstOrDefault(c => c.Key == "refreshToken").Value;
+
+                    if (string.IsNullOrWhiteSpace(token))
+                    {
+                        token = dto?.Token;
+                    }
+
+                    if (string.IsNullOrWhiteSpace(token))
+                    {
+                        return Results.Unauthorized();
+                    }
+
+                    var result = await service.LogoutAsync(id, token);
                     return result.ToIResult();
                 })
                 .RequireAuthorization(p => p.RequireAuthenticatedUser());
+
+            group
+                .MapGet("/invalidate/{userId}", async (AuthService service, HttpContext ctx, Guid userId) =>
+                {
+                    var result = await service.InvalidateUserAccess(userId);
+                    return result.ToIResult();
+                })
+                .RequireAuthorization(p =>
+                {
+                    p.RequireAuthenticatedUser();
+                    p.RequireRole(Roles.Admin);
+                });
 
             return builder;
         }

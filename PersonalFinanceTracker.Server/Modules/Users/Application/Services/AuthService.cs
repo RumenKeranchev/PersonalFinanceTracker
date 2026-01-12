@@ -67,7 +67,7 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            string token = _tokenGenerator.GenerateAccessToken(user);
+            string token = _tokenGenerator.GenerateAccessToken(user, [Roles.User]);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
@@ -101,7 +101,9 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            string token = _tokenGenerator.GenerateAccessToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            string token = _tokenGenerator.GenerateAccessToken(user, roles);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
@@ -123,10 +125,12 @@
 
             if (token is null || token.ExpiresAt < DateTime.UtcNow)
             {
-               return new Error("user.refresh_token", Exceptions.InvalidRefreshToken);
+                return new Error("users.refresh_token", Exceptions.InvalidRefreshToken);
             }
 
-            string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User);
+            var roles = await _userManager.GetRolesAsync(token.User);
+
+            string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User, roles);
             string newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(newRefreshToken, _refreshTokenExpirationDays, token.UserId)
@@ -142,9 +146,28 @@
             return new AuthResultDto(newAccessToken, newRefreshToken);
         }
 
-        public Task<Result> LogoutAsync(Guid userId)
+        public async Task<Result> LogoutAsync(Guid userId, string token)
         {
-            throw new NotImplementedException();
+            var refreshToken = _db.RefreshTokens.FirstOrDefault(t => t.Token == token && t.UserId == userId.ToString());
+
+            if (refreshToken is null)
+            {
+                return new Error("users.logout", Exceptions.InvalidRefreshToken);
+            }
+
+            _db.RefreshTokens.Remove(refreshToken);
+            await _db.SaveChangesAsync();
+
+            return Result.Success();
+        }
+
+        public async Task<Result> InvalidateUserAccess(Guid userId)
+        {
+            await _db.RefreshTokens
+                .Where(t => t.UserId == userId.ToString())
+                .ExecuteDeleteAsync();
+
+            return Result.Success();
         }
     }
 }

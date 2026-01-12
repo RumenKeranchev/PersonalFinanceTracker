@@ -1,6 +1,6 @@
 ﻿@HostAddress = https://localhost:7153/api/users
-@Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNWU4YjE1MjMtZTFlNC00OGJiLTliMDUtMmNjNjg5ZDlkMjA0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiIiwic3ViIjoidGVzdCIsImV4cCI6MTc2ODE1NTMzNiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzE1My8iLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1NjczMy8ifQ.6PIE55qByjvFhO0qZIzbAbuSwdwsJFVXomZnSx2pI04
-@Refresh = COeuT5+jZzUidG3NucKGW1Yuvvuz3hyNUqVTZMXZy94=
+@Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiNWU4YjE1MjMtZTFlNC00OGJiLTliMDUtMmNjNjg5ZDlkMjA0IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiJ0ZXN0IiwiZXhwIjoxNzY4MjM4ODk0LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MTUzLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjU2NzMzLyJ9.1eSryax9t8reFkTaxPGL_7kKV0xN_qsZPkVK8yBMLVM
+@Refresh = M8O3Bu4joZNitbO3Hdh5DrETvhNcE7W8KkJ63kB2LSM=
 
 POST {{HostAddress}}/register
 Content-Type: application/json 
@@ -29,5 +29,14 @@ Content-Type: application/json
 
 ###
 
-GET {{HostAddress}}/logout
+POST {{HostAddress}}/logout
+Authorization: Bearer {{Token}}
+Content-Type: application/json 
+{
+    "token": "{{Refresh}}"
+}
+
+###
+
+GET {{HostAddress}}/invalidate/5e8b1523-e1e4-48bb-9b05-2cc689d9d204
 Authorization: Bearer {{Token}}
