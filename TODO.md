@@ -1,7 +1,6 @@
 # Migration:
 
 # General:
-1.	Validate everywhere that when editing in any form the user is either Admin or the owner of the object.
 2.	When updating data, log only the changed fields with old and new values.
 3.	Change pagination from index/page to cursor based pagination.
 4.	Event Ids for exceptions?
@@ -9,10 +8,10 @@
 6.	Implement rate limiting on the API.
 7.	Implement caching for frequently accessed data.
 8.	Implement soft deletes for all entities.
-9. Store tokens in cookies?
+9.  Store tokens in cookies?
 10. Check if FinanceErrors are needed at all.
 11. Document:
 	1. API Endpoints
 	1. Versioning
 	1. Results, their operators and errors
-12. Seed method if no data is present
+12.	Containerize the application using Docker.

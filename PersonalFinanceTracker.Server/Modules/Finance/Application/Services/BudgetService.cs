@@ -10,11 +10,13 @@
     {
         private readonly AppDbContext _dbContext;
         private readonly ILogger _logger;
+        private readonly ICurrentUser _user;
 
-        public BudgetService(AppDbContext dbContext, ILogger<BudgetService> logger)
+        public BudgetService(AppDbContext dbContext, ILogger<BudgetService> logger, ICurrentUser user)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _user = user;
         }
 
         public async Task<Result> CreateAsync(CreateDto model)
@@ -27,7 +29,7 @@
                 return Result.Failure(validationResult.ToValidationError());
             }
 
-            var budget = new Budget(Guid.Empty, model.Amount, model.Name, model.StartDate, model.EndDate);
+            var budget = new Budget(_user.Id, model.Amount, model.Name, model.StartDate, model.EndDate);
 
             await _dbContext.Budgets.AddAsync(budget);
 

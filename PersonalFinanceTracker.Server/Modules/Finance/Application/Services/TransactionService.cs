@@ -10,11 +10,13 @@
     {
         private readonly AppDbContext _dbContext;
         private readonly ILogger _logger;
+        private readonly ICurrentUser _user;
 
-        public TransactionService(AppDbContext dbContext, ILogger<TransactionService> logger)
+        public TransactionService(AppDbContext dbContext, ILogger<TransactionService> logger, ICurrentUser user)
         {
             _dbContext = dbContext;
             _logger = logger;
+            _user = user;
         }
 
         public async Task<Result> CreateAsync(CreateDto model)
@@ -27,8 +29,7 @@
                 return Result.Failure(validationResult.ToValidationError());
             }
 
-            // TODO: Replace Guid.Empty with actual UserId when authentication is implemented
-            var transaction = new Transaction(Guid.Empty, model.Amount, model.Type, model.Date, model.Description);
+            var transaction = new Transaction(_user.Id, model.Amount, model.Type, model.Date, model.Description);
             _dbContext.Add(transaction);
 
             await _dbContext.SaveChangesAsync();
@@ -50,7 +51,7 @@
             }
 
             var transaction = await _dbContext.Transactions.FindAsync(id);
-            if (transaction is null)
+            if (transaction is null || (transaction.UserId != _user.Id && !_user.IsAdmin))
             {
                 return FinanceErrors.TransactionNotFound;
             }
