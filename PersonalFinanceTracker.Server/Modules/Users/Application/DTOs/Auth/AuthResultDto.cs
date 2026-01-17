@@ -1,4 +1,4 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Users.Application.DTOs.Auth
 {
-    public record AuthResultDto(string Token, string RefreshToken);
+    public record AuthResultDto(string Token, DateTime TokenExpiration, string RefreshToken, DateTime RefreshTokenExpiration);
 }

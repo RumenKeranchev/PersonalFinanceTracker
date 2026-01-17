@@ -23,7 +23,7 @@
             _expirationInMinutes = int.Parse(expiration);
         }
 
-        public string GenerateAccessToken(AppUser user, IEnumerable<string> roles)
+        public (string Token, DateTime Expires) GenerateAccessToken(AppUser user, IEnumerable<string> roles)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
 
@@ -42,7 +42,7 @@
                 signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return (new JwtSecurityTokenHandler().WriteToken(token), token.ValidTo);
         }
 
         public string GenerateRefreshToken() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));

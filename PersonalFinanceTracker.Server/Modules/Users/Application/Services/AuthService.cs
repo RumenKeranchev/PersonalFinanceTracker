@@ -67,7 +67,7 @@
                 return UsersErrors.InvalidCredentials;
             }
 
-            string token = _tokenGenerator.GenerateAccessToken(user, [Roles.User]);
+            (string token, var expires) = _tokenGenerator.GenerateAccessToken(user, [Roles.User]);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
@@ -78,7 +78,7 @@
 
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
-            return new AuthResultDto(token, refreshToken);
+            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt);
         }
 
         public async Task<Result<AuthResultDto>> LoginAsync(LoginDto model)
@@ -103,7 +103,7 @@
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            string token = _tokenGenerator.GenerateAccessToken(user, roles);
+            (string token, var expires) = _tokenGenerator.GenerateAccessToken(user, roles);
             string refreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(refreshToken, _refreshTokenExpirationDays, user.Id);
@@ -114,7 +114,7 @@
 
             _logger.LogInformation("User [{Email}] logged in successfully.", model.Email);
 
-            return new AuthResultDto(token, refreshToken);
+            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt);
         }
 
         public async Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
@@ -130,7 +130,7 @@
 
             var roles = await _userManager.GetRolesAsync(token.User);
 
-            string newAccessToken = _tokenGenerator.GenerateAccessToken(token.User, roles);
+            (string newAccessToken, var expires) = _tokenGenerator.GenerateAccessToken(token.User, roles);
             string newRefreshToken = _tokenGenerator.GenerateRefreshToken();
 
             var refreshTokenEntity = new RefreshToken(newRefreshToken, _refreshTokenExpirationDays, token.UserId)
@@ -143,7 +143,7 @@
 
             await _db.SaveChangesAsync();
 
-            return new AuthResultDto(newAccessToken, newRefreshToken);
+            return new AuthResultDto(newAccessToken, expires, newRefreshToken, refreshTokenEntity.ExpiresAt);
         }
 
         public async Task<Result> LogoutAsync(Guid userId, string token)

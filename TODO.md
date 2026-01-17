@@ -14,4 +14,11 @@
 	1. API Endpoints
 	1. Versioning
 	1. Results, their operators and errors
+	1. User injection into services
 12.	Containerize the application using Docker.
+13. Testing:
+	1. Add integration tests for all API endpoints.
+	2. Add unit tests for all services and repositories.
+	3. Implement end-to-end testing for critical user flows.
+14. Add a desktop client with MAUI and/or Blazor.
+15. Use logging with open telemetry.
