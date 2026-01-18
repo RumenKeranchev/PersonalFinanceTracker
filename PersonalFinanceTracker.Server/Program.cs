@@ -33,6 +33,14 @@ try
 
     builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    builder.Services.AddCors(options =>
+        options.AddPolicy("DevCors",
+            policy => policy
+                .WithOrigins("https://localhost:56733")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()));
+
     #region Auth
 
     builder.Services
@@ -73,28 +81,34 @@ try
 
     builder.Services
         .AddApiVersioning(opt =>
-        {
-            opt.DefaultApiVersion = new(1);
-            opt.ReportApiVersions = true;
+{
+    opt.DefaultApiVersion = new(1);
+    opt.ReportApiVersions = true;
 
-            // this will not make /api/user/... acceptable! if the group has ../v1/.. in the path it must be included!
-            // HOWEVER, this will default to v1 if there are more versions and the X-Api-Version header is missing
-            // and the route doesn't include ../v1/.. in it
-            opt.AssumeDefaultVersionWhenUnspecified = true;
+    // this will not make /api/user/... acceptable! if the group has ../v1/.. in the path it must be included!
+    // HOWEVER, this will default to v1 if there are more versions and the X-Api-Version header is missing
+    // and the route doesn't include ../v1/.. in it
+    opt.AssumeDefaultVersionWhenUnspecified = true;
 
-            opt.ApiVersionReader = ApiVersionReader.Combine(
-                new UrlSegmentApiVersionReader(),
-                new HeaderApiVersionReader("X-Api-Version"));
-        })
+    opt.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(),
+        new HeaderApiVersionReader("X-Api-Version"));
+})
         .AddApiExplorer(opt =>
-        {
-            opt.GroupNameFormat = "'v'VVV";
-            opt.SubstituteApiVersionInUrl = true;
-        });
+{
+    opt.GroupNameFormat = "'v'VVV";
+    opt.SubstituteApiVersionInUrl = true;
+});
 
     #endregion
 
+    #region Swagger
+
     builder.Services.AddOpenApi();
+
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(opt => opt.CustomSchemaIds(type => type.FullName ?? type.Name));
+    #endregion
 
     #region Register services
 
@@ -107,13 +121,15 @@ try
 
     var app = builder.Build();
 
-    await Seeder.SeedAsync(app.Services);
-
     #region Global exception handling
 
     app.UseExceptionHandler();
 
     #endregion
+
+    app.UseCors("DevCors");
+
+    await Seeder.SeedAsync(app.Services);
 
     app.UseAuthentication();
     app.UseAuthorization();
@@ -134,6 +150,9 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.MapOpenApi();
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 
     app.Run();
