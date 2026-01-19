@@ -1,14 +1,38 @@
-﻿body {
-    background: #303030;
+﻿:root {
+    --primary-bg-color: #5F0F40;
+    --secondary-bg-color: #9A031E;
+    --primary-color: #FB8B24;
+    --secondary-color: #E36414;
+    --highlight: #FB8B24;
+    --contrast: #0F4C5C;
+}
+
+body {
+    background: var(--primary-bg-color);
+    color: var(--primary-color);
 }
 
 #root {
-    max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+.form {
+    border: 2px solid var(--highlight);
+    border-radius: 5px;
+    padding: 1rem;
+    background: var(--contrast);
+    color: var(--primary-color);
+}
+
+form:has(input:required) label::after {
+    content: " *";
+    color: lime;
+}
+
+.primary-btn {
+    border: 1px solid var(--highlight);
+    border-radius: 5px;
+    color: var(--primary-color);
+    background-color: var(--primary-bg-color)
 }

@@ -27,7 +27,7 @@
                         return Results.Unauthorized();
                     }
 
-                    if (!value.ToString().Equals(ClientType.Native.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+                    if (!value.ToString().Equals(ClientType.Native.ToString(), StringComparison.InvariantCultureIgnoreCase)
                         && !value.ToString().Equals(ClientType.Browser.ToString(), StringComparison.InvariantCultureIgnoreCase))
                     {
                         return Results.BadRequest("Invalid Client-Type!");
@@ -36,7 +36,8 @@
                     ctx.HttpContext.Items["Client-Type"] = Enum.Parse<ClientType>(value.ToString(), true);
 
                     return await next(ctx);
-                });
+                })
+                .ProducesValidationProblem();
 
             group.MapPost("/register", async (AuthService service, HttpContext ctx, RegisterDto model) =>
             {
@@ -83,7 +84,7 @@
                 {
                     ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
                     ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
-                    
+
                     return Results.NoContent();
                 }
 
@@ -137,7 +138,7 @@
             else if (ctx.Items.IsClientType(ClientType.Browser))
             {
                 token = ctx.Request.Cookies.FirstOrDefault(c => c.Key == "refreshToken").Value;
-            }            
+            }
 
             return token;
         }

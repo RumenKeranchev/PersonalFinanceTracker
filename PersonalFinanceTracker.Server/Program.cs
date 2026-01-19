@@ -105,6 +105,7 @@ try
     #region Swagger
 
     builder.Services.AddOpenApi();
+    builder.Services.AddOpenApiDocument();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(opt => opt.CustomSchemaIds(type => type.FullName ?? type.Name));
@@ -128,6 +129,7 @@ try
     #endregion
 
     app.UseCors("DevCors");
+    app.UseOpenApi();
 
     await Seeder.SeedAsync(app.Services);
 

@@ -43,6 +43,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="NLog" Version="6.0.7" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
+    <PackageReference Include="NSwag.MSBuild" Version="14.6.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
   </ItemGroup>
 
@@ -66,5 +71,9 @@
     <Using Include="PersonalFinanceTracker.Server.Infrastructure.Extensions" />
     <Using Include="PersonalFinanceTracker.Server.Infrastructure.Shared" />
   </ItemGroup>
+
+  <Target Name="NSwag" AfterTargets="Build">
+    <Exec Command="nswag run nswag.json" />
+  </Target>
 
 </Project>

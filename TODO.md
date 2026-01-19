@@ -20,6 +20,7 @@
 	1. Add integration tests for all API endpoints.
 	2. Add unit tests for all services and repositories.
 	3. Implement end-to-end testing for critical user flows.
+	4. Type generation (Target in Server.csproj)
 14. Add a desktop client with MAUI and/or Blazor.
 15. Use logging with open telemetry.
 16. Implement health checks for the application.

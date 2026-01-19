@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import type { ProblemDetails } from "../../api";
 
 interface RegisterModel {
     email?: string;
@@ -9,7 +10,7 @@ interface RegisterModel {
 
 const Register = () => {
     const [model, setModel] = useState<RegisterModel>({ email: "", password: "", username: "" });
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<ProblemDetails>();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,9 +33,9 @@ const Register = () => {
     };
 
     return (
-        <Form className="border rounded bg-light p-2" noValidate onSubmit={handleSubmit} style={{ minWidth: 450 }}>
+        <Form className="form" noValidate onSubmit={handleSubmit} style={{ minWidth: 450 }}>
             <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>Email address <span className="text-danger">*</span></Form.Label>
+                <Form.Label>Email address</Form.Label>
                 <Form.Control
                     type="email"
                     placeholder="Enter email"
@@ -44,7 +45,7 @@ const Register = () => {
                     isInvalid={!!errors?.Email}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors?.Email?.map((e, i) => <div key={i}>{e}</div>)}
+                    {errors?.Email?.map((e: string, i: number) => <div key={i}>{e}</div>)}
                 </Form.Control.Feedback>
             </Form.Group>
 
@@ -58,12 +59,12 @@ const Register = () => {
                     isInvalid={!!errors?.Username}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors?.Username?.map((e, i) => <div key={i}>{e}</div>)}
+                    {errors?.Username?.map((e: string, i: number) => <div key={i}>{e}</div>)}
                 </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label>Password <span className="text-danger">*</span></Form.Label>
+                <Form.Label>Password</Form.Label>
                 <Form.Control
                     type="password"
                     placeholder="Password"
@@ -73,13 +74,13 @@ const Register = () => {
                     isInvalid={!!errors?.Password}
                 />
                 <Form.Control.Feedback type="invalid">
-                    {errors?.Password?.map((e, i) => <div key={i}>{e}</div>)}
+                    {errors?.Password?.map((e: string, i: number) => <div key={i}>{e}</div>)}
                 </Form.Control.Feedback>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <button type="submit" className="primary-btn">
                 Submit
-            </Button>
+            </button>
         </Form>
     );
 }
