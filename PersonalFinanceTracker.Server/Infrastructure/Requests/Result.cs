@@ -69,21 +69,17 @@
             {
                 return Results.NoContent();
             }
-
-            if (result.Error!.Code.StartsWith("validation"))
+            else
             {
-                return result.Error is ValidationError error
-                    ? Results.ValidationProblem(error.Errors)
-                    : Results.ValidationProblem(new Dictionary<string, string[]> { { result.Error.Code, new[] { result.Error.Message } } });
+                if (result.Error is ValidationError error)
+                {
+                    return Results.ValidationProblem(error.Errors);
+                }
+                else
+                {
+                    return Results.Problem(statusCode: (int)result.Error!.StatusCode, title: result.Error.Code, detail: result.Error.Message);
+                }
             }
-
-            return result.Error.Code switch
-            {
-                "not_found" => Results.NotFound(result.Error.Message),
-                "unauthorized" => Results.Unauthorized(),
-                "conflict" => Results.Conflict(result.Error.Message),
-                _ => Results.BadRequest(result.Error.Message)
-            };
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "<Pending>")]
@@ -93,23 +89,17 @@
             {
                 return Results.Ok(result.Value);
             }
-
-            string[] validationErrorChecks = ["validation", "user"];
-
-            if (validationErrorChecks.Any(c => result.Error!.Code.StartsWith(c)))
+            else
             {
-                return result.Error is ValidationError error
-                    ? Results.ValidationProblem(error.Errors)
-                    : Results.ValidationProblem(new Dictionary<string, string[]> { { result.Error!.Code, new[] { result.Error.Message } } });
+                if (result.Error is ValidationError error)
+                {
+                    return Results.ValidationProblem(error.Errors);
+                }
+                else
+                {
+                    return Results.Problem(statusCode: (int)result.Error!.StatusCode, title: result.Error.Code, detail: result.Error.Message);
+                }
             }
-
-            return result.Error!.Code switch
-            {
-                "not_found" => Results.NotFound(result.Error.Message),
-                "unauthorized" => Results.Unauthorized(),
-                "conflict" => Results.Conflict(result.Error.Message),
-                _ => Results.BadRequest(result.Error.Message)
-            };
         }
     }
 }

@@ -3,13 +3,14 @@
     using FluentValidation.Results;
     using Microsoft.AspNetCore.Identity;
     using Resourses;
+    using System.Net;
 
-    public record Error(string Code, string Message)
+    public record Error(string Code, string Message, HttpStatusCode StatusCode)
     {
-        public static Error InvalidId => new("common.invalid_id", Exceptions.InvalidId);
+        public static Error InvalidId => new("common.invalid_id", Exceptions.InvalidId, HttpStatusCode.BadRequest);
     }
 
-    public sealed record ValidationError(string Code, string Message, IReadOnlyDictionary<string, string[]> Errors) : Error(Code, Message);
+    public sealed record ValidationError(string Code, string Message, IReadOnlyDictionary<string, string[]> Errors) : Error(Code, Message, HttpStatusCode.BadRequest);
 
     public static class ErrorsExtensions
     {

@@ -25,3 +25,4 @@
 15. Use logging with open telemetry.
 16. Implement health checks for the application.
 17. Generate client side types
+18. Add proper toasts, instead of alert().

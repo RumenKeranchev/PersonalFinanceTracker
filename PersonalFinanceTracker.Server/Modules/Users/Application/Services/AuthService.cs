@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Resourses;
+    using System.Net;
     using Validators.Auth;
 
     public class AuthService
@@ -125,7 +126,7 @@
 
             if (token is null || token.ExpiresAt < DateTime.UtcNow)
             {
-                return new Error("users.refresh_token", Exceptions.InvalidRefreshToken);
+                return new Error("users.refresh_token", Exceptions.InvalidRefreshToken, HttpStatusCode.Unauthorized);
             }
 
             var roles = await _userManager.GetRolesAsync(token.User);
@@ -152,7 +153,7 @@
 
             if (refreshToken is null)
             {
-                return new Error("users.logout", Exceptions.InvalidRefreshToken);
+                return new Error("users.logout", Exceptions.InvalidRefreshToken, HttpStatusCode.Unauthorized);
             }
 
             _db.RefreshTokens.Remove(refreshToken);

@@ -2,9 +2,10 @@
 {
     using Infrastructure.Shared;
     using Resourses;
+    using System.Net;
 
     public static class FinanceErrors
     {
-        public static Error TransactionNotFound => new("finance.transaction.not_found", Exceptions.TransactionNotFound);
+        public static Error TransactionNotFound => new("finance.transaction.not_found", Exceptions.TransactionNotFound, HttpStatusCode.NotFound);
     }
 }

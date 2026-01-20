@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import type { HttpValidationProblemDetails } from "../../api";
+import type { HttpValidationProblemDetails, ProblemDetails } from "../../api";
 
 interface RegisterModel {
     email?: string;
@@ -27,9 +27,15 @@ const Register = () => {
         })
 
         if (!response.ok) {
-            const err = await response.json() as HttpValidationProblemDetails;
-            console.log(err);
-            setErrors(err.errors);
+            const problem = await response.json() as ProblemDetails;
+
+            if ("errors" in problem) {
+                const validation = problem as HttpValidationProblemDetails;
+                setErrors(validation.errors);
+                return;
+            }
+
+            alert(problem.detail ?? problem.title ?? "Unknown error");
         }
     };
 
