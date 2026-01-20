@@ -4,7 +4,7 @@
     using FluentValidation;
     using static Resourses.Exceptions;
 
-    public class CreateValidator : AbstractValidator<CreateDto>
+    public class CreateValidator : AbstractValidator<BudgetCreateDto>
     {
         public CreateValidator()
         {

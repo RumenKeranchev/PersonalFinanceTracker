@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import type { ProblemDetails } from "../../api";
+import type { HttpValidationProblemDetails } from "../../api";
 
 interface RegisterModel {
     email?: string;
@@ -10,7 +10,7 @@ interface RegisterModel {
 
 const Register = () => {
     const [model, setModel] = useState<RegisterModel>({ email: "", password: "", username: "" });
-    const [errors, setErrors] = useState<ProblemDetails>();
+    const [errors, setErrors] = useState<{ [key: string]: string[] }>();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -27,7 +27,8 @@ const Register = () => {
         })
 
         if (!response.ok) {
-            const err = await response.json();
+            const err = await response.json() as HttpValidationProblemDetails;
+            console.log(err);
             setErrors(err.errors);
         }
     };

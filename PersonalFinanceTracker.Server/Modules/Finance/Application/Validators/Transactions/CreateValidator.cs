@@ -4,7 +4,7 @@
     using PersonalFinanceTracker.Server.Modules.Finance.Application.DTOs.Transactions;
     using static Resourses.Exceptions;
 
-    public class CreateValidator : AbstractValidator<CreateDto>
+    public class CreateValidator : AbstractValidator<TransactionCreateDto>
     {
         public CreateValidator()
         {

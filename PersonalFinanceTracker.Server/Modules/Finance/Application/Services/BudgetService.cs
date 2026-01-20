@@ -19,7 +19,7 @@
             _user = user;
         }
 
-        public async Task<Result> CreateAsync(CreateDto model)
+        public async Task<Result> CreateAsync(BudgetCreateDto model)
         {
             var validator = new CreateValidator();
             var validationResult = await validator.ValidateAsync(model);
@@ -39,27 +39,27 @@
             return Result.Success();
         }
 
-        public async Task<Result<List<ListItemDto>>> GetAllAsync()
+        public async Task<Result<List<BudgetListItemDto>>> GetAllAsync()
         {
             var budgets = await _dbContext.Budgets
-                 .Select(b => new ListItemDto(
+                 .Select(b => new BudgetListItemDto(
                      b.Id,
                      b.Name,
                      b.Amount,
                      b.EndDate >= DateTime.UtcNow,
                      (b.EndDate - DateTime.UtcNow).Days,
-                     b.Categories.Select(c => new DTOs.Categories.ListItemForBudgetDto(c.Name, c.Color)).ToList()
+                     b.Categories.Select(c => new DTOs.Categories.CategoryListItemForBudgetDto(c.Name, c.Color)).ToList()
                  ))
                  .ToListAsync();
 
             return budgets;
         }
 
-        public async Task<Result<DetailsDto>> GetDetailsAsync(Guid id)
+        public async Task<Result<BudgetDetailsDto>> GetDetailsAsync(Guid id)
         {
             var budget = await _dbContext.Budgets
                 .Where(b => b.Id == id)
-                .Select(b => new DetailsDto(b.Name, b.Amount, b.StartDate, b.EndDate))
+                .Select(b => new BudgetDetailsDto(b.Name, b.Amount, b.StartDate, b.EndDate))
                 .FirstOrDefaultAsync();
 
             return budget is null

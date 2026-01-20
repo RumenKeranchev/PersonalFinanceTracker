@@ -1,4 +1,5 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.DTOs.Categories
 {
-    public record ListItemDto(Guid Id, string Name, string Color);
+
+    public record CategoryUpdateDto(string Name, string Color);
 }

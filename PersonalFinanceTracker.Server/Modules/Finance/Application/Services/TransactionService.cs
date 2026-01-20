@@ -19,7 +19,7 @@
             _user = user;
         }
 
-        public async Task<Result> CreateAsync(CreateDto model)
+        public async Task<Result> CreateAsync(TransactionCreateDto model)
         {
             var validator = new CreateValidator();
             var validationResult = validator.Validate(model);
@@ -39,7 +39,7 @@
             return Result.Success();
         }
 
-        public async Task<Result> UpdateAsync(Guid id, UpdateDto model)
+        public async Task<Result> UpdateAsync(Guid id, TransactionUpdateDto model)
         {
             var validator = new UpdateValidator();
 
@@ -66,7 +66,7 @@
             return Result.Success();
         }
 
-        public async Task<Result<List<ListItemDto>>> GetAllAsync(PagedQuery pagedQuery)
+        public async Task<Result<List<TransactionListItemDto>>> GetAllAsync(PagedQuery pagedQuery)
         {
             var validationResult = new PagedQueryValidator().Validate(pagedQuery);
 
@@ -77,14 +77,14 @@
 
             var items = await _dbContext.Transactions
                 .OrderBy(t => t.Id)
-                .Select(t => new ListItemDto(t.Amount, t.Type.ToString(), t.Date))
+                .Select(t => new TransactionListItemDto(t.Amount, t.Type.ToString(), t.Date))
                 .ApplyPaging(pagedQuery)
                 .ToListAsync();
 
             return items;
         }
 
-        public async Task<Result<DetailsDto>> GetDetailsAsync(Guid id)
+        public async Task<Result<TransactionDetailsDto>> GetDetailsAsync(Guid id)
         {
             if (id == Guid.Empty)
             {
@@ -93,7 +93,7 @@
 
             var model = await _dbContext.Transactions
                 .Where(t => t.Id == id)
-                .Select(t => new DetailsDto(t.Amount, t.Type.ToString(), t.Date, t.Description, t.Category.Name, null))
+                .Select(t => new TransactionDetailsDto(t.Amount, t.Type.ToString(), t.Date, t.Description, t.Category.Name, null))
                 .FirstOrDefaultAsync();
 
             return model is null

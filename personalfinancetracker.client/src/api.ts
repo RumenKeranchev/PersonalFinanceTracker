@@ -9,42 +9,6 @@
 
 
 
-export interface CreateDto {
-    amount: number;
-    type: TransactionType;
-    date: Date | undefined;
-    description: string | undefined;
-}
-
-export enum TransactionType {
-    Income = 0,
-    Expense = 1,
-    Transfer = 2,
-}
-
-export interface UpdateDto {
-    description: string | undefined;
-    categoryId: string | undefined;
-    budgetId: string | undefined;
-}
-
-export interface CreateDto2 {
-    name: string;
-    color: string;
-}
-
-export interface UpdateDto2 {
-    name: string;
-    color: string;
-}
-
-export interface CreateDto3 {
-    name: string;
-    amount: number;
-    startDate: Date;
-    endDate: Date;
-}
-
 export interface ProblemDetails {
     type: string | undefined;
     title: string | undefined;
@@ -59,6 +23,91 @@ export interface HttpValidationProblemDetails extends ProblemDetails {
     errors: { [key: string]: string[]; };
 
     [key: string]: any;
+}
+
+export interface TransactionCreateDto {
+    amount: number;
+    type: TransactionType;
+    date: Date | undefined;
+    description: string | undefined;
+}
+
+export enum TransactionType {
+    Income = 0,
+    Expense = 1,
+    Transfer = 2,
+}
+
+export interface TransactionUpdateDto {
+    description: string | undefined;
+    categoryId: string | undefined;
+    budgetId: string | undefined;
+}
+
+export interface TransactionListItemDto {
+    amount: number;
+    type: string;
+    date: Date;
+}
+
+export interface TransactionDetailsDto {
+    amount: number;
+    type: string;
+    date: Date;
+    description: string | undefined;
+    category: string | undefined;
+    budget: string | undefined;
+}
+
+export interface CategoryCreateDto {
+    name: string;
+    color: string;
+}
+
+export interface CategoryUpdateDto {
+    name: string;
+    color: string;
+}
+
+export interface CategoryListItemDto {
+    id: string;
+    name: string;
+    color: string;
+}
+
+export interface BudgetCreateDto {
+    name: string;
+    amount: number;
+    startDate: Date;
+    endDate: Date;
+}
+
+export interface BudgetListItemDto {
+    id: string;
+    name: string;
+    amount: number;
+    isValid: boolean;
+    expiresIn: number;
+    categories: CategoryListItemForBudgetDto[];
+}
+
+export interface CategoryListItemForBudgetDto {
+    name: string;
+    color: string;
+}
+
+export interface BudgetDetailsDto {
+    name: string;
+    amount: number;
+    startDate: Date;
+    endDate: Date;
+}
+
+export interface AuthResultDto {
+    token: string;
+    tokenExpiration: Date;
+    refreshToken: string;
+    refreshTokenExpiration: Date;
 }
 
 export interface RegisterDto {

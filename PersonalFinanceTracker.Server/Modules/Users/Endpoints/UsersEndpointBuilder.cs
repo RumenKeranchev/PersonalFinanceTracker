@@ -39,57 +39,63 @@
                 })
                 .ProducesValidationProblem();
 
-            group.MapPost("/register", async (AuthService service, HttpContext ctx, RegisterDto model) =>
-            {
-                var result = await service.RegisterAsync(model);
-
-                if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+            group
+                .MapPost("/register", async (AuthService service, HttpContext ctx, RegisterDto model) =>
                 {
-                    ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                    ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                    var result = await service.RegisterAsync(model);
 
-                    return Results.NoContent();
-                }
+                    if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+                    {
+                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
+                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
 
-                return result.ToIResult();
-            });
+                        return Results.NoContent();
+                    }
 
-            group.MapPost("/login", async (AuthService service, HttpContext ctx, LoginDto model) =>
-            {
-                var result = await service.LoginAsync(model);
+                    return result.ToIResult();
+                })
+                .Produces<AuthResultDto>();
 
-                if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+            group
+                .MapPost("/login", async (AuthService service, HttpContext ctx, LoginDto model) =>
                 {
-                    ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                    ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                    var result = await service.LoginAsync(model);
 
-                    return Results.NoContent();
-                }
+                    if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+                    {
+                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
+                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
 
-                return result.ToIResult();
-            });
+                        return Results.NoContent();
+                    }
 
-            group.MapPost("/refresh", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>
-            {
-                string? token = GetTokenFromRequest(ctx, dto);
+                    return result.ToIResult();
+                })
+                .Produces<AuthResultDto>();
 
-                if (string.IsNullOrWhiteSpace(token))
+            group
+                .MapPost("/refresh", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>
                 {
-                    return Results.Unauthorized();
-                }
+                    string? token = GetTokenFromRequest(ctx, dto);
 
-                var result = await service.RefreshAsync(token);
+                    if (string.IsNullOrWhiteSpace(token))
+                    {
+                        return Results.Unauthorized();
+                    }
 
-                if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
-                {
-                    ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                    ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                    var result = await service.RefreshAsync(token);
 
-                    return Results.NoContent();
-                }
+                    if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+                    {
+                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
+                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
 
-                return result.ToIResult();
-            });
+                        return Results.NoContent();
+                    }
+
+                    return result.ToIResult();
+                })
+                .Produces<AuthResultDto>();
 
             group
                 .MapPost("/logout", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>

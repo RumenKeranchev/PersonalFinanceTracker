@@ -4,7 +4,7 @@
     using FluentValidation;
     using static Resourses.Exceptions;
 
-    public class UpdateValidator : AbstractValidator<UpdateDto>
+    public class UpdateValidator : AbstractValidator<TransactionUpdateDto>
     {
         public UpdateValidator()
         {

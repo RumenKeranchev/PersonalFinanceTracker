@@ -1,4 +1,4 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.DTOs.Transactions
 {
-    public record UpdateDto(string? Description, Guid? CategoryId, Guid? BudgetId);
+    public record TransactionListItemDto(decimal Amount, string Type, DateTime Date);
 }

@@ -18,7 +18,7 @@
             _logger = logger;
         }
 
-        public async Task<Result> CreateAsync(CreateDto model)
+        public async Task<Result> CreateAsync(CategoryCreateDto model)
         {
             var validator = new CreateValidator();
             var result = validator.Validate(model);
@@ -39,7 +39,7 @@
             return Result.Success();
         }
 
-        public async Task<Result> UpdateAsync(Guid id, UpdateDto model)
+        public async Task<Result> UpdateAsync(Guid id, CategoryUpdateDto model)
         {
             var validator = new UpdateValidator();
             var result = validator.Validate(model);
@@ -68,10 +68,10 @@
         }
 
         // TODO: cache the result
-        public async Task<Result<List<ListItemDto>>> GetAllAsync()
+        public async Task<Result<List<CategoryListItemDto>>> GetAllAsync()
         {
             var categories = await _dbContext.Categories
-                .Select(c => new ListItemDto(c.Id, c.Name, c.Color))
+                .Select(c => new CategoryListItemDto(c.Id, c.Name, c.Color))
                 .ToListAsync();
 
             return categories;
