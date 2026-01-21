@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
-import type { HttpValidationProblemDetails, ProblemDetails, RegisterDto } from "../../api";
+import type { HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
 import { useToast } from "../Shared/ToastContext";
 
-const Register = () => {
-    const [model, setModel] = useState<RegisterDto>({ email: "", password: "", username: "" });
+const Login = () => {
+    const [model, setModel] = useState<LoginDto>({ email: "", password: "" });
     const [errors, setErrors] = useState<{ [key: string]: string[] }>();
     const { showToast } = useToast();
 
@@ -12,13 +12,14 @@ const Register = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        const response = await fetch("https://localhost:7153/api/auth/register", {
+        const response = await fetch("https://localhost:7153/api/auth/login", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
                 "X-Api-Version": "1",
                 "Client-Type": "browser",
             },
+            credentials: "include",
             body: JSON.stringify(model)
         })
 
@@ -54,20 +55,6 @@ const Register = () => {
                 </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter username"
-                    onChange={(e) => setModel(prev => ({ ...prev, username: e.target?.value }))}
-                    value={model?.username}
-                    isInvalid={!!errors?.Username}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {errors?.Username?.map((e: string, i: number) => <div key={i}>{e}</div>)}
-                </Form.Control.Feedback>
-            </Form.Group>
-
             <Form.Group className="mb-3" controlId="formPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
@@ -90,4 +77,4 @@ const Register = () => {
     );
 }
 
-export default Register;
+export default Login;

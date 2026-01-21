@@ -8,15 +8,19 @@
 
     public static class UsersEndpointBuilder
     {
+        static CookieOptions CookieOptions(DateTime expires) => new()
+        {
+            HttpOnly = true,
+            Expires = expires,
+            SameSite = SameSiteMode.Strict,
+            Secure = true
+        };
+
+        const string accessTokenCookie = "accessToken";
+        const string refreshTokenCookie = "refreshToken";
+
         public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder, ApiVersionSet versionSet)
         {
-            static CookieOptions CookieOptions(DateTime expires) => new()
-            {
-                HttpOnly = true,
-                Expires = expires,
-                SameSite = SameSiteMode.Strict,
-                Secure = true
-            };
 
             var group = builder.MapGroup("/api/auth")
                 .WithApiVersionSet(versionSet)
@@ -46,8 +50,7 @@
 
                     if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
                     {
-                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                        UpdateCookies(ctx, result);
 
                         return Results.NoContent();
                     }
@@ -63,8 +66,7 @@
 
                     if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
                     {
-                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                        UpdateCookies(ctx, result);
 
                         return Results.NoContent();
                     }
@@ -87,8 +89,7 @@
 
                     if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
                     {
-                        ctx.Response.Cookies.Append("AccessToken", result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
-                        ctx.Response.Cookies.Append("RefreshToken", result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
+                        UpdateCookies(ctx, result);
 
                         return Results.NoContent();
                     }
@@ -114,6 +115,13 @@
                     }
 
                     var result = await service.LogoutAsync(id, token);
+
+                    if (result.IsSuccess && ctx.Items.IsClientType(ClientType.Browser))
+                    {
+                        ctx.Response.Cookies.Delete(accessTokenCookie);
+                        ctx.Response.Cookies.Delete(refreshTokenCookie);
+                    }
+
                     return result.ToIResult();
                 })
                 .RequireAuthorization(p => p.RequireAuthenticatedUser());
@@ -131,6 +139,14 @@
                 });
 
             return builder;
+        }
+        private static void UpdateCookies(HttpContext ctx, Result<AuthResultDto> result)
+        {
+            ctx.Response.Cookies.Delete(accessTokenCookie);
+            ctx.Response.Cookies.Delete(refreshTokenCookie);
+
+            ctx.Response.Cookies.Append(accessTokenCookie, result.Value!.Token, CookieOptions(result.Value!.TokenExpiration));
+            ctx.Response.Cookies.Append(refreshTokenCookie, result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
         }
 
         private static string? GetTokenFromRequest(HttpContext ctx, RefreshTokenDto dto)
