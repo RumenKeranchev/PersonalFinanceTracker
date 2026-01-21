@@ -9,7 +9,6 @@
 
 body {
     background: var(--primary-bg-color);
-    color: var(--primary-color);
 }
 
 #root {
@@ -23,6 +22,7 @@ body {
     padding: 1rem;
     background: var(--contrast);
     color: var(--primary-color);
+    box-shadow: 1px 1px 10px 1px rgba(0,0,0, 0.75);
 }
 
 form:has(input:required) label::after {
@@ -36,3 +36,8 @@ form:has(input:required) label::after {
     color: var(--primary-color);
     background-color: var(--primary-bg-color)
 }
+
+    .primary-btn:hover {
+        border-color: var(--highlight);
+        filter: brightness(90%);
+    }

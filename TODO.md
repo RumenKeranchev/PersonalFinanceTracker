@@ -24,5 +24,3 @@
 14. Add a desktop client with MAUI and/or Blazor.
 15. Use logging with open telemetry.
 16. Implement health checks for the application.
-17. Generate client side types
-18. Add proper toasts, instead of alert().

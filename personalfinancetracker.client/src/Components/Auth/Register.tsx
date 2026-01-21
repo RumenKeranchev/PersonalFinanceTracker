@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import type { HttpValidationProblemDetails, ProblemDetails } from "../../api";
+import { useToast } from "../Shared/ToastContext";
 
 interface RegisterModel {
     email?: string;
@@ -11,6 +12,7 @@ interface RegisterModel {
 const Register = () => {
     const [model, setModel] = useState<RegisterModel>({ email: "", password: "", username: "" });
     const [errors, setErrors] = useState<{ [key: string]: string[] }>();
+    const { showToast } = useToast();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -33,9 +35,11 @@ const Register = () => {
                 const validation = problem as HttpValidationProblemDetails;
                 setErrors(validation.errors);
                 return;
+            } else {
+                setErrors({});
             }
 
-            alert(problem.detail ?? problem.title ?? "Unknown error");
+            showToast({ message: problem.detail ?? problem.title ?? "Unknown error", variant: "danger" });
         }
     };
 
