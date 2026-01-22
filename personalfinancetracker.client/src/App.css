@@ -1,19 +1,20 @@
 ﻿:root {
     --primary-bg-color: #5F0F40;
-    --secondary-bg-color: #9A031E;
+    --secondary-bg-color: #450b2f;
     --primary-color: #FB8B24;
     --secondary-color: #E36414;
     --highlight: #FB8B24;
     --contrast: #0F4C5C;
 }
 
-body {
-    background: var(--primary-bg-color);
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
 }
 
-#root {
-    margin: 0 auto;
-    padding: 2rem;
+body {
+    background: var(--primary-bg-color);
 }
 
 .form {
@@ -39,3 +40,8 @@ form:has(input:required) label::after {
         border-color: var(--highlight);
         filter: brightness(90%);
     }
+
+.nav {
+    background-color: var(--secondary-bg-color);
+    color: var(--primary-color);
+}

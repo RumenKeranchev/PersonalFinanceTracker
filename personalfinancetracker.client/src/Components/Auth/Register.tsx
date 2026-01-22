@@ -39,7 +39,7 @@ const Register = () => {
     };
 
     return (
-        <Form className="form" noValidate onSubmit={handleSubmit} style={{ minWidth: 450 }}>
+        <Form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
             <Form.Group className="mb-3" controlId="formEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
