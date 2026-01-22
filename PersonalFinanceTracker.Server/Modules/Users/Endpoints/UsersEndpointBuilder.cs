@@ -163,6 +163,6 @@
             }
 
             return token;
-        }
+        }    
     }
 }

@@ -71,7 +71,7 @@ const Login = () => {
             </Form.Group>
 
             <button type="submit" className="primary-btn">
-                Submit
+                Login
             </button>
         </Form>
     );

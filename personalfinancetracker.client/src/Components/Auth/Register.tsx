@@ -19,7 +19,8 @@ const Register = () => {
                 "X-Api-Version": "1",
                 "Client-Type": "browser",
             },
-            body: JSON.stringify(model)
+            body: JSON.stringify(model),
+            credentials: "include",
         })
 
         if (!response.ok) {
@@ -84,7 +85,7 @@ const Register = () => {
             </Form.Group>
 
             <button type="submit" className="primary-btn">
-                Submit
+                Register
             </button>
         </Form>
     );

@@ -18,7 +18,6 @@ body {
 
 .form {
     border: 2px solid var(--highlight);
-    border-radius: 5px;
     padding: 1rem;
     background: var(--contrast);
     color: var(--primary-color);
@@ -32,7 +31,6 @@ form:has(input:required) label::after {
 
 .primary-btn {
     border: 1px solid var(--highlight);
-    border-radius: 5px;
     color: var(--primary-color);
     background-color: var(--primary-bg-color)
 }
