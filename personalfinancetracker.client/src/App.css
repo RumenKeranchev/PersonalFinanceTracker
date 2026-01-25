@@ -3,7 +3,8 @@
     --secondary-bg-color: #450b2f;
     --primary-color: #FB8B24;
     --secondary-color: #E36414;
-    --highlight: #FB8B24;
+    --highlight: #3BB;
+    --border-color: #FB8B24;
     --contrast: #0F4C5C;
 }
 
@@ -13,35 +14,86 @@ html, body, #root {
     margin: 0;
 }
 
-body {
-    background: var(--primary-bg-color);
-}
-
 .form {
-    border: 2px solid var(--highlight);
+    border: none;
+    border-radius: 12px;
     padding: 1rem;
-    background: var(--contrast);
+    background: linear-gradient( 180deg, var(--secondary-bg-color), color-mix(in srgb, var(--highlight) 40%, var(--secondary-bg-color)) );
     color: var(--primary-color);
-    box-shadow: 1px 1px 10px 1px rgba(0,0,0, 0.75);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-form:has(input:required) label::after {
+label:has(+ input:required)::after {
     content: " *";
     color: lime;
 }
 
 .primary-btn {
-    border: 1px solid var(--highlight);
     color: var(--primary-color);
-    background-color: var(--primary-bg-color)
+    background-color: var(--contrast);
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.15s ease;
 }
 
     .primary-btn:hover {
-        border-color: var(--highlight);
-        filter: brightness(90%);
+        border-color: var(--border-color);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
     }
 
-.nav {
+    .primary-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+.secondary-bg-color {
+    background-color: var(--secondary-bg-color);
+}
+
+.sidebar {
+    background: linear-gradient( 180deg, var(--secondary-bg-color), color-mix(in srgb, var(--highlight) 40%, var(--secondary-bg-color)) );
+    color: var(--primary-color);
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding-top: 2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.6rem;
+}
+
+    .sidebar button {
+        padding: 0.75rem;
+    }
+
+
+.top-bar {
     background-color: var(--secondary-bg-color);
     color: var(--primary-color);
+    display: flex;
+    gap: 15px;
+    justify-content: end;
+    align-items: center;
+    padding-right: 20px;
+    height: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+}
+
+    .top-bar h3 {
+        flex-grow: 1;
+        padding-left: 20px;
+    }
+
+.invalid-feedback {
+    background: rgba(0, 0, 0, 0.35);
+    border-left: 3px solid var(--highlight);
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.25rem;
+    border-radius: 5px;
 }
