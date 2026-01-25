@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Form } from "react-bootstrap";
 import type { HttpValidationProblemDetails, ProblemDetails, RegisterDto } from "../../api";
 import { useToast } from "../Shared/ToastContext";
 
@@ -39,55 +38,67 @@ const Register = () => {
     };
 
     return (
-        <Form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
-            <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
+        <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
+            <div className="mb-3">
+                <label>Email address</label>
+                <input
                     type="email"
                     placeholder="Enter email"
                     required
                     onChange={(e) => setModel(prev => ({ ...prev, email: e.target?.value }))}
                     value={model?.email}
-                    isInvalid={!!errors?.Email}
+                    aria-invalid={!!errors?.Email}
                 />
-                <Form.Control.Feedback type="invalid">
-                    {errors?.Email?.map((e: string, i: number) => <div key={i}>{e}</div>)}
-                </Form.Control.Feedback>
-            </Form.Group>
+                {
+                    errors?.Email && (
+                        <div className="validation-error">
+                            {errors.Email.map(e => <div key={e}>{e}</div>)}
+                        </div>
+                    )
+                }
+            </div>
 
-            <Form.Group className="mb-3" controlId="formUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
+            <div className="mb-3">
+                <label>Username</label>
+                <input
                     type="text"
                     placeholder="Enter username"
                     onChange={(e) => setModel(prev => ({ ...prev, username: e.target?.value }))}
                     value={model?.username}
-                    isInvalid={!!errors?.Username}
+                    aria-invalid={!!errors?.Username}
                 />
-                <Form.Control.Feedback type="invalid">
-                    {errors?.Username?.map((e: string, i: number) => <div key={i}>{e}</div>)}
-                </Form.Control.Feedback>
-            </Form.Group>
+                {
+                    errors?.Username && (
+                        <div className="validation-error">
+                            {errors.Username.map(e => <div key={e}>{e}</div>)}
+                        </div>
+                    )
+                }
+            </div>
 
-            <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
+            <div className="mb-3">
+                <label>Password</label>
+                <input
                     type="password"
                     placeholder="Password"
                     required
                     onChange={(e) => setModel(prev => ({ ...prev, password: e.target?.value }))}
                     value={model?.password}
-                    isInvalid={!!errors?.Password}
+                    aria-invalid={!!errors?.Password}
                 />
-                <Form.Control.Feedback type="invalid">
-                    {errors?.Password?.map((e: string, i: number) => <div key={i}>{e}</div>)}
-                </Form.Control.Feedback>
-            </Form.Group>
+                {
+                    errors?.Password && (
+                        <div className="validation-error">
+                            {errors.Password.map(e => <div key={e}>{e}</div>)}
+                        </div>
+                    )
+                }
+            </div>
 
             <button type="submit" className="primary-btn">
                 Register
             </button>
-        </Form>
+        </form>
     );
 }
 

@@ -1,11 +1,14 @@
 ﻿:root {
     --primary-bg-color: #5F0F40;
     --secondary-bg-color: #450b2f;
-    --primary-color: #FB8B24;
+    --tertiary-bg-color: #120f2e;
+    --primary-color: #d9c100;
     --secondary-color: #E36414;
+    --error-color: #ff4d4f;
     --highlight: #3BB;
-    --border-color: #FB8B24;
     --contrast: #0F4C5C;
+    --card-gradient: linear-gradient( 180deg, var(--secondary-bg-color), color-mix(in srgb, var(--highlight) 40%, var(--secondary-bg-color)) );
+    --hover-glow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 8px color-mix(in srgb, var(--primary-color) 40%, transparent);
 }
 
 html, body, #root {
@@ -18,30 +21,60 @@ html, body, #root {
     border: none;
     border-radius: 12px;
     padding: 1rem;
-    background: linear-gradient( 180deg, var(--secondary-bg-color), color-mix(in srgb, var(--highlight) 40%, var(--secondary-bg-color)) );
+    background: var(--card-gradient);
     color: var(--primary-color);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-label:has(+ input:required)::after {
-    content: " *";
-    color: lime;
+input {
+    width: 100%;
+    background: var(--tertiary-bg-color);
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--highlight);
+    color: var(--highlight);
+    letter-spacing: 0.3px;
+    border-bottom-right-radius: 12px;
+    transition: border-color 0.15s ease, box-shadow 0.2s ease;
 }
+
+    input:focus-visible {
+        outline: none;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        box-shadow: var(--hover-glow);
+    }
+
+    input[aria-invalid="true"] {
+        border-color: var(--error-color);
+        box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.25);
+    }
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+    label:has(+ input:required)::after {
+        content: " *";
+        color: var(--highlight);
+    }
 
 .primary-btn {
-    color: var(--primary-color);
-    background-color: var(--contrast);
-    border-radius: 8px;
+    color: var(--highlight);
+    background: var(--tertiary-bg-color);
+    border-bottom-right-radius: 12px;
     padding: 0.5rem 1.25rem;
     font-weight: 600;
     letter-spacing: 0.3px;
     transition: all 0.15s ease;
+    border: 1px solid var(--highlight);
 }
 
     .primary-btn:hover {
-        border-color: var(--border-color);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        box-shadow: var(--hover-glow);
     }
 
     .primary-btn:active {
@@ -54,7 +87,7 @@ label:has(+ input:required)::after {
 }
 
 .sidebar {
-    background: linear-gradient( 180deg, var(--secondary-bg-color), color-mix(in srgb, var(--highlight) 40%, var(--secondary-bg-color)) );
+    background: var(--card-gradient);
     color: var(--primary-color);
     width: 300px;
     text-align: center;
@@ -90,10 +123,11 @@ label:has(+ input:required)::after {
         padding-left: 20px;
     }
 
-.invalid-feedback {
+.validation-error {
     background: rgba(0, 0, 0, 0.35);
     border-left: 3px solid var(--highlight);
     padding: 0.25rem 0.5rem;
-    margin-top: 0.25rem;
+    margin-top: 0.35rem;
     border-radius: 5px;
+    color: var(--error-color);
 }
