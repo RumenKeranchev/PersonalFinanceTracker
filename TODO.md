@@ -24,3 +24,4 @@
 14. Add a desktop client with MAUI and/or Blazor.
 15. Use logging with open telemetry.
 16. Implement health checks for the application.
+17. Add unauthenticated layout with basic showcase of the application.
