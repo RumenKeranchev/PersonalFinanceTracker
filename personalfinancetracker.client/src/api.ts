@@ -108,6 +108,7 @@ export interface AuthResultDto {
     tokenExpiration: Date;
     refreshToken: string;
     refreshTokenExpiration: Date;
+    username: string;
 }
 
 export interface RegisterDto {

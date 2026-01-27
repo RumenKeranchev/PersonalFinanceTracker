@@ -79,7 +79,7 @@
 
             _logger.LogInformation("User [{Email}] registered successfully.", model.Email);
 
-            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt);
+            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt, user.UserName ?? user.Email!);
         }
 
         public async Task<Result<AuthResultDto>> LoginAsync(LoginDto model)
@@ -115,7 +115,7 @@
 
             _logger.LogInformation("User [{Email}] logged in successfully.", model.Email);
 
-            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt);
+            return new AuthResultDto(token, expires, refreshToken, refreshTokenEntity.ExpiresAt, user.UserName ?? user.Email!);
         }
 
         public async Task<Result<AuthResultDto>> RefreshAsync(string refreshToken)
@@ -144,7 +144,7 @@
 
             await _db.SaveChangesAsync();
 
-            return new AuthResultDto(newAccessToken, expires, newRefreshToken, refreshTokenEntity.ExpiresAt);
+            return new AuthResultDto(newAccessToken, expires, newRefreshToken, refreshTokenEntity.ExpiresAt, token.User.UserName ?? token.User.Email!);
         }
 
         public async Task<Result> LogoutAsync(Guid userId, string token)

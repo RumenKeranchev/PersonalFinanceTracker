@@ -1,11 +1,15 @@
 import { useState } from "react";
-import type { HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
+import { useNavigate } from "react-router";
+import type { AuthResultDto, HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
+import { useAuth } from "../Shared/AuthContext";
 import { useToast } from "../Shared/ToastContext";
 
 const Login = () => {
     const [model, setModel] = useState<LoginDto>({ email: "", password: "" });
     const [errors, setErrors] = useState<{ [key: string]: string[] }>();
     const { showToast } = useToast();
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -34,6 +38,11 @@ const Login = () => {
             }
 
             showToast({ message: problem.detail ?? problem.title ?? "Unknown error", variant: "danger" });
+        } else {
+            const dto = await response.json() as AuthResultDto;
+            login({ username: dto.username });
+
+            navigate("/", { replace: true });
         }
     };
 

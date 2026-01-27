@@ -5,6 +5,7 @@
     using Application.Services;
     using Asp.Versioning.Builder;
     using Infrastructure.Requests;
+    using System.Net;
 
     public static class UsersEndpointBuilder
     {
@@ -52,7 +53,7 @@
                     {
                         UpdateCookies(ctx, result);
 
-                        return Results.NoContent();
+                        return Results.Ok(result.Value! with { RefreshToken = string.Empty, Token = string.Empty, RefreshTokenExpiration = default, TokenExpiration = default });
                     }
 
                     return result.ToIResult();
@@ -68,7 +69,7 @@
                     {
                         UpdateCookies(ctx, result);
 
-                        return Results.NoContent();
+                        return Results.Ok(result.Value! with { RefreshToken = string.Empty, Token = string.Empty, RefreshTokenExpiration = default, TokenExpiration = default });
                     }
 
                     return result.ToIResult();
@@ -91,7 +92,7 @@
                     {
                         UpdateCookies(ctx, result);
 
-                        return Results.NoContent();
+                        return Results.Ok(result.Value! with { RefreshToken = string.Empty, Token = string.Empty, RefreshTokenExpiration = default, TokenExpiration = default });
                     }
 
                     return result.ToIResult();
@@ -163,6 +164,6 @@
             }
 
             return token;
-        }    
+        }
     }
 }
