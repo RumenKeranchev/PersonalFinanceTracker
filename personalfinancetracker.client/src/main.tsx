@@ -23,8 +23,8 @@ const RequireAuth = () => {
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ToastProvider>
-            <AuthProvider>
-                <BrowserRouter>
+            <BrowserRouter>
+                <AuthProvider>
                     <Routes>
 
                         <Route element={<PublicLayout />}>
@@ -44,8 +44,8 @@ createRoot(document.getElementById('root')!).render(
                         </Route>
 
                     </Routes>
-                </BrowserRouter>
-            </AuthProvider>
+                </AuthProvider>
+            </BrowserRouter>
         </ToastProvider>
     </StrictMode>,
 )

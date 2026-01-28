@@ -5,6 +5,8 @@
     using Application.Services;
     using Asp.Versioning.Builder;
     using Infrastructure.Requests;
+    using Microsoft.AspNetCore.Identity;
+    using PersonalFinanceTracker.Server.Modules.Users.Domain;
     using System.Net;
 
     public static class UsersEndpointBuilder
@@ -138,6 +140,15 @@
                     p.RequireAuthenticatedUser();
                     p.RequireRole(Roles.Admin);
                 });
+
+            group
+                .MapGet("/session", async (HttpContext ctx, AuthService service) =>
+                {
+                    string? username = await service.GetUserName(Guid.Parse(ctx.User?.Identity?.Name ?? ""));
+
+                    return Results.Ok(new User(username));
+                })
+                .RequireAuthorization(p => p.RequireAuthenticatedUser());
 
             return builder;
         }

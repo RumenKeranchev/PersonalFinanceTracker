@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
@@ -71,6 +72,20 @@ try
                 ValidAudience = aud,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             };
+
+            opt.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    // If the token is stored as an HttpOnly cookie named "accessToken", pick it up
+                    var cookieToken = context.Request.Cookies["accessToken"];
+                    if (!string.IsNullOrEmpty(cookieToken))
+                    {
+                        context.Token = cookieToken;
+                    }
+                    return Task.CompletedTask;
+                }
+            };
         });
 
     builder.Services.AddAuthorization();
@@ -131,7 +146,7 @@ try
     app.UseCors("DevCors");
     app.UseOpenApi();
 
-    await Seeder.SeedAsync(app.Services);
+    await Seeder.SeedAsync(app.Services);    
 
     app.UseAuthentication();
     app.UseAuthorization();

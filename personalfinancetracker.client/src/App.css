@@ -74,6 +74,7 @@ label {
     letter-spacing: 0.3px;
     transition: all 0.15s ease;
     border: 1px solid var(--highlight);
+    text-align: start;
 }
 
     .primary-btn:hover, .primary-btn[aria-current="page"] {
@@ -95,11 +96,12 @@ label {
 .sidebar {
     background: var(--card-gradient);
     color: var(--primary-color);
-    width: 300px;
+    width: 250px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: center;
     gap: 1rem;
     padding-top: 2rem;
     padding-left: 0.5rem;

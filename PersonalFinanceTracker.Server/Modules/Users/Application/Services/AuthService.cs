@@ -170,5 +170,11 @@
 
             return Result.Success();
         }
+
+        internal Task<string?> GetUserName(Guid id)
+            => _db.Users
+            .Where(u => u.Id == id)
+            .Select(u => u.UserName)
+            .FirstOrDefaultAsync();
     }
 }

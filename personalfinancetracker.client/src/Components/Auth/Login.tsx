@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import type { AuthResultDto, HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
 import { useAuth } from "../Shared/AuthContext";
 import { useToast } from "../Shared/ToastContext";
@@ -9,7 +8,6 @@ const Login = () => {
     const [errors, setErrors] = useState<{ [key: string]: string[] }>();
     const { showToast } = useToast();
     const { login } = useAuth();
-    const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -41,8 +39,6 @@ const Login = () => {
         } else {
             const dto = await response.json() as AuthResultDto;
             login({ username: dto.username });
-
-            navigate("/", { replace: true });
         }
     };
 
