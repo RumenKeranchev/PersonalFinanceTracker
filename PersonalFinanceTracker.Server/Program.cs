@@ -2,7 +2,6 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
@@ -78,11 +77,12 @@ try
                 OnMessageReceived = context =>
                 {
                     // If the token is stored as an HttpOnly cookie named "accessToken", pick it up
-                    var cookieToken = context.Request.Cookies["accessToken"];
+                    string? cookieToken = context.Request.Cookies["accessToken"];
                     if (!string.IsNullOrEmpty(cookieToken))
                     {
                         context.Token = cookieToken;
                     }
+
                     return Task.CompletedTask;
                 }
             };
@@ -137,6 +137,20 @@ try
 
     var app = builder.Build();
 
+    bool needsSeed = await Seeder.SeedUsersAsync(app.Services);
+
+    if (needsSeed)
+    {        
+        var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>();
+        Seeder.FakeData();
+
+        db.Categories.AddRange(Seeder.Categories);
+        db.Transactions.AddRange(Seeder.Transactions);
+        db.Budgets.AddRange(Seeder.Budgets);
+
+        await db.SaveChangesAsync();
+    }
+
     #region Global exception handling
 
     app.UseExceptionHandler();
@@ -145,9 +159,6 @@ try
 
     app.UseCors("DevCors");
     app.UseOpenApi();
-
-    await Seeder.SeedAsync(app.Services);    
-
     app.UseAuthentication();
     app.UseAuthorization();
 

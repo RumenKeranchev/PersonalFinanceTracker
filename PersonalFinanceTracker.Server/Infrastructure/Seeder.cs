@@ -1,5 +1,6 @@
 ﻿namespace PersonalFinanceTracker.Server.Infrastructure
 {
+    using Bogus;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Modules.Finance.Domain;
@@ -8,7 +9,13 @@
 
     public static class Seeder
     {
-        public static async Task SeedAsync(IServiceProvider services)
+        public static List<Category> Categories = [];
+        public static List<Transaction> Transactions = [];
+        public static List<Budget> Budgets = [];
+        private static List<AppUser> Users = [];
+        private const string AdminEmail = "test@test.com";
+
+        public static async Task<bool> SeedUsersAsync(IServiceProvider services)
         {
             using var scope = services.CreateScope();
 
@@ -22,17 +29,9 @@
 
             if (usersCount > 0)
             {
-                return;
+                return false;
             }
 
-            await SeedRolesAsync(roleManager);
-            await SeedUsersAsync(userManager, "test@test.com", "Test123_", Roles.Admin);
-            await SeedUsersAsync(userManager, "user@whatever.com", "User1!", Roles.User);
-            await SeedFinanceAsync(db, userManager);
-        }
-
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole<Guid>> roleManager)
-        {
             string[] roles = [Roles.Admin, Roles.User];
 
             foreach (string? role in roles)
@@ -42,44 +41,79 @@
                     await roleManager.CreateAsync(new IdentityRole<Guid>(role));
                 }
             }
-        }
 
-        private static async Task SeedUsersAsync(UserManager<AppUser> userManager, string email, string password, string role)
-        {
-            var user = await userManager.FindByEmailAsync(email);
-            if (user != null)
+            var admin = new AppUser(AdminEmail, "admin");
+            var user = new AppUser("user@whatever.com", "user");
+
+            var result = await userManager.CreateAsync(admin, "Test123_");
+            await userManager.AddToRoleAsync(admin, Roles.Admin);
+
+            result = await userManager.CreateAsync(user, "User1!");
+            await userManager.AddToRoleAsync(user, Roles.User);
+
+            var usersFaker = new Faker<AppUser>()
+                .RuleFor(u => u.UserName, (f, u) => f.Internet.UserName())
+                .RuleFor(u => u.Email, (f, u) => f.Internet.Email(u.UserName))
+                .RuleFor(u => u.EmailConfirmed, f => true);
+
+            Users = usersFaker.Generate(10);
+
+            foreach (var fake in Users)
             {
-                return;
+                result = await userManager.CreateAsync(fake, "P@ssw0rd!");
+                await userManager.AddToRoleAsync(fake, Roles.User);
             }
 
-            user = new AppUser
-            {
-                UserName = email,
-                Email = email,
-                EmailConfirmed = true
-            };
-
-            var result = await userManager.CreateAsync(user, password);
-            if (!result.Succeeded)
-            {
-                throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
-            }
-
-            await userManager.AddToRoleAsync(user, role);
+            return true;
         }
 
-        private static async Task SeedFinanceAsync(AppDbContext db, UserManager<AppUser> userManager)
+        public static void FakeData()
         {
-            var user = await userManager.FindByEmailAsync("user@whatever.com");
+            List<string> categoryNames = ["Food", "Transport", "Entertainment", "Utilities", "Health", "Education", "Shopping", "Travel", "Savings", "Miscellaneous"];
+            List<string> budgetNames = ["Monthly Budget", "Vacation Fund", "Emergency Fund", "Gadget Savings", "Holiday Shopping", "Car Maintenance", "Home Improvement", "Education Fund", "Fitness Budget", "Dining Out"];
+            int budgetIndex = 0;
+            var userIds = Users.Where(u => !u.Email!.Equals(AdminEmail)).Select(u => u.Id).ToList();
+            var rand = new Random();
 
-            db.Budgets.Add(new Budget(user!.Id, 2000, "Monthly Budget", DateTime.UtcNow, DateTime.UtcNow.AddMonths(1)));
+            foreach (string name in categoryNames)
+            {
+                Categories.Add(new Category(name, $"#{rand.Next(0x1000000):X6}"));
+            }
 
-            db.Categories.Add(new Category("Food", "#bf9d02"));
-            db.Categories.Add(new Category("Food", "#4707b5"));
+            var transactionFaker = new Faker<Transaction>()
+                .CustomInstantiator(t => new(
+                    t.PickRandom(userIds),
+                    t.Finance.Amount(-7897, 250_000),
+                    t.PickRandom<TransactionType>(),
+                    t.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-1)),
+                    t.Lorem.Sentence(),
+                    t.PickRandom(Categories).Id
+                    ));
 
-            db.Transactions.Add(new Transaction(user!.Id, 50, TransactionType.Expense));
+            var budgetFaker = new Faker<Budget>()
+                .CustomInstantiator(b => new(
+                    b.PickRandom(userIds),
+                    b.Finance.Amount(500, 80_000),
+                    budgetNames[budgetIndex++],
+                    b.Date.Between(DateTime.UtcNow.AddMonths(-3), DateTime.UtcNow.AddDays(-3)),
+                    b.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-2))
+                    ))
+                .RuleFor(b => b.Categories, b => [b.PickRandom(Categories)])
+                .RuleFor(b => b.Transactions, (f, b) =>
+                {
+                    var transactions = transactionFaker.GenerateBetween(1, 10);
 
-            await db.SaveChangesAsync();
+                    transactions.ForEach(b.Transactions.Add);
+                    Transactions.AddRange(transactions);
+
+                    return b.Transactions;
+                });
+
+            var transactions = transactionFaker.Generate(100);
+            Transactions.AddRange(transactions);
+
+            var budgets = budgetFaker.Generate(budgetNames.Count);
+            Budgets.AddRange(budgets);
         }
     }
 }
