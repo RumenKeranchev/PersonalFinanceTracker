@@ -140,7 +140,7 @@ try
     bool needsSeed = await Seeder.SeedUsersAsync(app.Services);
 
     if (needsSeed)
-    {        
+    {
         var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<AppDbContext>();
         Seeder.FakeData();
 

@@ -6,12 +6,10 @@
     using Asp.Versioning.Builder;
     using Infrastructure.Requests;
     using Microsoft.AspNetCore.Identity;
-    using PersonalFinanceTracker.Server.Modules.Users.Domain;
-    using System.Net;
 
     public static class UsersEndpointBuilder
     {
-        static CookieOptions CookieOptions(DateTime expires) => new()
+        private static CookieOptions CookieOptions(DateTime expires) => new()
         {
             HttpOnly = true,
             Expires = expires,
@@ -19,8 +17,8 @@
             Secure = true
         };
 
-        const string accessTokenCookie = "accessToken";
-        const string refreshTokenCookie = "refreshToken";
+        private const string accessTokenCookie = "accessToken";
+        private const string refreshTokenCookie = "refreshToken";
 
         public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder, ApiVersionSet versionSet)
         {

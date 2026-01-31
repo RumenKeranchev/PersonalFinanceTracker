@@ -19,7 +19,7 @@
         }
 
         public decimal Amount { get; init; }
-        public TransactionType Type { get; init; }        
+        public TransactionType Type { get; init; }
         public DateTime Date { get; init; }
         public string? Description { get; set; }
 
