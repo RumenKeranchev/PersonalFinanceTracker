@@ -125,3 +125,17 @@ export interface LoginDto {
 export interface RefreshTokenDto {
     token: string;
 }
+
+export interface PointDashboard {
+    datasets: DashboardPointDataset[];
+}
+
+export interface DashboardPointDataset {
+    label: string;
+    data: DatasetPoint[];
+}
+
+export interface DatasetPoint {
+    x: any;
+    y: any;
+}

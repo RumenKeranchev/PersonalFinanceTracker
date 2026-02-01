@@ -132,6 +132,7 @@ try
     builder.Services.AddScoped<ICurrentUser, CurrentUser>();
     builder.Services.RegisterFinanceServices();
     builder.Services.RegisterUsersServices();
+    builder.Services.RegisterReportingServices();
 
     #endregion
 

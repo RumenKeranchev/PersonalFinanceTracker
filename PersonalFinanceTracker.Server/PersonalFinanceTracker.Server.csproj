@@ -61,7 +61,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Modules\Reporting\Application\" />
     <Folder Include="Modules\Reporting\Domain\" />
     <Folder Include="Modules\Reporting\Persistence\" />
     <Folder Include="Modules\Users\Application\Validators\Users\" />
@@ -73,8 +72,8 @@
     <Using Include="PersonalFinanceTracker.Server.Infrastructure.Shared" />
   </ItemGroup>
 
-  <!--<Target Name="NSwag" AfterTargets="Build">
+  <Target Name="NSwag" AfterTargets="Build">
     <Exec Command="nswag run nswag.json" />
-  </Target>-->
+  </Target>
 
 </Project>

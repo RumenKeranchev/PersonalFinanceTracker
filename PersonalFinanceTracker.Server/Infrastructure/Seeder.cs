@@ -85,7 +85,7 @@
                     t.PickRandom(userIds),
                     t.Finance.Amount(-7897, 250_000),
                     t.PickRandom<TransactionType>(),
-                    t.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-1)),
+                    t.Date.Between(DateTime.UtcNow.AddYears(-1), DateTime.UtcNow.AddDays(-1)),
                     t.Lorem.Sentence(),
                     t.PickRandom(Categories).Id
                     ));
@@ -95,7 +95,7 @@
                     b.PickRandom(userIds),
                     b.Finance.Amount(500, 80_000),
                     budgetNames[budgetIndex++],
-                    b.Date.Between(DateTime.UtcNow.AddMonths(-3), DateTime.UtcNow.AddDays(-3)),
+                    b.Date.Between(DateTime.UtcNow.AddMonths(-10), DateTime.UtcNow.AddDays(-3)),
                     b.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-2))
                     ))
                 .RuleFor(b => b.Categories, b => [b.PickRandom(Categories)])
@@ -109,7 +109,7 @@
                     return b.Transactions;
                 });
 
-            var transactions = transactionFaker.Generate(100);
+            var transactions = transactionFaker.Generate(1000);
             Transactions.AddRange(transactions);
 
             var budgets = budgetFaker.Generate(budgetNames.Count);

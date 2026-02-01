@@ -23,3 +23,4 @@ Add Status (Pending, Completed, Cancelled) to transactions.
 15. Use logging with open telemetry.
 16. Implement health checks for the application.
 17. Add unauthenticated layout with basic showcase of the application.
+18. Add axios

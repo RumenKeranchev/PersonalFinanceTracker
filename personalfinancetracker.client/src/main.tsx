@@ -9,6 +9,7 @@ import { ToastProvider } from './Components/Shared/ToastContext.tsx'
 import './index.css'
 import PublicLayout from './Components/PublicLayout.tsx'
 import { Navigate } from 'react-router'
+import Home from './Components/Dashboard/Home.tsx'
 
 const RequireAuth = () => {
     const { isAuthencticated } = useAuth();
@@ -35,7 +36,7 @@ createRoot(document.getElementById('root')!).render(
 
                         <Route element={<RequireAuth />}>
                             <Route element={<AppLayout />} >
-                                <Route index element={<div>Dashboard</div>} />
+                                <Route index element={<Home />} />
                                 <Route path="transactions" element={<div>Transactions</div>} />
                                 <Route path="budgets" element={<div>Budgets</div>} />
                                 <Route path="categories" element={<div>Categories</div>} />
