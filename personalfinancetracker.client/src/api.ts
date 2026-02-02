@@ -126,16 +126,12 @@ export interface RefreshTokenDto {
     token: string;
 }
 
-export interface PointDashboard {
-    datasets: DashboardPointDataset[];
+export interface Dashboard {
+    labels: string[];
+    datasets: DashboardDataset[];
 }
 
-export interface DashboardPointDataset {
+export interface DashboardDataset {
     label: string;
-    data: DatasetPoint[];
-}
-
-export interface DatasetPoint {
-    x: any;
-    y: any;
+    data: number[];
 }

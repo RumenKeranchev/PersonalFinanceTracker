@@ -2,7 +2,7 @@ import { CategoryScale, Chart, Legend, LinearScale, LineElement, PointElement, T
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
-import type { PointDashboard } from "../../api";
+import type { Dashboard } from "../../api";
 
 Chart.register(
     CategoryScale,
@@ -40,9 +40,10 @@ const Home = () => {
                 });
 
                 if (response.ok) {
-                    const respData = await response.json() as PointDashboard;
+                    const respData = await response.json() as Dashboard;
 
                     setData({
+                        labels: respData.labels,
                         datasets: [
                             {
                                 label: respData.datasets[0].label,

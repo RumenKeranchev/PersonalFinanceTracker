@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router'
@@ -15,11 +16,21 @@ const RequireAuth = () => {
     const { isAuthencticated } = useAuth();
 
     if (!isAuthencticated) {
-        return <Navigate to="/welcome" replace />
+        return <Navigate to="/" replace />;
     }
 
     return <Outlet />;
-}
+};
+
+const RedirectAuth = () => {
+    const { isAuthencticated } = useAuth();
+
+    if (isAuthencticated) {
+        return <Navigate to="/dashboard" replace />;
+    }
+
+    return <Outlet />;
+};
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -28,15 +39,17 @@ createRoot(document.getElementById('root')!).render(
                 <AuthProvider>
                     <Routes>
 
-                        <Route element={<PublicLayout />}>
-                            <Route path="welcome" element={<h2 className="primary-color">Hello!</h2>} />
-                            <Route path="login" element={<Login />} />
-                            <Route path="register" element={<Register />} />
+                        <Route element={<RedirectAuth />}>
+                            <Route element={<PublicLayout />}>
+                                <Route index element={<h2 className="primary-color">Hello!</h2>} />
+                                <Route path="login" element={<Login />} />
+                                <Route path="register" element={<Register />} />
+                            </Route>
                         </Route>
 
                         <Route element={<RequireAuth />}>
                             <Route element={<AppLayout />} >
-                                <Route index element={<Home />} />
+                                <Route path="dashboard" element={<Home />} />
                                 <Route path="transactions" element={<div>Transactions</div>} />
                                 <Route path="budgets" element={<div>Budgets</div>} />
                                 <Route path="categories" element={<div>Categories</div>} />

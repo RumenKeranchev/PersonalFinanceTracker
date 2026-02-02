@@ -20,7 +20,7 @@
                     var result = await service.GetDashboardAsync();
                     return result.ToIResult();
                 })
-                .Produces<PointDashboard>();
+                .Produces<Dashboard>();
 
             return builder;
         }

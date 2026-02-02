@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const login = (user: AuthUser) => {
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
-        navigate("/", { replace: true });
+        navigate("/dashboard", { replace: true });
     }
 
     const logout = () => {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 const user = await res.json();
                 login(user);
                 localStorage.setItem("user", JSON.stringify(user));
-                navigate("/", { replace: true });
+                navigate("/dashboard", { replace: true });
             } catch {
                 logout();
                 localStorage.removeItem("user");

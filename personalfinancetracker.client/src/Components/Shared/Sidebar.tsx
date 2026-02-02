@@ -5,7 +5,7 @@ import { NavLink } from "react-router";
 const Sidebar = () => {
     return (
         <aside className="sidebar">
-            <NavLink to="/" className={({ isActive }) => `${isActive ? "active" : ""} primary-btn w-100`}>
+            <NavLink to="dashboard" className={({ isActive }) => `${isActive ? "active" : ""} primary-btn w-100`}>
                 <FontAwesomeIcon icon={faTv} className="" /> Dashboard
             </NavLink>
             <NavLink to="transactions" className={({ isActive }) => `${isActive ? "active" : ""} primary-btn w-100`}>

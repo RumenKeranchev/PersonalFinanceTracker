@@ -17,7 +17,7 @@
             _user = user;
         }
 
-        public async Task<Result<PointDashboard>> GetDashboardAsync()
+        public async Task<Result<Dashboard>> GetDashboardAsync()
         {
             var transactions = await _dbContext.Transactions
                 .Where(t => t.UserId == _user.Id)
@@ -31,39 +31,31 @@
 
             var labels = transactions
                 .OrderBy(t => t.Date)
-                .Select(t => t.Date.ToString("MMMM yyyy"))
+                .Select(t => CultureInfo.InvariantCulture.TextInfo.ToTitleCase(t.Date.ToString("MMMM yyyy")))
                 .Distinct()
                 .ToList();
 
-            var incomes = labels
-                .Select(l => new DatasetPoint
-                (
-                    CultureInfo.InvariantCulture.TextInfo.ToTitleCase(l),
+            var incomes = new DashboardDataset("Income",
+                labels
+                .Select(l =>
                     transactions
-                        .Where(t => t.Type == TransactionType.Income && t.Date.ToString("MMM yyyy") == l)
+                        .Where(t => t.Type == TransactionType.Income && t.Date.ToString("MMM yyyy").Equals(l, StringComparison.InvariantCultureIgnoreCase))
                         .Select(t => t.Amount)
                         .DefaultIfEmpty()
-                        .Sum()
-                ))
-                .ToList();
+                        .Sum())
+                .ToList());
 
-            var incomeDashboard = new DashboardPointDataset("Income", incomes);
-
-            var expenses = labels
-                 .Select(l => new DatasetPoint
-                 (
-                     CultureInfo.InvariantCulture.TextInfo.ToTitleCase(l),
+            var expenses = new DashboardDataset("Expenses",
+                 labels
+                 .Select(l =>
                      transactions
-                         .Where(t => t.Type == TransactionType.Expense && t.Date.ToString("MMM yyyy") == l)
+                         .Where(t => t.Type == TransactionType.Expense && t.Date.ToString("MMM yyyy").Equals(l, StringComparison.InvariantCultureIgnoreCase))
                          .Select(t => t.Amount)
                          .DefaultIfEmpty()
-                         .Sum()
-                 ))
-                 .ToList();
+                         .Sum())
+                 .ToList());
 
-            var expensesDashboard = new DashboardPointDataset("Expense", expenses);
-
-            return new PointDashboard([incomeDashboard, expensesDashboard]);
+            return new Dashboard(labels, [incomes, expenses]);
         }
     }
 }
