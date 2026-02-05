@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { HttpValidationProblemDetails, ProblemDetails, RegisterDto } from "../../api";
 import { useToast } from "../Shared/ToastContext";
+import axios from "axios";
 
 const Register = () => {
     const [model, setModel] = useState<RegisterDto>({ email: "", password: "", username: "" });
@@ -11,19 +12,10 @@ const Register = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        const response = await fetch("https://localhost:7153/api/auth/register", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Api-Version": "1",
-                "Client-Type": "browser",
-            },
-            body: JSON.stringify(model),
-            credentials: "include",
-        })
+        const response = await axios.post("/auth/register", model);
 
-        if (!response.ok) {
-            const problem = await response.json() as ProblemDetails;
+        if (response.status !== 200) {
+            const problem = response.data as ProblemDetails;
 
             if ("errors" in problem) {
                 const validation = problem as HttpValidationProblemDetails;

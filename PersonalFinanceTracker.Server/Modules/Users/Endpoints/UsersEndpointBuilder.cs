@@ -22,8 +22,7 @@
 
         public static IEndpointRouteBuilder MapUsersModule(this IEndpointRouteBuilder builder, ApiVersionSet versionSet)
         {
-
-            var group = builder.MapGroup("/api/auth")
+            var group = builder.MapGroup("/api/v{v:apiVersion}/auth")
                 .WithApiVersionSet(versionSet)
                 .AddEndpointFilter(async (ctx, next) =>
                 {
@@ -77,7 +76,7 @@
                 .Produces<AuthResultDto>();
 
             group
-                .MapPost("/refresh", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>
+                .MapPost("/refresh", async (AuthService service, HttpContext ctx, RefreshTokenDto? dto) =>
                 {
                     string? token = GetTokenFromRequest(ctx, dto);
 
@@ -100,7 +99,7 @@
                 .Produces<AuthResultDto>();
 
             group
-                .MapPost("/logout", async (AuthService service, HttpContext ctx, RefreshTokenDto dto) =>
+                .MapPost("/logout", async (AuthService service, HttpContext ctx, RefreshTokenDto? dto) =>
                 {
                     string? identityName = ctx.User?.Identity?.Name;
                     if (string.IsNullOrWhiteSpace(identityName) || !Guid.TryParse(identityName, out var id))
@@ -159,7 +158,7 @@
             ctx.Response.Cookies.Append(refreshTokenCookie, result.Value!.RefreshToken, CookieOptions(result.Value!.RefreshTokenExpiration));
         }
 
-        private static string? GetTokenFromRequest(HttpContext ctx, RefreshTokenDto dto)
+        private static string? GetTokenFromRequest(HttpContext ctx, RefreshTokenDto? dto)
         {
             string? token = null;
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import type { Dashboard } from "../../api";
+import axios from "axios";
 
 Chart.register(
     CategoryScale,
@@ -32,15 +33,10 @@ const Home = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('https://localhost:7153/api/v1/reporting/', {
-                    credentials: "include",
-                    headers: {
-                        "Client-Type": "browser",
-                    },
-                });
+                const response = await axios.get("/reporting");
 
-                if (response.ok) {
-                    const respData = await response.json() as Dashboard;
+                if (response.status === 200) {
+                    const respData = response.data as Dashboard;
 
                     setData({
                         labels: respData.labels,

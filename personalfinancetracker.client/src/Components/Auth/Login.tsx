@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { AuthResultDto, HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
 import { useAuth } from "../Shared/AuthContext";
 import { useToast } from "../Shared/ToastContext";
+import axios from "axios";
 
 const Login = () => {
     const [model, setModel] = useState<LoginDto>({ email: "", password: "" });
@@ -13,19 +14,10 @@ const Login = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        const response = await fetch("https://localhost:7153/api/auth/login", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Api-Version": "1",
-                "Client-Type": "browser",
-            },
-            credentials: "include",
-            body: JSON.stringify(model)
-        })
+        const response = await axios.post("/auth/login", model);
 
-        if (!response.ok) {
-            const problem = await response.json() as ProblemDetails;
+        if (response.status !== 200) {
+            const problem = response.data as ProblemDetails;
 
             if ("errors" in problem) {
                 const validation = problem as HttpValidationProblemDetails;
@@ -37,7 +29,7 @@ const Login = () => {
 
             showToast({ message: problem.detail ?? problem.title ?? "Unknown error", variant: "danger" });
         } else {
-            const dto = await response.json() as AuthResultDto;
+            const dto = response.data as AuthResultDto;
             login({ username: dto.username });
         }
     };

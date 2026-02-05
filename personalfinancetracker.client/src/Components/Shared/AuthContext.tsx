@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 
@@ -47,17 +48,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         async function bootstrapAuth() {
             try {
-                const res = await fetch("https://localhost:7153/api/auth/session", {
-                    credentials: "include",
-                    headers: {
-                        "Client-Type": "browser"
-                    }
-                });
+                const res = await axios.get("/auth/session");
 
-                if (!res.ok) throw new Error();
+                if (res.status !== 200) return;
 
-                const user = await res.json();
-                login(user);
+                login(res.data);
                 localStorage.setItem("user", JSON.stringify(user));
                 navigate("/dashboard", { replace: true });
             } catch {
@@ -69,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         bootstrapAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -4,22 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NavLink } from "react-router";
 import { useAuth } from "./AuthContext";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
+import axios from "axios";
 
 const TopBar = () => {
     const { isAuthencticated, logout } = useAuth();
 
     const handleLogout = async () => {
 
-        await fetch("https://localhost:7153/api/auth/logout", {
-            method: "post",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                "Client-Type": "browser",
-            },
-            body: JSON.stringify({ "token": "" })
-        });
-
+        await axios.post("/auth/logout");
         logout();
     }
 
