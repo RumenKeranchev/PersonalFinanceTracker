@@ -15,6 +15,7 @@
     "@fortawesome/free-regular-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.1",
+    "@types/tabulator-tables": "^6.3.1",
     "axios": "^1.13.4",
     "bootstrap": "^5.3.8",
     "chart.js": "^4.5.1",
@@ -22,7 +23,9 @@
     "react-bootstrap": "^2.10.10",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.0",
-    "react-router": "^7.13.0"
+    "react-router": "^7.13.0",
+    "sass": "^1.97.3",
+    "tabulator-tables": "^6.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

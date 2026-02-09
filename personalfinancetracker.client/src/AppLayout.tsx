@@ -1,7 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router';
-import './App.css';
+import '../styles/App.scss';
 import Sidebar from './Components/Shared/Sidebar';
 import TopBar from './Components/Shared/TopBar';
 

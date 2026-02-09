@@ -149,6 +149,7 @@
 
             return builder;
         }
+
         private static void UpdateCookies(HttpContext ctx, Result<AuthResultDto> result)
         {
             ctx.Response.Cookies.Delete(accessTokenCookie);
