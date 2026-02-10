@@ -18,6 +18,14 @@ html, body, #root {
     background-color: var(--tertiary-bg-color);
 }
 
+.primary-color {
+    color: var(--primary-color);
+}
+
+.secondary-bg-color {
+    background-color: var(--secondary-bg-color);
+}
+
 .form {
     border: none;
     border-radius: 12px;
@@ -36,32 +44,28 @@ input {
     letter-spacing: 0.3px;
     border-bottom-right-radius: 12px;
     transition: border-color 0.15s ease, box-shadow 0.2s ease;
-}
 
-    input:focus-visible {
+    &:focus-visible {
         outline: none;
         color: var(--primary-color);
         border-color: var(--primary-color);
         box-shadow: var(--hover-glow);
     }
 
-    input[aria-invalid="true"] {
+    &[aria-invalid="true"] {
         border-color: var(--error-color);
         box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.25);
     }
+}
 
 label {
     display: block;
     margin-bottom: 8px;
-}
 
-    label:has(+ input:required)::after {
+    &:has(+ input:required)::after {
         content: " *";
         color: var(--highlight);
     }
-
-.primary-color {
-    color: var(--primary-color);
 }
 
 .primary-btn {
@@ -75,22 +79,19 @@ label {
     transition: all 0.15s ease;
     border: 1px solid var(--highlight);
     text-align: start;
-}
+    text-decoration: none;
 
-    .primary-btn:hover, .primary-btn[aria-current="page"] {
+    &:hover, &[aria-current="page"] {
         border-color: var(--primary-color);
         color: var(--primary-color);
         transform: translateY(-1px);
         box-shadow: var(--hover-glow);
     }
 
-    .primary-btn:active {
+    &:active {
         transform: translateY(0);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
-
-.secondary-bg-color {
-    background-color: var(--secondary-bg-color);
 }
 
 .sidebar {
@@ -108,11 +109,6 @@ label {
     padding-right: 0.6rem;
 }
 
-    .sidebar button {
-        padding: 0.75rem;
-    }
-
-
 .top-bar {
     background-color: var(--secondary-bg-color);
     color: var(--primary-color);
@@ -124,12 +120,12 @@ label {
     height: 60px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(6px);
-}
 
-    .top-bar h3 {
+    & h3 {
         flex-grow: 1;
-        padding-left: 20px;
+        padding-left: 0.5rem;
     }
+}
 
 .validation-error {
     background: rgba(0, 0, 0, 0.35);

@@ -1,8 +1,10 @@
+import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import type { AuthResultDto, HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
 import { useAuth } from "../Shared/AuthContext";
 import { useToast } from "../Shared/ToastContext";
-import axios from "axios";
 
 const Login = () => {
     const [model, setModel] = useState<LoginDto>({ email: "", password: "" });
@@ -14,12 +16,16 @@ const Login = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        const response = await axios.post("/auth/login", model);
+        try {
+            const response = await axios.post("/auth/login", model);
 
-        if (response.status !== 200) {
-            const problem = response.data as ProblemDetails;
+            const dto = response.data as AuthResultDto;
+            login({ username: dto.username });
+        } catch (e) {
+            const error = e as AxiosError;
+            const problem = error.response?.data as ProblemDetails;
 
-            if ("errors" in problem) {
+            if (problem && "errors" in problem) {
                 const validation = problem as HttpValidationProblemDetails;
                 setErrors(validation.errors);
                 return;
@@ -27,10 +33,7 @@ const Login = () => {
                 setErrors({});
             }
 
-            showToast({ message: problem.detail ?? problem.title ?? "Unknown error", variant: "danger" });
-        } else {
-            const dto = response.data as AuthResultDto;
-            login({ username: dto.username });
+            showToast({ message: problem?.detail ?? problem?.title ?? "Unknown error", variant: "danger" });
         }
     };
 
@@ -75,7 +78,7 @@ const Login = () => {
             </div>
 
             <button type="submit" className="primary-btn">
-                Login
+                <FontAwesomeIcon icon={faArrowRightToBracket} /> Login
             </button>
         </form>
     );

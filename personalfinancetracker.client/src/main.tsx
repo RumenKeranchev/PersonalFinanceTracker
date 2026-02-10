@@ -54,7 +54,7 @@ axios.interceptors.response.use(
         const originalRequest = err.config;
 
         // Only handle 401 errors
-        if (err.response?.status === 401 && !originalRequest._retry) {
+        if (err.response?.status === 401 && !originalRequest._retry && !originalRequest.url?.includes("/auth/login")) {
             originalRequest._retry = true;
 
             if (isRefreshing) {

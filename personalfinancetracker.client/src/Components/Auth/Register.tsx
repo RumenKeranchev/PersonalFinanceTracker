@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { HttpValidationProblemDetails, ProblemDetails, RegisterDto } from "../../api";
 import { useToast } from "../Shared/ToastContext";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faIdBadge } from "@fortawesome/free-regular-svg-icons";
 
 const Register = () => {
     const [model, setModel] = useState<RegisterDto>({ email: "", password: "", username: "" });
@@ -30,7 +32,7 @@ const Register = () => {
     };
 
     return (
-        <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
+        <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }} autoComplete="off">
             <div className="mb-3">
                 <label>Email address</label>
                 <input
@@ -40,6 +42,7 @@ const Register = () => {
                     onChange={(e) => setModel(prev => ({ ...prev, email: e.target?.value }))}
                     value={model?.email}
                     aria-invalid={!!errors?.Email}
+                    autoComplete="off"
                 />
                 {
                     errors?.Email && (
@@ -58,6 +61,7 @@ const Register = () => {
                     onChange={(e) => setModel(prev => ({ ...prev, username: e.target?.value }))}
                     value={model?.username}
                     aria-invalid={!!errors?.Username}
+                    autoComplete="off"
                 />
                 {
                     errors?.Username && (
@@ -77,6 +81,7 @@ const Register = () => {
                     onChange={(e) => setModel(prev => ({ ...prev, password: e.target?.value }))}
                     value={model?.password}
                     aria-invalid={!!errors?.Password}
+                    autoComplete="off"
                 />
                 {
                     errors?.Password && (
@@ -88,7 +93,7 @@ const Register = () => {
             </div>
 
             <button type="submit" className="primary-btn">
-                Register
+                <FontAwesomeIcon icon={faIdBadge} /> Register
             </button>
         </form>
     );
