@@ -23,4 +23,8 @@ Add Status (Pending, Completed, Cancelled) to transactions.
 15. Use logging with open telemetry.
 16. Implement health checks for the application.
 17. Add unauthenticated layout with basic showcase of the application.
-18. Refreshing the page redirects to the dashboard!?
+18. Include my AutoFilter project and expand get all to accept query filters/sorters
+19. Propper tabulator theming
+20. Change all hardcoded places of localhost to load from .env file
+21. Extract a shared tabulator setup options
+22. GetAll's should return tabulator compatible response

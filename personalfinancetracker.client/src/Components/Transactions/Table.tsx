@@ -1,30 +1,49 @@
-import { useRef, useEffect, useMemo } from "react";
+import axios from "axios";
+import { useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
-import { Tabulator } from "tabulator-tables";
+import { TabulatorFull } from "tabulator-tables";
 
 const Table = () => {
     const container = useRef<HTMLDivElement | null>(null);
+    const table = useRef<TabulatorFull | undefined>(undefined);
 
-    const tabledata = useMemo(() => [
-        { id: 1, name: "Oli Bob", age: "12", col: "red", dob: "" },
-        { id: 2, name: "Mary May", age: "1", col: "blue", dob: "14/05/1982" },
-        { id: 3, name: "Christine Lobowski", age: "42", col: "green", dob: "22/05/1982" },
-        { id: 4, name: "Brendon Philips", age: "125", col: "orange", dob: "01/08/1980" },
-        { id: 5, name: "Margret Marmajuke", age: "16", col: "yellow", dob: "31/01/1999" },
-    ], []);
+    // static sample data removed; using server-side data via ajax
 
     useEffect(() => {
         if (container.current) {
-            const table = new Tabulator(container.current, {
+            table.current = new TabulatorFull(container.current, {
                 height: "100%",
-                data: tabledata,
+                ajaxURL: "/finance/transactions",
+                pagination: true,
+                paginationMode: "remote",                
+                paginationSize: 20,
+                filterMode: "remote",
+                sortMode: "remote",
+                ajaxRequestFunc: async (url, config, params) => {
+                    const x = {
+                        data: [],
+                        last_page: 1,
+                    };
+
+                    try {
+                        const response = await axios.get(url, { params: params });
+
+                        if (response.status === 200) {
+                            x.data = response.data;
+                            x.last_page = 100;
+                        }
+
+                    } catch (e) {
+                        console.error(e);
+                    }
+
+                    return x;
+                },
+                dataSendParams: {
+                    "page": "index"
+                },
                 layout: "fitColumns",
-                columns: [
-                    { title: "Name", field: "name", width: 150 },
-                    { title: "Age", field: "age", hozAlign: "left", formatter: "progress" },
-                    { title: "Favourite Color", field: "col" },
-                    { title: "Date Of Birth", field: "dob", sorter: "date" },
-                ],
+                autoColumns: true,
             });
 
             //table.on("rowClick", function (e, row) {
@@ -32,12 +51,12 @@ const Table = () => {
             //});
 
             // Cleanup
-            return () => table.destroy();
+            return () => table.current?.destroy();
         }
-    }, [tabledata]);
+    }, []);
 
     return (
-        <Container fluid>
+        <Container fluid className="px-0">
             <div ref={container}></div>
         </Container>
     );
