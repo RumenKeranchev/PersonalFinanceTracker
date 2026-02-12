@@ -52,9 +52,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
                 if (res.status !== 200) return;
 
-                login(res.data);
-                localStorage.setItem("user", JSON.stringify(user));
-                navigate("/dashboard", { replace: true });
+                // Calling login here will cause refresh on authenticated page to redirect to dashboard
+                setUser(res.data);
+                localStorage.setItem("user", JSON.stringify(res.data));
             } catch {
                 logout();
                 localStorage.removeItem("user");
