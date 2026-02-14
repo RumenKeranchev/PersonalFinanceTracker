@@ -20,24 +20,25 @@ const Table = () => {
                 filterMode: "remote",
                 sortMode: "remote",
                 ajaxRequestFunc: async (url, config, params) => {
-                    const x = {
+                    const tabulatorData = {
                         data: [],
                         last_page: 1,
                     };
 
                     try {
+                        params["index"] -= 1;
                         const response = await axios.get(url, { params: params });
 
                         if (response.status === 200) {
-                            x.data = response.data;
-                            x.last_page = 100;
+                            tabulatorData.data = response.data;
+                            tabulatorData.last_page = 100;
                         }
 
                     } catch (e) {
                         console.error(e);
                     }
 
-                    return x;
+                    return tabulatorData;
                 },
                 dataSendParams: {
                     "page": "index"

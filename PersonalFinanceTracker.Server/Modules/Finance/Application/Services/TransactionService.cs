@@ -1,5 +1,6 @@
 ﻿namespace PersonalFinanceTracker.Server.Modules.Finance.Application.Services
 {
+    using AutoFilter.Core;
     using Domain;
     using DTOs.Transactions;
     using Infrastructure.Requests;
@@ -75,9 +76,11 @@
                 return validationResult.ToValidationError();
             }
 
-            var items = await _dbContext.Transactions
-                .OrderBy(t => t.Id)
-                .Select(t => new TransactionListItemDto(t.Amount, t.Type.ToString(), t.Date))
+            var items = await _dbContext.Transactions                
+                .Select(t => new TransactionListItemDto { Amount = t.Amount, Type = t.Type.ToString(), Date = t.Date })
+                .Apply(new Filter(nameof(TransactionListItemDto.Amount), Operator.GreaterThan, "0"))
+                .Apply(new Filter(nameof(TransactionListItemDto.Amount), Operator.LessThanOrEqual, "20.61"))
+                .Apply(new Sort(nameof(TransactionListItemDto.Amount), Dir.Desc))
                 .ApplyPaging(pagedQuery)
                 .ToListAsync();
 
@@ -93,7 +96,7 @@
 
             var model = await _dbContext.Transactions
                 .Where(t => t.Id == id)
-                .Select(t => new TransactionDetailsDto(t.Amount, t.Type.ToString(), t.Date, t.Description, t.Category.Name, null))
+                .Select(t => new TransactionDetailsDto(t.Amount, t.Type.ToString(), t.Date, t.Description, t.Category!.Name, null))
                 .FirstOrDefaultAsync();
 
             return model is null
