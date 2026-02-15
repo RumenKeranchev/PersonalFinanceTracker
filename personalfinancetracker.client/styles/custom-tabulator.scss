@@ -1,19 +1,21 @@
+@use "variables" as vars;
+
 $backgroundColor: transparent; //The background colour of the tabulator element
-$borderColor: transparent; //The border colour of the tabulator element
+$borderColor: vars.$secondary-color; //The border colour of the tabulator element
 $textSize: 14;
 
 $headerBackgroundColor: #120f2e; //The background colour for header cells
-$headerTextColor: var(--primary-color); //The header cells text colour
-$headerBorderColor: var(--highlight); //The header cells border colour
-$headerSeparatorColor: #999; //The header row bottom border colour
+$headerTextColor: vars.$primary-color; //The header cells text colour
+$headerBorderColor: vars.$secondary-color; //The header cells border colour
+$headerSeparatorColor: vars.$secondary-color; //The header row bottom border colour
 $headerMargin: 4; //The size in pixels for the header cells margin
 $sortArrowActive: #666; //The colour of the column sorter arrow when sorting is active on a column
 $sortArrowInactive: #bbb; //The colour of the column sorter arrow when sorting is not active on a column
 
-$rowBackgroundColor: #fff; //The background colour of the table rows
-$rowAltBackgroundColor: #e0e0e0; //The background colour of the even numbered table rows
-$rowBorderColor: #fff; //The table row border colour
-$rowTextColor: #333; //The table row text colour
+$rowBackgroundColor: vars.$tertiary-bg-color; //The background colour of the table rows
+$rowAltBackgroundColor: vars.$tertiary-bg-color; //The background colour of the even numbered table rows
+$rowBorderColor: vars.$secondary-color; //The table row border colour
+$rowTextColor: vars.$highlight; //The table row text colour
 $rowHoverBackground: #bbb; //The table row background colour when hovered over.
 $rowSelectedBackground: #9ABCEA; //The table row background colour when selected.
 $rowSelectedBackgroundHover: #769BCC; //The table row background colour when selected and hovered over.
@@ -37,7 +39,7 @@ $rangeHeaderTextHighlightBackground: #0000CA; //Range column header highlighted 
 /*#region General*/
 
 //Tabulator container element
-.tabulator {    
+.tabulator {
 }
 
 //Contain table and scroll bars
@@ -198,6 +200,16 @@ $rangeHeaderTextHighlightBackground: #0000CA; //Range column header highlighted 
 
 //Row of table
 .tabulator-row {
+    box-sizing: border-box;
+    border-bottom: 1px solid;
+
+    &:hover {
+        background: vars.$tertiary-bg-color !important;
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        border-color: vars.$primary-color;
+        color: vars.$primary-color;
+    }
 }
 
 //Odd numbered row

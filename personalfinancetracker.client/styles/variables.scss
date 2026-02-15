@@ -1,0 +1,23 @@
+$primary-bg-color: #5F0F40;
+$secondary-bg-color: #450b2f;
+$tertiary-bg-color: #120f2e;
+$primary-color: #d9c100;
+$secondary-color: #E36414;
+$error-color: #ff4d4f;
+$highlight: #3BB;
+$contrast: #0F4C5C;
+$card-gradient: linear-gradient( 180deg, $secondary-bg-color, color-mix(in srgb, $highlight 40%, $secondary-bg-color) );
+$hover-glow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 8px color-mix(in srgb, $primary-color 40%, transparent);
+
+:root {
+    --primary-bg-color: #{$primary-bg-color};
+    --secondary-bg-color: #{$secondary-bg-color};
+    --tertiary-bg-color: #{$tertiary-bg-color};
+    --primary-color: #{$primary-color};
+    --secondary-color: #{$secondary-color};
+    --error-color: #{$error-color};
+    --highlight: #{$highlight};
+    --contrast: #{$contrast};
+    --card-gradient: #{$card-gradient};
+    --hover-glow: #{$hover-glow};
+}

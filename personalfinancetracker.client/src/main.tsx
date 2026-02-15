@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router'
+import '../styles/variables.scss';
 import '../styles/App.scss';
 import '../styles/custom-tabulator.scss'
 import AppLayout from './AppLayout.tsx'
