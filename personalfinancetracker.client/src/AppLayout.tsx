@@ -1,6 +1,5 @@
 import { Container } from 'react-bootstrap';
 import { Outlet } from 'react-router';
-import '../styles/App.scss';
 import Sidebar from './Components/Shared/Sidebar';
 import TopBar from './Components/Shared/TopBar';
 

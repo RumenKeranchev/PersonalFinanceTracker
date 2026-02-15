@@ -1,10 +1,475 @@
-.tabulator, .tabulator .tabulator-tableholder .tabulator-table {
-    background: transparent;
-    color: yellow;
-    border: none;
+$backgroundColor: transparent; //The background colour of the tabulator element
+$borderColor: transparent; //The border colour of the tabulator element
+$textSize: 14;
+
+$headerBackgroundColor: #120f2e; //The background colour for header cells
+$headerTextColor: var(--primary-color); //The header cells text colour
+$headerBorderColor: var(--highlight); //The header cells border colour
+$headerSeparatorColor: #999; //The header row bottom border colour
+$headerMargin: 4; //The size in pixels for the header cells margin
+$sortArrowActive: #666; //The colour of the column sorter arrow when sorting is active on a column
+$sortArrowInactive: #bbb; //The colour of the column sorter arrow when sorting is not active on a column
+
+$rowBackgroundColor: #fff; //The background colour of the table rows
+$rowAltBackgroundColor: #e0e0e0; //The background colour of the even numbered table rows
+$rowBorderColor: #fff; //The table row border colour
+$rowTextColor: #333; //The table row text colour
+$rowHoverBackground: #bbb; //The table row background colour when hovered over.
+$rowSelectedBackground: #9ABCEA; //The table row background colour when selected.
+$rowSelectedBackgroundHover: #769BCC; //The table row background colour when selected and hovered over.
+$editBoxColor: #1D68CD; //The border colour of a cell being edited.
+
+$footerBackgroundColor: #e6e6e6; //The footer background colour
+$footerTextColor: #555; //The footer text colour
+$footerBorderColor: #aaa; //The footer buttons border colour
+$footerSeparatorColor: #999; //The footer element top border colour
+$footerActiveColor: #d00; //The text colour for active pagination buttons
+
+$rangeBorderColor: #2975DD; //Range selection border colour
+$rangeHandleColor: #2975DD; //Range selection handle colour
+$rangeHeaderSelectedBackground: #3876CA; //Range column header selected backgroud Colour
+$rangeHeaderSelectedTextColor: #FFFFCA; //Range column header selected text Colour
+$rangeHeaderHighlightBackground: #D6D6CA; //Range column header highlighted backgroud Colour
+$rangeHeaderTextHighlightBackground: #0000CA; //Range column header highlighted text Colour
+
+@import "tabulator-tables/src/scss/tabulator.scss";
+
+/*#region General*/
+
+//Tabulator container element
+.tabulator {    
 }
 
-.tabulator-row {
-    background: transparent !important;
-    padding: 7px 0;
+//Contain table and scroll bars
+.tabulator-tableholder {
 }
+
+//Contain table rows
+.tabulator-table {
+}
+
+//Ajax loader message holder
+.tabulator-loader {
+}
+
+//Ajax loader message
+.tabulator-loader-msg {
+}
+
+//Applied to .tabulator-load-msg to style a loading message
+.tabulator-loading {
+}
+
+//Applied to .tabulator-load-msg to style an error message
+.tabulator-error {
+}
+
+//The containing element for the empty table placeholder
+.tabulator-placeholder {
+}
+
+//Styles arrows used for header sort direction and group open state
+.tabulator-arrow {
+}
+
+//Applied to the .tabulator element when the mouse is dragging to prevent accidental text selection
+.tabulator-block-select {
+}
+
+//Applied to rows and columns when they are being moved
+.tabulator-moving {
+}
+
+//Applied to table when it is sending a row to another table
+.tabulator-movingrow-sending {
+}
+
+//Applied to table when it is receiving a row from another table
+.tabulator-movingrow-receiving {
+}
+
+//Table is running with a right to left text direction
+.tabulator-rtl {
+}
+
+//Table is being forced into left to right text direction on a rtl direction page
+.tabulator-ltr {
+}
+
+//Applied to table containing cells being edited
+.tabulator-editing {
+}
+
+/*#endregion General*/
+
+/*#region Columns & Headers*/
+
+//Table header element
+.tabulator-header {
+}
+
+//Applied to the .tabulator-header element to hide headers when operating in headerless mode
+.tabulator-header-hidden {
+}
+
+//Hold all column headers inside table header
+.tabulator-headers {
+}
+
+//Hold column calculations row, appears in both header and footer
+.tabulator-calcs-holder {
+}
+
+//Hold rows that are frozen to the top of the table
+.tabulator-frozen-rows-holder {
+}
+
+//Column header (in header row)
+.tabulator-col {
+}
+
+//Holds the contents for the column header
+.tabulator-col-content {
+}
+
+//Holds the text for the column header title
+.tabulator-col-title {
+}
+
+//Marks a column header as a group that contains other columns
+.tabulator-col-group {
+}
+
+//Holds the column headers contained in a column group
+.tabulator-col-group-cols {
+}
+
+//Invisible resize handle on the right of each column header
+.tabulator-handle {
+}
+
+//The resize guide bar shown when resizing a column with guards enabled
+.tabulator-col-resize-guide {
+}
+
+//The input box used for editing titles when the editableTitle option is set
+.tabulator-title-editor {
+}
+
+//The containing element for the header filter elements, when the headerFilter option is set
+.tabulator-header-filter {
+}
+
+//The cell or column header is part of the row header column
+.tabulator-row-header {
+}
+
+//Applied to columns with header sorting enabled
+.tabulator-sortable {
+}
+
+//The containing element for all frozen columns
+.tabulator-frozen {
+}
+
+//Applied to frozen columns on the left edge of the table
+.tabulator-frozen-left {
+}
+
+//Applied to frozen columns on the right edge of the table
+.tabulator-frozen-right {
+}
+
+//Container for frozen rows in the header
+.tabulator-row-resize-handle {
+}
+
+//Applied to a column header to rotate the text to a vertical orientation
+.tabulator-col-vertical {
+}
+
+//applied to a vertical column header to flip the text round 180 degrees
+.tabulator-col-vertical-flip {
+}
+
+/*#endregion Columns & Headers*/
+
+/*#region Rows*/
+
+//Row of table
+.tabulator-row {
+}
+
+//Odd numbered row
+.tabulator-row-odd {
+}
+
+//Even numbered row
+.tabulator-row-even {
+}
+
+//Data cell
+.tabulator-cell {
+}
+
+//Styling for selectable rows
+.tabulator-selectable {
+}
+
+//Styling for unselectable rows
+.tabulator-unselectable {
+}
+
+//Currently selected row
+.tabulator-selected {
+}
+
+//Applied to rows containing cells being edited
+.tabulator-editing {
+}
+
+//Applied to cells being edited that have failed validation
+.tabulator-validation-fail {
+}
+
+//The header element for a row group
+.tabulator-group {
+}
+
+//Applied to .tabulator-group when the group is visible
+.tabulator-group-visible {
+}
+
+//Applied to .tabulator-group to denote its level in multi level grouping, the X is replaced with the number of that grouping level
+.tabulator-group-level-X {
+}
+
+//Containing element for the groups expand/collapse toggle
+.tabulator-group-toggle {
+}
+
+//A row that contains column calculations instead of data
+.tabulator-calcs {
+}
+
+//A column calculations row at the top of a group
+.tabulator-calcs-top {
+}
+
+//A column calculations row at the bottom of a group
+.tabulator-calcs-bottom {
+}
+
+//A cell that is setup as a row handle
+.tabulator-row-handle {
+}
+
+//containing element for the row handle icon
+.tabulator-row-handle-box {
+}
+
+//one of the bars in the row handle icon
+.tabulator-row-handle-bar {
+}
+
+//Invisible resize handle on the top and bottom of each row
+.tabulator-row-resize-handle {
+}
+
+//The resize guide bar shown when resizing a row with guards enabled
+.tabulator-row-resize-guide {
+}
+
+//Element to hold collapsed column data in responsive layout mode
+.tabulator-responsive-collapse {
+}
+
+//Element to toggle the expanded state of collapsed data
+.tabulator-responsive-collapse-toggle {
+}
+
+/*#endregion Rows*/
+
+/*#region Pagination*/
+
+//Tabulator footer element
+.tabulator-footer {
+}
+
+//Contains the pagination controls
+.tabulator-paginator {
+}
+
+//Contains individual page buttons
+.tabulator-pages {
+}
+
+//Page selection button
+.tabulator-page {
+}
+
+/*#endregion Pagination*/
+
+/*#region Data Trees*/
+
+//Contains the control element for toggling the collapse state of a data tree
+.tabulator-data-tree-control {
+}
+
+//The collapse symbol for the data tree control element
+.tabulator-data-tree-control-collapse {
+}
+
+//The expand symbol for the data tree control element
+.tabulator-data-tree-control-expand {
+}
+
+//Branch icon for child rows of a data tree parent
+.tabulator-data-tree-branch {
+}
+
+//Applied to .tabulator-row to denote its level in nested tree structures, the X is replaced with the number of that depth of the child row
+.tabulator-tree-level-X {
+}
+
+/*#endregion Data Trees*/
+
+/*#region Printing*/
+
+//Applied to .tabulator when printing to allow for custom print styling
+.tabulator-print-table {
+}
+
+//Containing element used to take up the full height and width of the screen when printing the table
+.tabulator-print-fullscreen {
+}
+
+//Applied to the body element when printing to hide all other contents on the page
+.tabulator-print-fullscreen-hide {
+}
+
+/*#endregion Printing*/
+
+/*#region Menus & Popups*/
+
+//The containing element for any floating popup
+.tabulator-popup-container {
+}
+
+//A class applied to a tabulator-popup-container to show it is functioning as popup
+.tabulator-popup {
+}
+
+//A class applied to a tabulator-popup-container to show it is functioning as tooltip
+.tabulator-tooltip {
+}
+
+//A class applied to a tabulator-popup-container to show it is functioning as a menu
+.tabulator-menu {
+}
+
+//An individual list item in a menu
+.tabulator-menu-item {
+}
+
+//Applied to a .tabulator-menu-item to denote that it is disabled
+.tabulator-menu-item-disabled {
+}
+
+//A list sepearator in the menu list
+.tabulator-menu-separator {
+}
+
+//Class for styling the trigger button for column header menu
+.tabulator-header-menu-button {
+}
+
+/*#endregion Menus & Popups*/
+
+/*#region Formatters*/
+
+//Containing element for the traffic light editor circle
+.tabulator-traffic-light {
+}
+
+/*#endregion Formatters*/
+
+/*#region Editors*/
+
+//Applied to a tabulator-cell when its contents is being edited
+.tabulator-editing {
+}
+
+//Applied to a tabulator-cell when its contents available for editing (this class may not be 100% reliable when using a function on the editable column definition option)
+.tabulator-editable {
+}
+
+//The containing element for select and autocomplete editor value lists
+.tabulator-edit-list {
+}
+
+//An individual list item
+.tabulator-edit-list-item {
+}
+
+//An non-selectable label
+.tabulator-edit-list-placeholder {
+}
+
+//A group of related list items
+.tabulator-edit-list-group {
+}
+
+/*#endregion Editors*/
+
+/*#region Spreadsheet*/
+
+//The holding element for spreadsheet tabs
+.abulator-spreadsheet-tabs {
+}
+
+//A tab for a spreadsheet
+.abulator-spreadsheet-tab {
+}
+
+//Applied to a spreadsheet tab when it is active
+.abulator-spreadsheet-tab-active {
+}
+
+/*#endregion Spreadsheet*/
+
+/*#region Range Selection*/
+
+//Applied to the table container when range selection is enabled
+.tabulator-ranges {
+}
+
+//Applied to a column header or row when a cell in that column is included in a range
+.tabulator-range-highlight {
+}
+
+//Applied to a column header or row header when that entier row or column is included in a range
+.tabulator-range-selected {
+}
+
+//Applied to the row header cell for a row
+.tabulator-range-row-header {
+}
+
+//The containing element for all range area overlays
+.tabulator-range-overlay {
+}
+
+//The overlayed area graphic for a range
+.tabulator-range {
+}
+
+//Applied to the active range overlay area
+.tabulator-range-active {
+}
+
+//Applied to the active range overlay area
+.tabulator-range-active {
+}
+
+/*#endregion Range Selection*/

@@ -5,7 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router'
-import "tabulator-tables/dist/css/tabulator.min.css"
+import '../styles/App.scss';
+import '../styles/custom-tabulator.scss'
 import AppLayout from './AppLayout.tsx'
 import Login from './Components/Auth/Login.tsx'
 import Register from './Components/Auth/Register.tsx'
@@ -14,7 +15,6 @@ import PublicLayout from './Components/PublicLayout.tsx'
 import { AuthProvider, useAuth } from './Components/Shared/AuthContext.tsx'
 import { ToastProvider } from './Components/Shared/ToastContext.tsx'
 import TransactionsTable from './Components/Transactions/Table.tsx'
-import '../styles/custom-tabulator.scss'
 
 const RequireAuth = () => {
     const { isAuthencticated } = useAuth();
