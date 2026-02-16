@@ -30,12 +30,12 @@
             });
 
             group
-                .MapGet("/transactions", async ([AsParameters] PagedQuery pagedQuery, TransactionService service) =>
+                .MapGet("/transactions", async (HttpRequest request, [AsParameters] PagedQuery pagedQuery, TransactionService service) =>
                 {
-                    var result = await service.GetAllAsync(pagedQuery);
+                    var result = await service.GetAllAsync(pagedQuery, request.GetFilters(), request.GetSorters());
                     return result.ToIResult();
                 })
-                .Produces<List<TransactionListItemDto>>();
+                .Produces<TableData<TransactionListItemDto>>();
 
             group
                 .MapGet("/transactions/{id}", async (Guid id, TransactionService service) =>

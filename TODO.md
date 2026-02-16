@@ -1,5 +1,6 @@
 # Migration:
 Add Status (Pending, Completed, Cancelled) to transactions.
+Add Currency, Exchange rate to transactions and budget
 
 # General:
 2.	When updating data, log only the changed fields with old and new values.
@@ -27,4 +28,5 @@ Add Status (Pending, Completed, Cancelled) to transactions.
 19. Propper tabulator theming
 20. Change all hardcoded places of localhost to load from .env file
 21. Extract a shared tabulator setup options
-22. GetAll's should return tabulator compatible response
+23. Make a JavaScript formatDate that would parse a date to custom format
+24. Custom number-range and date filters

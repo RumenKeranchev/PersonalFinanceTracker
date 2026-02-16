@@ -44,6 +44,11 @@ export interface TransactionUpdateDto {
     budgetId: string | undefined;
 }
 
+export interface TableDataOfTransactionListItemDto {
+    data: TransactionListItemDto[];
+    lastPage: number;
+}
+
 export interface TransactionListItemDto {
     amount: number;
     type: string;

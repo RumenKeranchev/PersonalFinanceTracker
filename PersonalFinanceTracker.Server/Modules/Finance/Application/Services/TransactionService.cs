@@ -67,7 +67,7 @@
             return Result.Success();
         }
 
-        public async Task<Result<List<TransactionListItemDto>>> GetAllAsync(PagedQuery pagedQuery)
+        public async Task<Result<TableData<TransactionListItemDto>>> GetAllAsync(PagedQuery pagedQuery, List<Filter> filters, List<Sort> sorters)
         {
             var validationResult = new PagedQueryValidator().Validate(pagedQuery);
 
@@ -76,15 +76,27 @@
                 return validationResult.ToValidationError();
             }
 
-            var items = await _dbContext.Transactions                
-                .Select(t => new TransactionListItemDto { Amount = t.Amount, Type = t.Type.ToString(), Date = t.Date })
-                .Apply(new Filter(nameof(TransactionListItemDto.Amount), Operator.GreaterThan, "0"))
-                .Apply(new Filter(nameof(TransactionListItemDto.Amount), Operator.LessThanOrEqual, "20.61"))
-                .Apply(new Sort(nameof(TransactionListItemDto.Amount), Dir.Desc))
-                .ApplyPaging(pagedQuery)
-                .ToListAsync();
+            var query = _dbContext.Transactions.Select(t => new TransactionListItemDto { Amount = t.Amount, Type = t.Type.ToString(), Date = t.Date });
 
-            return items;
+            foreach (var filter in filters)
+            {
+                query = query.Apply(filter);
+            }
+
+            if (sorters.Count == 0)
+            {
+                sorters.Add(new(nameof(TransactionListItemDto.Date), Dir.Desc));
+            }
+
+            foreach (var sort in sorters)
+            {
+                query = query.Apply(sort);
+            }
+
+            var items = await query.ApplyPaging(pagedQuery).ToListAsync();
+            int count = await query.CountAsync();
+
+            return new TableData<TransactionListItemDto>(items, count % pagedQuery.Size);
         }
 
         public async Task<Result<TransactionDetailsDto>> GetDetailsAsync(Guid id)

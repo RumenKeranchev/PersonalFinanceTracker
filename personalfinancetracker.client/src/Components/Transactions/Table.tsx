@@ -15,23 +15,29 @@ const Table = () => {
                 height: "100%",
                 ajaxURL: "/finance/transactions",
                 pagination: true,
-                paginationMode: "remote",                
+                paginationMode: "remote",
                 paginationSize: 20,
                 filterMode: "remote",
                 sortMode: "remote",
                 ajaxRequestFunc: async (url, config, params) => {
-                    const tabulatorData = {
+                    let tabulatorData = {
                         data: [],
                         last_page: 1,
                     };
 
                     try {
                         params["index"] -= 1;
-                        const response = await axios.get(url, { params: params });
+                        const response = await axios.get(url, {
+                            params: {
+                                index: params["index"],
+                                size: params["size"],
+                                filters: JSON.stringify(params["filter"]),
+                                sorters: JSON.stringify(params["sort"]),
+                            }
+                        });
 
                         if (response.status === 200) {
-                            tabulatorData.data = response.data;
-                            tabulatorData.last_page = 100;
+                            tabulatorData = response.data;
                         }
 
                     } catch (e) {
@@ -44,12 +50,20 @@ const Table = () => {
                     "page": "index"
                 },
                 layout: "fitColumns",
-                autoColumns: true,
-            });
+                columns: [
+                    { title: "Amount", field: "amount", headerFilter: "number" },
+                    { title: "Type", field: "type", headerFilter: "input" },
+                    {
+                        title: "Date", field: "date", headerFilter: "datetime",
+                        formatter: (cell) => {
+                            let date = cell.getValue() as string;
+                            date = date.substring(0, 23);
 
-            //table.on("rowClick", function (e, row) {
-            //    alert("Row " + row.getData().id + " Clicked!!!!");
-            //});
+                            return new Date(date).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", hourCycle: "h24", minute: "2-digit" });
+                        }
+                    },
+                ],
+            });
 
             // Cleanup
             return () => table.current?.destroy();
