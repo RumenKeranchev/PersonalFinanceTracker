@@ -46,7 +46,7 @@ export interface TransactionUpdateDto {
 
 export interface TableDataOfTransactionListItemDto {
     data: TransactionListItemDto[];
-    lastPage: number;
+    last_page: number;
 }
 
 export interface TransactionListItemDto {

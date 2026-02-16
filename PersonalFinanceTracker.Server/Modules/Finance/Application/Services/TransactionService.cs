@@ -96,7 +96,7 @@
             var items = await query.ApplyPaging(pagedQuery).ToListAsync();
             int count = await query.CountAsync();
 
-            return new TableData<TransactionListItemDto>(items, count % pagedQuery.Size);
+            return new TableData<TransactionListItemDto> { Data = items, LastPage = count % pagedQuery.Size };
         }
 
         public async Task<Result<TransactionDetailsDto>> GetDetailsAsync(Guid id)

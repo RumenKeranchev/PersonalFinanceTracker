@@ -1,6 +1,13 @@
 ﻿namespace PersonalFinanceTracker.Server.Infrastructure.Shared
 {
-    using Newtonsoft.Json;
+    using System.Text.Json.Serialization;
 
-    public record TableData<T>(IEnumerable<T> Data, [JsonProperty("last_page")] int LastPage) where T : class;
+    public record TableData<T> where T : class
+    {
+        [JsonPropertyName("data")]
+        public IEnumerable<T> Data { get; init; } = [];
+
+        [JsonPropertyName("last_page")]
+        public int LastPage { get; init; }
+    }
 }
