@@ -2,6 +2,9 @@ import axios from "axios";
 import { useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import { TabulatorFull } from "tabulator-tables";
+import { DateTime } from "luxon";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).luxon = DateTime;
 
 const Table = () => {
     const container = useRef<HTMLDivElement | null>(null);
@@ -56,12 +59,11 @@ const Table = () => {
                     {
                         title: "Date", field: "date", headerFilter: "datetime",
                         formatter: (cell) => {
-                            let date = cell.getValue() as string;
-                            date = date.substring(0, 23);
-
-                            return new Date(date).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", hourCycle: "h24", minute: "2-digit" });
+                            // append Z to force UTC
+                            const dt = DateTime.fromISO(cell.getValue() + "Z", { zone: "local" });
+                            return dt.toFormat("dd LLL yyyy HH:mm");
                         }
-                    },
+                    }
                 ],
             });
 

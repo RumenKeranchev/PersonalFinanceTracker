@@ -29,4 +29,4 @@ Add Currency, Exchange rate to transactions and budget
 20. Change all hardcoded places of localhost to load from .env file
 21. Extract a shared tabulator setup options
 23. Make a JavaScript formatDate that would parse a date to custom format
-24. Custom number-range and date filters
+24. Fix DateTime serialization to be an ISO string, now its missing a 'Z' at the end and its breaking luxon.js
