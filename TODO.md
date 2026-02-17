@@ -1,6 +1,7 @@
 # Migration:
 Add Status (Pending, Completed, Cancelled) to transactions.
 Add Currency, Exchange rate to transactions and budget
+Add value converters so that all dates are saved in utc and returned in local
 
 # General:
 2.	When updating data, log only the changed fields with old and new values.
@@ -26,4 +27,4 @@ Add Currency, Exchange rate to transactions and budget
 17. Add unauthenticated layout with basic showcase of the application.
 19. Propper tabulator theming
 20. Change all hardcoded places of localhost to load from .env file
-21. Extract a shared tabulator setup options
+22. Add custom header filters for number range and datetime picker

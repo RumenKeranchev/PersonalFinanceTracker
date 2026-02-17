@@ -15,7 +15,7 @@ import Home from './Components/Dashboard/Home.tsx'
 import PublicLayout from './Components/PublicLayout.tsx'
 import { AuthProvider, useAuth } from './Components/Shared/AuthContext.tsx'
 import { ToastProvider } from './Components/Shared/ToastContext.tsx'
-import TransactionsTable from './Components/Transactions/Table.tsx'
+import TransactionsTable from './Components/Transactions/TransactionsTable.tsx'
 
 const RequireAuth = () => {
     const { isAuthencticated } = useAuth();
