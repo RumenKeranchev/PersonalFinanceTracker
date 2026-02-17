@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using NLog.Web;
+using PersonalFinanceTracker.Server.Infrastructure.Helpers;
 using PersonalFinanceTracker.Server.Middleware;
 using PersonalFinanceTracker.Server.Modules.Finance.Endpoints;
 using PersonalFinanceTracker.Server.Modules.Reporting.Endpoints;
@@ -30,6 +31,8 @@ try
     builder.Services.AddProblemDetails();
 
     #endregion
+
+    builder.Services.ConfigureHttpJsonOptions(options => options.SerializerOptions.Converters.Add(new UtcDateTimeConverter()));
 
     builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

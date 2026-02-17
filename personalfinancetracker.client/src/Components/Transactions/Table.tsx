@@ -10,8 +10,6 @@ const Table = () => {
     const container = useRef<HTMLDivElement | null>(null);
     const table = useRef<TabulatorFull | undefined>(undefined);
 
-    // static sample data removed; using server-side data via ajax
-
     useEffect(() => {
         if (container.current) {
             table.current = new TabulatorFull(container.current, {
@@ -58,10 +56,11 @@ const Table = () => {
                     { title: "Type", field: "type", headerFilter: "input" },
                     {
                         title: "Date", field: "date", headerFilter: "datetime",
-                        formatter: (cell) => {
-                            // append Z to force UTC
-                            const dt = DateTime.fromISO(cell.getValue() + "Z", { zone: "local" });
-                            return dt.toFormat("dd LLL yyyy HH:mm");
+                        formatter: "datetime",
+                        formatterParams: {
+                            inputFormat: "iso",
+                            outputFormat: "dd LLL yyyy HH:mm",
+                            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                         }
                     }
                 ],
