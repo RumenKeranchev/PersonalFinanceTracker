@@ -306,6 +306,8 @@ $rangeHeaderTextHighlightBackground: #0000CA; //Range column header highlighted 
 
 //Tabulator footer element
 .tabulator-footer {
+    background: vars.$tertiary-bg-color !important;
+    border: 1px solid vars.$secondary-color !important;
 }
 
 //Contains the pagination controls
@@ -318,6 +320,29 @@ $rangeHeaderTextHighlightBackground: #0000CA; //Range column header highlighted 
 
 //Page selection button
 .tabulator-page {
+    color: vars.$secondary-color !important;
+    background: vars.$tertiary-bg-color !important;
+    border-radius: 0 !important;
+    border-bottom-right-radius: 12px !important;
+    padding: 0px 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    transition: all 0.15s ease !important;
+    border: 1px solid vars.$highlight !important;
+    text-align: start !important;
+    text-decoration: none !important;
+
+    &:hover, &.active {
+        border-color: vars.$primary-color !important;
+        color: vars.$primary-color !important;
+        transform: translateY(-1px) !important;
+        box-shadow: vars.$hover-glow !important;
+    }
+
+    &:active {
+        transform: translateY(0) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+    }
 }
 
 /*#endregion Pagination*/

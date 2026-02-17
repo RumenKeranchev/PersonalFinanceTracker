@@ -45,7 +45,8 @@ export class Table extends TabulatorFull {
             columns: columns,
             columnDefaults: {
                 headerFilterLiveFilter: false,
-            }
+            },
+            renderVertical: "basic",
         });
     }
 }

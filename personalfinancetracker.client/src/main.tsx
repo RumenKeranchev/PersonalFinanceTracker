@@ -6,8 +6,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router'
 import '../styles/variables.scss';
-import '../styles/App.scss';
 import '../styles/custom-tabulator.scss'
+import '../styles/App.scss';
 import AppLayout from './AppLayout.tsx'
 import Login from './Components/Auth/Login.tsx'
 import Register from './Components/Auth/Register.tsx'
