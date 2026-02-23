@@ -1,10 +1,8 @@
-import { DateTime } from "luxon";
+
 import { useEffect, useMemo, useRef } from "react";
 import { Container } from "react-bootstrap";
 import { TabulatorFull, type ColumnDefinition } from "tabulator-tables";
 import { Table } from "../Table";
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-(window as any).luxon = DateTime;
 
 const TransactionsTable = () => {
     const container = useRef<HTMLDivElement | null>(null);

@@ -1,5 +1,9 @@
 import axios from "axios";
+import { DateTime } from "luxon";
 import { TabulatorFull, type ColumnDefinition } from "tabulator-tables";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).luxon = DateTime;
+
 
 export class Table extends TabulatorFull {
     constructor(element: HTMLElement, url: string, columns: ColumnDefinition[]) {

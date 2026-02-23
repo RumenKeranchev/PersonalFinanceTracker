@@ -81,6 +81,24 @@ label {
     }
 }
 
+.income {
+    @extend .primary-btn;
+    color: var(--green);
+    border: 1px solid var(--green);
+}
+
+.expense {
+    @extend .primary-btn;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+}
+
+.transfer {
+    @extend .primary-btn;
+    color: var(--highlight);
+    border: 1px solid var(--highlight);
+}
+
 .sidebar {
     background: var(--card-gradient);
     color: var(--primary-color);

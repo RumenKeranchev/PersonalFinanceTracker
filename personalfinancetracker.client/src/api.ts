@@ -33,9 +33,9 @@ export interface TransactionCreateDto {
 }
 
 export enum TransactionType {
-    Income = 0,
-    Expense = 1,
-    Transfer = 2,
+    Income = "Income",
+    Expense = "Expense",
+    Transfer = "Transfer",
 }
 
 export interface TransactionUpdateDto {

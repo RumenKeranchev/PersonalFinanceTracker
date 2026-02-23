@@ -5,9 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router'
-import '../styles/variables.scss';
+import '../styles/variables.scss'
 import '../styles/custom-tabulator.scss'
-import '../styles/App.scss';
+import '../styles/App.scss'
 import AppLayout from './AppLayout.tsx'
 import Login from './Components/Auth/Login.tsx'
 import Register from './Components/Auth/Register.tsx'
@@ -15,7 +15,7 @@ import Home from './Components/Dashboard/Home.tsx'
 import PublicLayout from './Components/PublicLayout.tsx'
 import { AuthProvider, useAuth } from './Components/Shared/AuthContext.tsx'
 import { ToastProvider } from './Components/Shared/ToastContext.tsx'
-import TransactionsTable from './Components/Transactions/TransactionsTable.tsx'
+import Transactions from './Components/Transactions/Transactions.tsx'
 
 const RequireAuth = () => {
     const { isAuthencticated } = useAuth();
@@ -106,7 +106,7 @@ createRoot(document.getElementById('root')!).render(
                         <Route element={<RequireAuth />}>
                             <Route element={<AppLayout />} >
                                 <Route path="dashboard" element={<Home />} />
-                                <Route path="transactions" element={<TransactionsTable />} />
+                                <Route path="transactions" element={<Transactions />} />
                                 <Route path="budgets" element={<div>Budgets</div>} />
                                 <Route path="categories" element={<div>Categories</div>} />
                                 <Route path="reports" element={<div>Reports</div>} />

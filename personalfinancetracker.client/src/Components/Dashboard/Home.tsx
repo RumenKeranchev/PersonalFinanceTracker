@@ -70,7 +70,7 @@ const Home = () => {
             <h2 className="text-center">Dashboard</h2>
 
             <div className="d-flex justify-content-evenly gap-3 mt-5">
-                <div style={{ width: "66%", height: 400, border: "1px solid cyan" }} className="align-content-center">
+                <div style={{ width: "66%", height: 400 }} className="align-content-center primary-btn">
                     {
                         data.datasets.length > 0 &&
                         <Line options={options} data={data} />
