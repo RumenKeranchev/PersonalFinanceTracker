@@ -4,6 +4,7 @@ import { useToast } from "../Shared/ToastContext";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIdBadge } from "@fortawesome/free-regular-svg-icons";
+import FancyButton from "../Shared/FancyButton";
 
 const Register = () => {
     const [model, setModel] = useState<RegisterDto>({ email: "", password: "", username: "" });
@@ -92,9 +93,9 @@ const Register = () => {
                 }
             </div>
 
-            <button type="submit" className="primary-btn">
+            <FancyButton type="submit" style={{ width: 130 }}>
                 <FontAwesomeIcon icon={faIdBadge} /> Register
-            </button>
+            </FancyButton>
         </form>
     );
 }

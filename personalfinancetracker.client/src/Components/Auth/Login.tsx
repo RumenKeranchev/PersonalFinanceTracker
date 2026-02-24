@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { AuthResultDto, HttpValidationProblemDetails, LoginDto, ProblemDetails } from "../../api";
 import { useAuth } from "../Shared/AuthContext";
 import { useToast } from "../Shared/ToastContext";
+import FancyButton from "../Shared/FancyButton";
 
 const Login = () => {
     const [model, setModel] = useState<LoginDto>({ email: "", password: "" });
@@ -77,9 +78,9 @@ const Login = () => {
                 }
             </div>
 
-            <button type="submit" className="primary-btn">
+            <FancyButton type="submit" style={{ width: 130 }}>
                 <FontAwesomeIcon icon={faArrowRightToBracket} /> Login
-            </button>
+            </FancyButton>
         </form>
     );
 }

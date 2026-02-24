@@ -5,6 +5,7 @@ import { NavLink } from "react-router";
 import { useAuth } from "./AuthContext";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons/faArrowRightFromBracket";
 import axios from "axios";
+import FancyButton from "./FancyButton";
 
 const TopBar = () => {
     const { isAuthencticated, logout } = useAuth();
@@ -22,15 +23,23 @@ const TopBar = () => {
             {
                 !isAuthencticated &&
                 <>
-                    <NavLink to="/register" className={`primary-btn`} style={{ width: 130 }}><FontAwesomeIcon icon={faIdBadge} /> Register</NavLink>
-                    <NavLink to="/login" className={`primary-btn`} style={{ width: 130 }}><FontAwesomeIcon icon={faArrowRightToBracket} /> Login</NavLink>
+                    <FancyButton to="/register" style={{ width: 130 }} as={NavLink}>
+                        <FontAwesomeIcon icon={faIdBadge} /> Register
+                    </FancyButton>
+                    <FancyButton to="/login" className={`primary-btn`} style={{ width: 130 }} as={NavLink}>
+                        <FontAwesomeIcon icon={faArrowRightToBracket} /> Login
+                    </FancyButton>
                 </>
             }
             {
                 isAuthencticated &&
                 <>
-                    <NavLink to="/profile" className={`primary-btn`} style={{ width: 130 }}><FontAwesomeIcon icon={faIdBadge} /> Profile</NavLink>
-                    <button onClick={handleLogout} className={`primary-btn`} style={{ width: 130 }}><FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout</button>
+                    <FancyButton to="/profile" style={{ width: 130 }} as={NavLink}>
+                        <FontAwesomeIcon icon={faIdBadge} /> Profile
+                    </FancyButton>
+                    <FancyButton onClick={handleLogout} style={{ width: 130 }}>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
+                    </FancyButton>
                 </>
             }
         </div>
