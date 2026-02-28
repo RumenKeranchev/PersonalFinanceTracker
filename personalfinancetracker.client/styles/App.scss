@@ -1,8 +1,23 @@
-﻿html, body, #root {
+﻿@font-face {
+    font-family: 'Cyberpunk';
+    src: url('../src/assets/GlitchGoblin-2O87v.ttf') format('truetype');
+    font-weight: normal; // or bold if this is a bold font
+    font-style: normal; // or italic
+}
+
+html, body, #root {
     height: 100%;
     width: 100%;
     margin: 0;
     background-color: var(--tertiary-bg-color);
+}
+
+.logo {
+    color: var(--primary-color);
+    filter: var(--hover-glow);
+    font-family: "Cyberpunk", sans-serif;
+    text-align: center;
+    margin-left: 20rem;
 }
 
 .primary-color {
@@ -64,9 +79,9 @@ label {
     text-decoration: none;
     position: relative;
     min-height: 42px;
+    min-width: 104px;
     border: none;
     background: none;
-    width: 100%;
     position: relative;
     display: inline-block;
 
@@ -77,6 +92,7 @@ label {
         height: 100%;
         fill: var(--tertiary-bg-color);
         stroke: var(--highlight);
+        stroke-width: 2px;
     }
 
     & span, & span * {
@@ -85,11 +101,17 @@ label {
         color: inherit;
     }
 
-    &:hover, &[aria-current="page"], &[aria-current="page"] .fancySvg, &:hover .fancySvg, &:focus-within .fancySvg {
+    &:hover,
+    &:hover .fancySvg,
+    &[aria-current="page"],
+    &[aria-current="page"] .fancySvg,
+    &:focus-within .fancySvg,
+    &:hover span {
         stroke: var(--primary-color);
-        color: var(--primary-color);
+        color: var(--highlight);
         transform: translateY(-1px);
         filter: var(--hover-glow);
+        fill: color-mix(in srgb, var(--primary-color) 10%, var(--tertiary-bg-color));
     }
 
     &:active {
@@ -98,28 +120,16 @@ label {
     }
 }
 
-.income {
-    color: var(--green);
-
-    & .fancySvg {
-        stroke: var(--green);
-    }
+.income .fancySvg {
+    stroke: var(--green);
 }
 
-.expense {
-    color: var(--secondary-color);
-
-    & .fancySvg {
-        stroke: var(--secondary-color);
-    }
+.expense .fancySvg {
+    stroke: var(--secondary-color);
 }
 
-.transfer {
-    color: var(--highlight);
-
-    & .fancySvg {
-        stroke: var(--highlight);
-    }
+.transfer .fancySvg {
+    stroke: var(--highlight);
 }
 
 .sidebar {

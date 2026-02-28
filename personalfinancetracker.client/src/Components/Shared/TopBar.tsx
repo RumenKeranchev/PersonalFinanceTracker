@@ -18,7 +18,7 @@ const TopBar = () => {
 
     return (
         <div className="top-bar">
-            <h3>Personal Finance Tracker</h3>
+            <h3 className="logo">Personal Finance Tracker</h3>
 
             {
                 !isAuthencticated &&

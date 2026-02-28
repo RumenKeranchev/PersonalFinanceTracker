@@ -40,7 +40,7 @@ const Login = () => {
 
     return (
         <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
-            <FancyButton as="div" className="mb-3 pb-4">
+            <FancyButton as="div" className="mb-3 pb-4 w-100">
                 <label>Email address</label>
                 <input
                     type="email"
@@ -59,7 +59,7 @@ const Login = () => {
                 }
             </FancyButton>
 
-            <FancyButton as="div" className="mb-3 pb-4">
+            <FancyButton as="div" className="mb-3 pb-4 w-100">
                 <label>Password</label>
                 <input
                     type="password"
