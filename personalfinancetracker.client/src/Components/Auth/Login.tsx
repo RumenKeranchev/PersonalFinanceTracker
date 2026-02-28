@@ -40,7 +40,7 @@ const Login = () => {
 
     return (
         <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
-            <div className="mb-3">
+            <FancyButton as="div" className="mb-3 pb-4">
                 <label>Email address</label>
                 <input
                     type="email"
@@ -57,9 +57,9 @@ const Login = () => {
                         </div>
                     )
                 }
-            </div>
+            </FancyButton>
 
-            <div className="mb-3">
+            <FancyButton as="div" className="mb-3 pb-4">
                 <label>Password</label>
                 <input
                     type="password"
@@ -76,7 +76,7 @@ const Login = () => {
                         </div>
                     )
                 }
-            </div>
+            </FancyButton>
 
             <FancyButton type="submit" style={{ width: 130 }}>
                 <FontAwesomeIcon icon={faArrowRightToBracket} /> Login

@@ -34,7 +34,7 @@ const Register = () => {
 
     return (
         <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }} autoComplete="off">
-            <div className="mb-3">
+            <FancyButton as="div" className="mb-3 pb-4">
                 <label>Email address</label>
                 <input
                     type="email"
@@ -52,9 +52,9 @@ const Register = () => {
                         </div>
                     )
                 }
-            </div>
+            </FancyButton>
 
-            <div className="mb-3">
+            <FancyButton as="div" className="mb-3 pb-4">
                 <label>Username</label>
                 <input
                     type="text"
@@ -71,9 +71,9 @@ const Register = () => {
                         </div>
                     )
                 }
-            </div>
+            </FancyButton>
 
-            <div className="mb-3">
+            <FancyButton as="div" className="mb-3 pb-4">
                 <label>Password</label>
                 <input
                     type="password"
@@ -91,7 +91,7 @@ const Register = () => {
                         </div>
                     )
                 }
-            </div>
+            </FancyButton>
 
             <FancyButton type="submit" style={{ width: 130 }}>
                 <FontAwesomeIcon icon={faIdBadge} /> Register

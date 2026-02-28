@@ -7,7 +7,8 @@ $error-color: #ff4d4f;
 $highlight: #3BB;
 $contrast: #0F4C5C;
 $card-gradient: linear-gradient( 180deg, $secondary-bg-color, color-mix(in srgb, $highlight 40%, $secondary-bg-color) );
-$hover-glow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 8px color-mix(in srgb, $primary-color 40%, transparent);
+//$hover-glow: 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 8px color-mix(in srgb, $primary-color 40%, transparent);
+$hover-glow: drop-shadow(1px 1px 1px color-mix(in srgb, $primary-color 30%, transparent));
 $green: #10c207;
 
 :root {

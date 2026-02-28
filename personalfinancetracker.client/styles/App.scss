@@ -26,16 +26,15 @@ input {
     width: 100%;
     background: var(--tertiary-bg-color);
     padding: 0.4rem 1rem;
-    border: 1px solid var(--highlight);
+    border: 1px solid color-mix(in srgb, var(--highlight) 40%, transparent);
     color: var(--highlight);
     letter-spacing: 0.3px;
-    border-bottom-right-radius: 12px;
     transition: border-color 0.15s ease, box-shadow 0.2s ease;
 
-    &:focus-visible {
+    &:focus-visible, &:has(> .primary-btn) {
         outline: none;
-        color: var(--primary-color);
-        border-color: var(--primary-color);
+        color: var(--primary-color) !important;
+        border-color: color-mix(in srgb, var(--primary-color) 40%, transparent);
         box-shadow: var(--hover-glow);
     }
 
@@ -64,10 +63,12 @@ label {
     text-align: start;
     text-decoration: none;
     position: relative;
-    height: 42px;
+    min-height: 42px;
     border: none;
     background: none;
     width: 100%;
+    position: relative;
+    display: inline-block;
 
     & .fancySvg {
         position: absolute;
@@ -84,35 +85,41 @@ label {
         color: inherit;
     }
 
-    &:hover, &[aria-current="page"], &[aria-current="page"] .fancySvg, &:hover .fancySvg {
+    &:hover, &[aria-current="page"], &[aria-current="page"] .fancySvg, &:hover .fancySvg, &:focus-within .fancySvg {
         stroke: var(--primary-color);
         color: var(--primary-color);
         transform: translateY(-1px);
-        box-shadow: var(--hover-glow);
+        filter: var(--hover-glow);
     }
 
     &:active {
         transform: translateY(0);
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
     }
 }
 
 .income {
-    @extend .primary-btn;
     color: var(--green);
-    border: 1px solid var(--green);
+
+    & .fancySvg {
+        stroke: var(--green);
+    }
 }
 
 .expense {
-    @extend .primary-btn;
     color: var(--secondary-color);
-    border: 1px solid var(--secondary-color);
+
+    & .fancySvg {
+        stroke: var(--secondary-color);
+    }
 }
 
 .transfer {
-    @extend .primary-btn;
     color: var(--highlight);
-    border: 1px solid var(--highlight);
+
+    & .fancySvg {
+        stroke: var(--highlight);
+    }
 }
 
 .sidebar {
@@ -149,10 +156,9 @@ label {
 }
 
 .validation-error {
-    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid color-mix(in srgb, var(--highlight) 30%, transparent);
     border-left: 3px solid var(--highlight);
     padding: 0.25rem 0.5rem;
     margin-top: 0.35rem;
-    border-radius: 5px;
     color: var(--error-color);
 }
