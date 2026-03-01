@@ -1,21 +1,33 @@
-import { faBan, faFilter, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { TransactionType, type TransactionListItemDto } from "../../api";
 import FancyButton from "../Shared/FancyButton";
+import Filter, { type FilterParams } from "./Filter";
 import Item from "./Item";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<TransactionListItemDto[]>([]);
+    const [filter, setFilter] = useState<FilterParams>({ amount: undefined, type: undefined, date: undefined });
 
     useEffect(() => {
         const loadData = async () => {
             try {
+                const filters = [];
+
+                if (filter.amount)
+                    filters.push({ field: "amount", operator: "equal", value: filter.amount });
+                if (filter.type)
+                    filters.push({ field: "type", operator: "equal", value: filter.type });
+                if (filter.date)
+                    filters.push({ field: "date", operator: "equal", value: filter.date });
+
                 const response = await axios.get("/finance/transactions", {
                     params: {
                         "index": 0,
-                        "size": 50
+                        "size": 50,
+                        "filters": JSON.stringify(filters)
                     }
                 });
 
@@ -26,7 +38,7 @@ const Transactions = () => {
         };
 
         loadData();
-    }, []);
+    }, [filter]);
 
     return (
         <div className="w-100">
@@ -36,14 +48,12 @@ const Transactions = () => {
                         <FontAwesomeIcon icon={faPlus} /> New
                     </FancyButton>
                 </div>
-                <FancyButton>
-                    <FontAwesomeIcon icon={faFilter} /> Filter
-                </FancyButton>
-                <FancyButton className="me-3">
+                <Filter filter={filter} setFilter={setFilter} />
+                <FancyButton className="me-3" onClick={() => setFilter({ amount: undefined, type: undefined, date: undefined })}>
                     <FontAwesomeIcon icon={faBan} /> Clear
                 </FancyButton>
             </div>
-            <div className="d-flex w-100 gap-2 p-2" style={{ height: "88.6vh", overflowY: "scroll" }}>
+            <div className="d-grid w-100 gap-2 p-2" style={{ height: "88.6vh", overflowY: "scroll", gridTemplateColumns: "repeat(3, 1fr)" }}>
                 <div className="d-flex flex-grow-1 flex-column gap-2">
                     {
                         transactions?.filter(t => t.type === TransactionType.Income).map(t => <Item key={t.amount} variant="income" amount={t.amount} date={t.date} />)

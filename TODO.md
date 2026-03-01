@@ -28,3 +28,4 @@ Add value converters so that all dates are saved in utc and returned in local
 19. Propper tabulator theming
 20. Change all hardcoded places of localhost to load from .env file
 22. Add custom header filters for number range and datetime picker
+23. Date filter in Transactions seems off, it doesnt look for exact match even though its set to equal
