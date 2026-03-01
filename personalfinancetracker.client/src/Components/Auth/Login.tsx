@@ -40,11 +40,11 @@ const Login = () => {
 
     return (
         <form className="form" noValidate onSubmit={handleSubmit} style={{ width: 450 }}>
-            <FancyButton as="div" className="mb-3 pb-4 w-100">
-                <label>Email address</label>
+            <FancyButton as="div" className="mb-3 py-2 w-100">
+                {/*<label>Email address</label>*/}
                 <input
                     type="email"
-                    placeholder="Enter email"
+                    placeholder="Email"
                     required
                     onChange={(e) => setModel(prev => ({ ...prev, email: e.target?.value }))}
                     value={model?.email}
@@ -59,8 +59,8 @@ const Login = () => {
                 }
             </FancyButton>
 
-            <FancyButton as="div" className="mb-3 pb-4 w-100">
-                <label>Password</label>
+            <FancyButton as="div" className="mb-3 py-2 w-100">
+                {/*<label>Password</label>*/}
                 <input
                     type="password"
                     placeholder="Password"

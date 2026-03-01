@@ -1,14 +1,17 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useLayoutEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ElementType } from "react";
 
-type FancyButtonProps<T extends ElementType> = {
+type BaseProps<T extends ElementType> = {
     as?: T;
-    children: ReactNode;
     className?: string;
-} & React.ComponentPropsWithoutRef<T>;
+};
 
-function FancyButton<T extends ElementType>({ as, className, children, ...rest }: FancyButtonProps<T>) {
-    const FancyButton = as || "button";
+type FancyButtonProps<T extends ElementType> = BaseProps<T>
+    & React.ComponentPropsWithoutRef<T>                     // inject props per element type. if no 'as' is provided, default to button props
+    & React.PropsWithChildren<BaseProps<T>>;                // inject the children prop into FancyButtonProps
+
+function FancyButton<T extends ElementType = "button">({ as, className, children, ...rest }: FancyButtonProps<T>) {
+    const Component = as || "button";
     const ref = useRef<any>(null);
 
     /* ── Size of the button in real pixels ── */
@@ -26,8 +29,8 @@ function FancyButton<T extends ElementType>({ as, className, children, ...rest }
         return () => ro.disconnect();
     }, []);
 
-    const w = size?.width ?? 100;
-    const h = size?.height ?? 40;
+    const w = size?.width ?? 104;
+    const h = size?.height ?? 42;
     const d = Math.min(18, h * 0.35);
 
     const notch = Math.min(h * 0.3, 12);
@@ -35,7 +38,7 @@ function FancyButton<T extends ElementType>({ as, className, children, ...rest }
     const notchWidth = notch * 1.8;
 
     return (
-        <FancyButton className={`primary-btn ${className ?? ""}`} {...rest} ref={ref}>
+        <Component className={`primary-btn ${className ?? ""}`} {...rest} ref={ref}>
             <svg viewBox={`0 0 ${size?.width ?? 100} ${size?.height ?? 40}`} preserveAspectRatio="none" className="fancySvg">
                 <path
                     d={`
@@ -58,7 +61,7 @@ function FancyButton<T extends ElementType>({ as, className, children, ...rest }
                     {children}
                 </span>
             }
-        </FancyButton>
+        </Component>
     );
 };
 

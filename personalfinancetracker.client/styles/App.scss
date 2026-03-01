@@ -18,6 +18,7 @@ html, body, #root {
     font-family: "Cyberpunk", sans-serif;
     text-align: center;
     margin-left: 20rem;
+    margin-bottom: 0;
 }
 
 .primary-color {
@@ -37,11 +38,13 @@ html, body, #root {
     box-shadow: 0 10px 24px color-mix(in srgb, var(--highlight) 25%, transparent), 0 2px 6px color-mix(in srgb, var(--highlight) 25%, transparent);
 }
 
-input {
+input, select {
     width: 100%;
-    background: var(--tertiary-bg-color);
+    //background: var(--tertiary-bg-color);
+    background: transparent;
     padding: 0.4rem 1rem;
-    border: 1px solid color-mix(in srgb, var(--highlight) 40%, transparent);
+    //border: 1px solid color-mix(in srgb, var(--highlight) 40%, transparent);
+    border: none;
     color: var(--highlight);
     letter-spacing: 0.3px;
     transition: border-color 0.15s ease, box-shadow 0.2s ease;
