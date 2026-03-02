@@ -81,23 +81,57 @@
             }
 
             var transactionFaker = new Faker<Transaction>()
-                .CustomInstantiator(t => new(
-                    t.PickRandom(userIds),
-                    t.Finance.Amount(-7897, 250_000),
-                    t.PickRandom<TransactionType>(),
-                    t.Date.Between(DateTime.UtcNow.AddYears(-1), DateTime.UtcNow.AddDays(-1)),
-                    t.Lorem.Sentence(),
-                    t.PickRandom(Categories).Id
-                    ));
+                .CustomInstantiator(t =>
+                {
+                    var rawDate = t.Date.Between(DateTime.UtcNow.AddYears(-1), DateTime.UtcNow.AddDays(-1));
+
+                    var truncated = new DateTime(
+                        rawDate.Year,
+                        rawDate.Month,
+                        rawDate.Day,
+                        rawDate.Hour,
+                        rawDate.Minute,
+                        0);
+
+                    return new(
+                        t.PickRandom(userIds),
+                        t.Finance.Amount(-7897, 250_000),
+                        t.PickRandom<TransactionType>(),
+                        truncated,
+                        t.Lorem.Sentence(),
+                        t.PickRandom(Categories).Id
+                    );
+                });
 
             var budgetFaker = new Faker<Budget>()
-                .CustomInstantiator(b => new(
-                    b.PickRandom(userIds),
-                    b.Finance.Amount(500, 80_000),
-                    budgetNames[budgetIndex++],
-                    b.Date.Between(DateTime.UtcNow.AddMonths(-10), DateTime.UtcNow.AddDays(-3)),
-                    b.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-2))
-                    ))
+                .CustomInstantiator(b =>
+                {
+                    var rawStartDate = b.Date.Between(DateTime.UtcNow.AddMonths(-10), DateTime.UtcNow.AddDays(-3));
+                    var truncatedStartDate = new DateTime(
+                        rawStartDate.Year,
+                        rawStartDate.Month,
+                        rawStartDate.Day,
+                        rawStartDate.Hour,
+                        rawStartDate.Minute,
+                        0);
+
+                    var rawEndDate = b.Date.Between(DateTime.UtcNow.AddMonths(-2), DateTime.UtcNow.AddDays(-2));
+                    var truncatedEndDate = new DateTime(
+                        rawEndDate.Year,
+                        rawEndDate.Month,
+                        rawEndDate.Day,
+                        rawEndDate.Hour,
+                        rawEndDate.Minute,
+                        0);
+
+                    return new(
+                        b.PickRandom(userIds),
+                        b.Finance.Amount(500, 80_000),
+                        budgetNames[budgetIndex++],
+                        truncatedStartDate,
+                        truncatedEndDate
+                        );
+                })
                 .RuleFor(b => b.Categories, b => [b.PickRandom(Categories)])
                 .RuleFor(b => b.Transactions, (f, b) =>
                 {
