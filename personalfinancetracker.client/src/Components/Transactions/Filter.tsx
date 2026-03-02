@@ -1,11 +1,11 @@
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DateTime } from 'luxon';
 import { useRef, useState, type Dispatch, type MouseEventHandler, type SetStateAction } from 'react';
 import { Overlay } from 'react-bootstrap';
 import Popover from 'react-bootstrap/Popover';
 import { TransactionType } from '../../api';
 import FancyButton from '../Shared/FancyButton';
+import { DateTime } from 'luxon';
 
 const Filter = (props: { filter: FilterParams, setFilter: Dispatch<SetStateAction<FilterParams>> }) => {
     const [show, setShow] = useState(false);
@@ -57,11 +57,19 @@ const Filter = (props: { filter: FilterParams, setFilter: Dispatch<SetStateActio
                     <FancyButton as="div" className="w-100">
                         <input
                             type="datetime-local"
-                            name="date"
-                            placeholder="Date"
-                            onChange={(e) => props.setFilter(prev => ({ ...prev, date: DateTime.fromISO(e.target.value) }))}
-                            value={props.filter.date?.toISO()?.slice(0, 16)}
-                            defaultValue={DateTime.now().toISO().slice(0, 16)}
+                            name="dateFrom"
+                            placeholder="Date from"
+                            onChange={(e) => props.setFilter(prev => ({ ...prev, dateFrom: new Date(e.target.value) }))}
+                            value={DateTime.fromJSDate(props.filter.dateFrom ?? new Date()).toISO()?.slice(0, 16)}
+                        />
+                    </FancyButton>
+                    <FancyButton as="div" className="w-100">
+                        <input
+                            type="datetime-local"
+                            name="dateTo"
+                            placeholder="Date to"
+                            onChange={(e) => props.setFilter(prev => ({ ...prev, dateTo: new Date(e.target.value) }))}
+                            value={DateTime.fromJSDate(props.filter.dateTo ?? new Date()).toISO()?.slice(0, 16)}
                         />
                     </FancyButton>
                 </Popover>
@@ -73,7 +81,8 @@ const Filter = (props: { filter: FilterParams, setFilter: Dispatch<SetStateActio
 export type FilterParams = {
     amount?: number,
     type?: TransactionType,
-    date?: DateTime
+    dateFrom?: Date
+    dateTo?: Date
 };
 
 export default Filter;

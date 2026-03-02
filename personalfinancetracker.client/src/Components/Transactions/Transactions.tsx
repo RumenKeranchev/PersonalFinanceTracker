@@ -9,7 +9,7 @@ import Item from "./Item";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<TransactionListItemDto[]>([]);
-    const [filter, setFilter] = useState<FilterParams>({ amount: undefined, type: undefined, date: undefined });
+    const [filter, setFilter] = useState<FilterParams>({ amount: undefined, type: undefined, dateFrom: undefined, dateTo: undefined });
 
     useEffect(() => {
         const loadData = async () => {
@@ -20,8 +20,10 @@ const Transactions = () => {
                     filters.push({ field: "amount", operator: "equal", value: filter.amount });
                 if (filter.type)
                     filters.push({ field: "type", operator: "equal", value: filter.type });
-                if (filter.date)
-                    filters.push({ field: "date", operator: "equal", value: filter.date });
+                if (filter.dateFrom)
+                    filters.push({ field: "date", operator: "greaterThanOrEqual", value: filter.dateFrom.toISOString() });
+                if (filter.dateTo)
+                    filters.push({ field: "date", operator: "lessThanOrEqual", value: filter.dateTo.toISOString() });
 
                 const response = await axios.get("/finance/transactions", {
                     params: {
@@ -49,7 +51,7 @@ const Transactions = () => {
                     </FancyButton>
                 </div>
                 <Filter filter={filter} setFilter={setFilter} />
-                <FancyButton className="me-3" onClick={() => setFilter({ amount: undefined, type: undefined, date: undefined })}>
+                <FancyButton className="me-3" onClick={() => setFilter({ amount: undefined, type: undefined, dateFrom: undefined, dateTo: undefined })}>
                     <FontAwesomeIcon icon={faBan} /> Clear
                 </FancyButton>
             </div>
