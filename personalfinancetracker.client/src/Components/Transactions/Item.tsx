@@ -6,7 +6,7 @@ const Item = (props: { variant: "income" | "expense" | "transfer", amount: numbe
         <FancyButton className={props.variant} >
             <div className={`d-flex justify-content-around`}>
                 <span>{props.amount.toFixed(2)}</span>
-                <span>{DateTime.fromISO(props.date as unknown as string).toFormat("dd LLL yyyy HH:mm")}</span>
+                <span>{DateTime.fromISO(props.date as unknown as string).toLocal().toFormat("dd LLL yyyy HH:mm")}</span>
             </div>
         </FancyButton>
     );

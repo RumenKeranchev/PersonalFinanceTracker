@@ -1,7 +1,6 @@
 # Migration:
 Add Status (Pending, Completed, Cancelled) to transactions.
 Add Currency, Exchange rate to transactions and budget
-Add value converters so that all dates are saved in utc and returned in local
 
 # General:
 2.	When updating data, log only the changed fields with old and new values.
