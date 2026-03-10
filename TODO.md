@@ -3,7 +3,6 @@ Add Status (Pending, Completed, Cancelled) to transactions.
 Add Currency, Exchange rate to transactions and budget
 
 # General:
-2.	When updating data, log only the changed fields with old and new values.
 3.	Change pagination from index/page to cursor based pagination.
 4.	Event Ids for exceptions?
 5.	Don't use actual GUIDs in the API, use shortened ids instead.

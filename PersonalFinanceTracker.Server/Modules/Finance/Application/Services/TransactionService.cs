@@ -61,8 +61,9 @@
             transaction.CategoryId = model.CategoryId;
             transaction.BudgetId = model.BudgetId;
 
+            string modifiedProps = _dbContext.GetModifiedProperties(transaction);
             await _dbContext.SaveChangesAsync();
-            _logger.LogInformation("Successfully updated transaction [{transaction}]", transaction);
+            _logger.LogInformation("Successfully updated transaction [{transaction}]", modifiedProps);
 
             return Result.Success();
         }

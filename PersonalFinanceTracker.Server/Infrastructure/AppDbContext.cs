@@ -22,7 +22,7 @@
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
             var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
-                v => v.ToUniversalTime(), 
+                v => v.ToUniversalTime(),
                 v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
@@ -48,6 +48,15 @@
                     }
                 }
             }
+        }
+
+        public string GetModifiedProperties<T>(T entity) where T : Entity
+        {
+            var entry = ChangeTracker.Entries().FirstOrDefault(e => e.State == EntityState.Modified && (e.Entity as T)?.Id == entity.Id);
+            var props = new List<string> { $"Id: {entity.Id}" };
+            props.AddRange(entry?.Properties.Where(p => p.IsModified).Select(p => $"{p.Metadata.Name}: {p.OriginalValue} -> {p.CurrentValue}") ?? []);
+
+            return string.Join(", ", props);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

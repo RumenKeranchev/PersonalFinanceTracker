@@ -60,9 +60,10 @@
             category.Name = model.Name;
             category.Color = model.Color;
 
+            string modifiedProps = _dbContext.GetModifiedProperties(category);
             await _dbContext.SaveChangesAsync();
 
-            _logger.LogInformation("Category [{CategoryName}] created with Id [{CategoryId}]", category.Name, category.Id);
+            _logger.LogInformation("Updated category [{category}]", modifiedProps);
 
             return Result.Success();
         }
