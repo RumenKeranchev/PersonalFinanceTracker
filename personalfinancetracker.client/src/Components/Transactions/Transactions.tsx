@@ -6,10 +6,12 @@ import { TransactionType, type TransactionListItemDto } from "../../api";
 import FancyButton from "../Shared/FancyButton";
 import Filter, { type FilterParams } from "./Filter";
 import Item from "./Item";
+import { AddNewModal } from "./AddNewModal";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState<TransactionListItemDto[]>([]);
     const [filter, setFilter] = useState<FilterParams>({ amount: undefined, type: undefined, dateFrom: undefined, dateTo: undefined });
+    const [showAddModal, setShowAddModal] = useState(false);
 
     useEffect(() => {
         const loadData = async () => {
@@ -46,7 +48,7 @@ const Transactions = () => {
         <div className="w-100">
             <div className="w-100 success p-1 d-flex gap-2 mt-1">
                 <div className="flex-grow-1 ms-1">
-                    <FancyButton as="button">
+                    <FancyButton onClick={() => setShowAddModal(true)}>
                         <FontAwesomeIcon icon={faPlus} /> New
                     </FancyButton>
                 </div>
@@ -72,6 +74,11 @@ const Transactions = () => {
                     }
                 </div>
             </div>
+
+            <AddNewModal
+                show={showAddModal}
+                onHide={() => setShowAddModal(false)} onExited={() => setFilter({ amount: undefined, type: undefined, dateFrom: undefined, dateTo: undefined })}
+            />
         </div>
     );
 };

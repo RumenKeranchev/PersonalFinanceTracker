@@ -21,6 +21,10 @@ html, body, #root {
     margin-bottom: 0;
 }
 
+.cp-font {
+    font-family: "Cyberpunk", sans-serif;
+}
+
 .primary-color {
     color: var(--primary-color);
 }
@@ -174,4 +178,8 @@ label {
     padding: 0.25rem 0.5rem;
     margin-top: 0.35rem;
     color: var(--error-color);
+}
+
+.modal-header, .modal-footer {
+    border-color: var(--highlight);
 }

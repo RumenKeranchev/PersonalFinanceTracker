@@ -60,7 +60,7 @@ const Filter = (props: { filter: FilterParams, setFilter: Dispatch<SetStateActio
                             name="dateFrom"
                             placeholder="Date from"
                             onChange={(e) => props.setFilter(prev => ({ ...prev, dateFrom: new Date(e.target.value) }))}
-                            value={DateTime.fromJSDate(props.filter.dateFrom ?? new Date()).toISO()?.slice(0, 16)}
+                            value={props.filter.dateFrom ? DateTime.fromJSDate(new Date(props.filter.dateFrom)).toFormat("yyyy-MM-dd'T'HH:mm") : ""}
                         />
                     </FancyButton>
                     <FancyButton as="div" className="w-100">
@@ -69,7 +69,7 @@ const Filter = (props: { filter: FilterParams, setFilter: Dispatch<SetStateActio
                             name="dateTo"
                             placeholder="Date to"
                             onChange={(e) => props.setFilter(prev => ({ ...prev, dateTo: new Date(e.target.value) }))}
-                            value={DateTime.fromJSDate(props.filter.dateTo ?? new Date()).toISO()?.slice(0, 16)}
+                            value={props.filter.dateTo ? DateTime.fromJSDate(new Date(props.filter.dateTo)).toFormat("yyyy-MM-dd'T'HH:mm") : ""}
                         />
                     </FancyButton>
                 </Popover>
